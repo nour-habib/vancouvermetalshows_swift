@@ -12,13 +12,15 @@ protocol ShowsTableViewControllerDelegate: AnyObject
     func didTapMenuButton()
 }
 
-class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
+class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate
 {
     weak var delegate: ShowsTableViewControllerDelegate?
     
     private var detailView: DetailView?
     private var showsTableView: ShowsTableView?
     private var showsArray = [Show]()
+    
+    private var overlayView: UIView?
 
     override func viewDidLoad()
     {
@@ -46,20 +48,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         self.showsTableView?.delegate = self
         self.showsTableView?.dataSource = self
         self.view.addSubview(self.showsTableView!)
-        
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissDetailView))
-//                tapGesture.cancelsTouchesInView = false
-//                self.showsTableView?.addGestureRecognizer(tapGesture)
-        
     }
-    
-//    @objc func dismissDetailView()
-//    {
-//        UIView.animate(withDuration: 1.0, animations: {
-//            self.detailView?.alpha = 0.0
-//            self.detailView?.isHidden = true
-//       })
-//    }
     
     private func configureNavigation()
     {
@@ -112,7 +101,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.frame = cell.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
         cell.layer.cornerRadius = 10
         cell.contentView.clipsToBounds = true
-        
+        cell.selectionStyle = .none
 //        let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTap))
 //        tap.numberOfTapsRequired = 2
 //        cell.addGestureRecognizer(tap)
@@ -139,34 +128,35 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         print("row is clicked")
         let show = showsArray[indexPath.row]
         self.detailView = DetailView(frame: CGRect(x:50,y:200,width:(0.7)*UIScreen.main.bounds.width, height:300), show: show)
+        self.detailView?.delegate = self
+        
+        self.overlayView = UIView(frame: self.view.frame)
+        self.overlayView?.backgroundColor = .black
+        self.overlayView?.alpha = 0.5
+        self.view.addSubview(self.overlayView ?? UIView())
         
         UIView.animate(withDuration: 1,delay:0, options: .curveEaseInOut,animations:{
-            self.detailView?.alpha = 1
+            self.detailView?.alpha = 0.9
             self.view.addSubview(self.detailView ?? UIView())
             
         })
         
+       
+        
     }
     
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        // 1
-//        let headerView = UIView()
-//        // 2
-//        headerView.backgroundColor = view.backgroundColor
-//        // 3
-//        return headerView
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 20
-//    }
-//
-//    func tableView(_ tableView: UITableView, titleForFooterInSection
-//                                section: Int) -> String? {
-//       return "Footer \(section)"
-//    }
-    
-
-
 }
 
+extension ShowsTableViewController: DetailViewDelegate
+{
+    func didCloseView()
+    {
+        print("didCloseView()")
+
+        UIView.animate(withDuration: 1.0, delay:0, options: .curveEaseInOut, animations: {
+            self.overlayView?.alpha = 0.0
+       })
+        
+        self.overlayView?.removeFromSuperview()
+    }
+}

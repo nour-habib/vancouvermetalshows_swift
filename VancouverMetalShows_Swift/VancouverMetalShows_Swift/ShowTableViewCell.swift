@@ -17,10 +17,14 @@ class ShowTableViewCell: UITableViewCell
         
         self.showView = ShowView(frame: self.frame)
         configureCell()
-        configureTapGesture()
+        
+
+        
+        //configureTapGesture()
         
         
     }
+
         
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -60,7 +64,5 @@ class ShowTableViewCell: UITableViewCell
 
         // Configure the view for the selected state
     }
-    
-    
-    
 }
+

@@ -7,10 +7,18 @@
 
 import UIKit
 
+
+protocol DetailViewDelegate: AnyObject
+{
+    func didCloseView()
+}
+
 class DetailView: UIView
 {
     private var show: Show?
     private var showView: ShowView?
+    
+    weak var delegate: DetailViewDelegate?
     
     init(frame: CGRect,show: Show)
     {
@@ -74,10 +82,14 @@ class DetailView: UIView
     
     @objc func closeView()
     {
-        UIView.animate(withDuration: 2.0, delay:0, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: 1.0, delay:0, options: .curveEaseInOut, animations: {
             self.alpha = 0.0
             //self.isHidden = true
+            self.delegate?.didCloseView()
+            
        })
+        
+        
     }
 
 }
