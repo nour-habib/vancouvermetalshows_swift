@@ -1,0 +1,121 @@
+//
+//  ContainerViewController.swift
+//  VancouverMetalShows_Swift
+//
+//  Created by Nour Habib on 2023-09-20.
+//
+
+import UIKit
+
+class ContainerViewController: UIViewController
+{
+    let menuViewController = MenuViewController()
+    let showsViewController = ShowsTableViewController()
+    let favsViewController = FavouritesViewController()
+    var naviController: UINavigationController?
+    
+    enum MenuState
+    {
+        case opened
+        case closed
+    }
+    
+    private var menuState: MenuState = .closed
+
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        
+        self.menuViewController.delegate = self
+        self.addChild(menuViewController)
+        self.view.addSubview(menuViewController.view)
+        self.menuViewController.didMove(toParent: self)
+        self.showsViewController.delegate = self
+        
+        
+        let navigationController = UINavigationController(rootViewController: showsViewController)
+        self.addChild(navigationController)
+        self.view.addSubview(navigationController.view)
+        navigationController.didMove(toParent: self)
+        self.naviController = navigationController
+        
+
+    }
+    
+
+}
+
+
+extension ContainerViewController: ShowsTableViewControllerDelegate
+{
+    func didTapMenuButton()
+    {
+        toggleMenu(completion: nil)
+    }
+    
+    func toggleMenu(completion: (() -> Void)?)
+    {
+        switch menuState
+        {
+        case .closed:
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut)
+            {
+                self.naviController?.view.frame.origin.x = self.showsViewController.view.frame.size.width-100
+            }
+        completion: {
+           [weak self] done in if done {
+               self?.menuState = .opened
+               DispatchQueue.main.async {
+                   completion?()
+               }
+            }
+        }
+        case .opened:
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut)
+            {
+                self.naviController?.view.frame.origin.x = 0
+            }
+        completion: {
+           [weak self] done in if done {
+               self?.menuState = .closed
+            }
+            }
+        }
+        
+    }
+    
+    
+}
+
+extension ContainerViewController: MenuViewControllerDelegate
+{
+    func didSelect(menuItem: MenuViewController.MenuOptions)
+    {
+        toggleMenu(completion: nil)
+        switch menuItem
+        {
+        case .shows:
+            self.resetToShows()
+        case .favs:
+            self.addFavs()
+        }
+    }
+    
+    func addFavs()
+    {
+        let favsVC = favsViewController
+        showsViewController.addChild(favsVC)
+        showsViewController.view.addSubview(favsVC.view)
+        favsVC.view.frame = view.frame
+        favsVC.didMove(toParent: showsViewController)
+        showsViewController.title = favsVC.title
+    }
+    
+    func resetToShows()
+    {
+        favsViewController.view.removeFromSuperview()
+        favsViewController.didMove(toParent: nil)
+        showsViewController.title = "Shows"
+    }
+    
+}
