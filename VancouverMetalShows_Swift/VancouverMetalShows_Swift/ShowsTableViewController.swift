@@ -21,6 +21,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     private var showsArray = [Show]()
     
     private var overlayView: UIView?
+    private var show: Show?
 
     override func viewDidLoad()
     {
@@ -102,9 +103,6 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.layer.cornerRadius = 10
         cell.contentView.clipsToBounds = true
         cell.selectionStyle = .none
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTap))
-//        tap.numberOfTapsRequired = 2
-//        cell.addGestureRecognizer(tap)
         
         let show = showsArray[indexPath.row]
         
@@ -112,9 +110,15 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.showView?.venueLabel?.text = show.venue
         cell.showView?.dateLabel?.text = show.date
         cell.showView?.imageView?.image =  UIImage(named: show.image)
-       
         
-    
+        let favButton = UIButton(frame: CGRect( x:300,y:40,width:70,height:70))
+        favButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        //favButton.addTarget(self, action: #selector(addToFavs(show: show)), for: .touchUpInside)
+        favButton.addAction(UIAction{_ in
+            self.addToFavs(show: show)
+        }, for: .touchUpInside)
+        cell.addSubview(favButton)
+       
        return cell
     }
     
@@ -126,8 +130,8 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         print("row is clicked")
-        let show = showsArray[indexPath.row]
-        self.detailView = DetailView(frame: CGRect(x:50,y:200,width:(0.7)*UIScreen.main.bounds.width, height:300), show: show)
+        self.show = showsArray[indexPath.row]
+        self.detailView = DetailView(frame: CGRect(x:50,y:200,width:(0.7)*UIScreen.main.bounds.width, height:300), show: self.show ?? Show(id: "", artist: "", date: "", venue: "", supporting_artists: "", tickets: "", image: ""))
         self.detailView?.delegate = self
         
         self.overlayView = UIView(frame: self.view.frame)
@@ -140,19 +144,19 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
             self.view.addSubview(self.detailView ?? UIView())
             
         })
-        
-       
-        
     }
     
+    func addToFavs(show: Show)
+    {
+        print("addTOFavs")
+        CoreData_.createItem(show: show)
+    }
 }
 
 extension ShowsTableViewController: DetailViewDelegate
 {
     func didCloseView()
     {
-        print("didCloseView()")
-
         UIView.animate(withDuration: 1.0, delay:0, options: .curveEaseInOut, animations: {
             self.overlayView?.alpha = 0.0
        })
@@ -160,3 +164,4 @@ extension ShowsTableViewController: DetailViewDelegate
         self.overlayView?.removeFromSuperview()
     }
 }
+

@@ -28,8 +28,9 @@
 		14669B6A2ABB8A10005F2894 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B692ABB8A10005F2894 /* MenuViewController.swift */; };
 		14669B6C2ABBD344005F2894 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B6B2ABBD344005F2894 /* DetailView.swift */; };
 		14669B6E2ABCF077005F2894 /* CoreDataX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B6D2ABCF077005F2894 /* CoreDataX.swift */; };
-		14669B702ABCF38B005F2894 /* ShowItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B6F2ABCF38B005F2894 /* ShowItem+CoreDataClass.swift */; };
-		14669B722ABCF3BA005F2894 /* ShowItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B712ABCF3BA005F2894 /* ShowItem+CoreDataProperties.swift */; };
+		14669B762ABE7742005F2894 /* FavShowsCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 14669B742ABE7742005F2894 /* FavShowsCoreData.xcdatamodeld */; };
+		14669B792ABE7B74005F2894 /* ShowItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B772ABE7B74005F2894 /* ShowItem+CoreDataClass.swift */; };
+		14669B7A2ABE7B74005F2894 /* ShowItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B782ABE7B74005F2894 /* ShowItem+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,8 +76,9 @@
 		14669B692ABB8A10005F2894 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		14669B6B2ABBD344005F2894 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		14669B6D2ABCF077005F2894 /* CoreDataX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataX.swift; sourceTree = "<group>"; };
-		14669B6F2ABCF38B005F2894 /* ShowItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShowItem+CoreDataClass.swift"; sourceTree = "<group>"; };
-		14669B712ABCF3BA005F2894 /* ShowItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShowItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		14669B752ABE7742005F2894 /* FavShowsCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FavShowsCoreData.xcdatamodel; sourceTree = "<group>"; };
+		14669B772ABE7B74005F2894 /* ShowItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ShowItem+CoreDataClass.swift"; path = "VancouverMetalShows_Swift/ShowItem+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		14669B782ABE7B74005F2894 /* ShowItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ShowItem+CoreDataProperties.swift"; path = "VancouverMetalShows_Swift/ShowItem+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				14669B1C2AB79096005F2894 /* AppDelegate.swift */,
+				14669B742ABE7742005F2894 /* FavShowsCoreData.xcdatamodeld */,
 				14669B1E2AB79096005F2894 /* SceneDelegate.swift */,
 				14669B532AB79668005F2894 /* ShowsTableViewController.swift */,
 				14669B652ABB7614005F2894 /* FavouritesViewController.swift */,
@@ -136,8 +139,7 @@
 				14669B6B2ABBD344005F2894 /* DetailView.swift */,
 				14669B632ABB65D7005F2894 /* CustomColor.swift */,
 				14669B6D2ABCF077005F2894 /* CoreDataX.swift */,
-				14669B6F2ABCF38B005F2894 /* ShowItem+CoreDataClass.swift */,
-				14669B712ABCF3BA005F2894 /* ShowItem+CoreDataProperties.swift */,
+				14669B732ABE7577005F2894 /* ShowItem */,
 				14669B572AB7BD55005F2894 /* jsonData.json */,
 				14669B552AB7BC19005F2894 /* Show.swift */,
 				14669B5F2AB912AC005F2894 /* ShowView.swift */,
@@ -167,6 +169,15 @@
 				14669B422AB79099005F2894 /* VancouverMetalShows_SwiftUITestsLaunchTests.swift */,
 			);
 			path = VancouverMetalShows_SwiftUITests;
+			sourceTree = "<group>";
+		};
+		14669B732ABE7577005F2894 /* ShowItem */ = {
+			isa = PBXGroup;
+			children = (
+				14669B772ABE7B74005F2894 /* ShowItem+CoreDataClass.swift */,
+				14669B782ABE7B74005F2894 /* ShowItem+CoreDataProperties.swift */,
+			);
+			path = ShowItem;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -301,14 +312,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14669B702ABCF38B005F2894 /* ShowItem+CoreDataClass.swift in Sources */,
+				14669B762ABE7742005F2894 /* FavShowsCoreData.xcdatamodeld in Sources */,
 				14669B5C2AB90121005F2894 /* ShowsTableView.swift in Sources */,
+				14669B7A2ABE7B74005F2894 /* ShowItem+CoreDataProperties.swift in Sources */,
 				14669B562AB7BC19005F2894 /* Show.swift in Sources */,
 				14669B542AB79668005F2894 /* ShowsTableViewController.swift in Sources */,
 				14669B6E2ABCF077005F2894 /* CoreDataX.swift in Sources */,
-				14669B722ABCF3BA005F2894 /* ShowItem+CoreDataProperties.swift in Sources */,
 				14669B682ABB8976005F2894 /* ContainerViewController.swift in Sources */,
 				14669B662ABB7614005F2894 /* FavouritesViewController.swift in Sources */,
+				14669B792ABE7B74005F2894 /* ShowItem+CoreDataClass.swift in Sources */,
 				14669B1D2AB79096005F2894 /* AppDelegate.swift in Sources */,
 				14669B272AB79096005F2894 /* VancouverMetalShows_Swift.xcdatamodeld in Sources */,
 				14669B6C2ABBD344005F2894 /* DetailView.swift in Sources */,
@@ -659,6 +671,16 @@
 			);
 			currentVersion = 14669B262AB79096005F2894 /* VancouverMetalShows_Swift.xcdatamodel */;
 			path = VancouverMetalShows_Swift.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		14669B742ABE7742005F2894 /* FavShowsCoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				14669B752ABE7742005F2894 /* FavShowsCoreData.xcdatamodel */,
+			);
+			currentVersion = 14669B752ABE7742005F2894 /* FavShowsCoreData.xcdatamodel */;
+			path = FavShowsCoreData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

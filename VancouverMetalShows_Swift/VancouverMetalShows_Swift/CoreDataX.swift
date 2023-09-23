@@ -32,7 +32,6 @@ class CoreDataX
         newShow.tickets = show.tickets
         newShow.image = show.image
 
-
         do
         {
             try context.save()

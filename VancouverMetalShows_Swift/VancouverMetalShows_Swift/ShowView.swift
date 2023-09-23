@@ -15,6 +15,7 @@ class ShowView: UIView
     var ticketsLabel: UILabel?
     var dateLabel: UILabel?
     var imageView: UIImageView?
+   
     
     override init(frame: CGRect)
     {
@@ -51,6 +52,7 @@ class ShowView: UIView
         addSubview(ticketsLabel ?? UILabel())
         addSubview(dateLabel ?? UILabel())
         addSubview(imageView ?? UIImageView())
+       
         
     }
     
