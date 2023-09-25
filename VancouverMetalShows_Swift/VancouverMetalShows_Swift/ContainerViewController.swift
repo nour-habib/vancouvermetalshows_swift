@@ -27,17 +27,16 @@ class ContainerViewController: UIViewController
         super.viewDidLoad()
         
         self.menuViewController.delegate = self
-        self.addChild(menuViewController)
-        self.view.addSubview(menuViewController.view)
+        addChild(menuViewController)
+        view.addSubview(menuViewController.view)
         self.menuViewController.didMove(toParent: self)
+        
         self.showsViewController.delegate = self
-        
-        
-        let navigationController = UINavigationController(rootViewController: showsViewController)
-        self.addChild(navigationController)
-        self.view.addSubview(navigationController.view)
-        navigationController.didMove(toParent: self)
-        self.naviController = navigationController
+        let naviController = UINavigationController(rootViewController: showsViewController)
+        addChild(naviController)
+        view.addSubview(naviController.view)
+        naviController.didMove(toParent: self)
+        self.naviController = naviController
         
 
     }
