@@ -18,7 +18,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     {
         super.viewDidLoad()
 
-        view.backgroundColor = CustomColor.offWhite
+        view.backgroundColor = .black
         self.title = "Favs"
         
         getAllItems()
@@ -32,14 +32,14 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 160, height: 160)
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 15, bottom: 10, right: 15)
+        layout.itemSize = CGSize(width: 140, height: 170)
         self.collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        
+        collectionView?.backgroundColor = .clear
         collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "celly")
-        collectionView?.backgroundColor = .black
         collectionView?.delegate = self
         collectionView?.dataSource = self
+        collectionView?.clipsToBounds = true
         collectionView?.reloadData()
         
         
@@ -56,10 +56,17 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "celly", for: indexPath)
-        print("cell size: ", cell.frame)
+        cell.clipsToBounds = true
+
         self.showView = ShowView(frame: cell.frame)
+        showView?.layer.borderColor = CustomColor.darkRed.cgColor
+        showView?.layer.borderWidth = 2
+        showView?.backgroundColor = .clear
+        
         showView?.dateLabel?.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: 20)
-        showView?.backgroundColor = .yellow
+        showView?.artistLabel?.frame = CGRect(x: 10, y: 20, width:100, height: 50)
+        showView?.venueLabel?.frame = CGRect(x: 10, y: 60, width:150, height: 50)
+        showView?.suppArtistLabel?.frame = CGRect(x: 10, y: 100, width: 100, height: 50)
         let show = favShowsArray?[indexPath.row]
         
         showView?.artistLabel?.text = show?.artist
@@ -77,6 +84,14 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
            print("User tapped on item \(indexPath.row)")
         
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+             return 10;
+        }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+            return 10;
+        }
     
     //MARK: Get Favs from CoreData
     
