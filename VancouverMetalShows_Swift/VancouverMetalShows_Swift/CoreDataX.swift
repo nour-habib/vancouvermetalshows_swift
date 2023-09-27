@@ -54,5 +54,6 @@ class CoreDataX
         {
             print("delete error")
         }
+    
     }
 }

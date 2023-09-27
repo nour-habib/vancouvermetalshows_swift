@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource
+class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate
 {
     
     private var collectionView: UICollectionView?
@@ -39,7 +39,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "celly")
         collectionView?.delegate = self
         collectionView?.dataSource = self
-        collectionView?.clipsToBounds = true
         collectionView?.reloadData()
         
         
@@ -56,7 +55,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "celly", for: indexPath)
-        cell.clipsToBounds = true
+        //cell.clipsToBounds = true
 
         self.showView = ShowView(frame: cell.frame)
         showView?.layer.borderColor = CustomColor.darkRed.cgColor
@@ -75,6 +74,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         showView?.suppArtistLabel?.text = show?.supporting_artists
 
         cell.addSubview(showView ?? UIView())
+        initLongPressGesture()
         return cell
         
     }
@@ -92,6 +92,42 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
             return 10;
         }
+    
+    
+    //MARK: Long Press Gesture
+    private func initLongPressGesture()
+    {
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture))
+        gesture.minimumPressDuration = 2
+        gesture.delaysTouchesBegan = true
+        gesture.delegate = self
+        
+        self.collectionView?.addGestureRecognizer(gesture)
+        
+    }
+    
+    @objc func handleLongPressGesture(gestureRecognizer: UILongPressGestureRecognizer)
+    {
+        guard gestureRecognizer.state != .began else{return}
+        let point = gestureRecognizer.location(in: self.collectionView)
+        let indexPath = self.collectionView?.indexPathForItem(at: point)
+        if let index = indexPath
+        {
+            print(index.row)
+        }
+        else
+        {
+            print("Could not finid index path)")
+        }
+        
+        CoreData_.deleteItem(show: self.favShowsArray?[indexPath?.row ?? 0] ?? ShowItem())
+        print("Item deleted")
+        self.favShowsArray?.remove(at: indexPath?.row ?? -1)
+        print("favShowsArray count: ", favShowsArray?.count)
+        self.collectionView?.reloadData()
+        
+        
+    }
     
     //MARK: Get Favs from CoreData
     
