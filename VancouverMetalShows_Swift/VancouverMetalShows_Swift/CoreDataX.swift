@@ -23,22 +23,25 @@ class CoreDataX
 
     func createItem(show: Show)
     {
-        let newShow = ShowItem(context: context)
-        newShow.id = show.id
-        newShow.artist = show.artist
-        newShow.date = show.date
-        newShow.venue = show.venue
-        newShow.supporting_artists = show.supporting_artists
-        newShow.tickets = show.tickets
-        newShow.image = show.image
+        if(!recordExists(show: show))
+        {
+            let newShow = ShowItem(context: context)
+            newShow.id = show.id
+            newShow.artist = show.artist
+            newShow.date = show.date
+            newShow.venue = show.venue
+            newShow.supporting_artists = show.supporting_artists
+            newShow.tickets = show.tickets
+            newShow.image = show.image
 
-        do
-        {
-            try context.save()
-        }
-        catch
-        {
-            print("save error")
+            do
+            {
+                try context.save()
+            }
+            catch
+            {
+                print("save error")
+            }
         }
 
     }
@@ -55,5 +58,37 @@ class CoreDataX
             print("delete error")
         }
     
+    }
+    
+    private func recordExists(show: Show) -> Bool
+    {
+        let fetchRequest: NSFetchRequest<ShowItem>
+        fetchRequest = ShowItem.fetchRequest()
+        
+        let artistPredicate = NSPredicate(format: "artist LIKE %@", show.artist)
+        let datePredicate = NSPredicate(format: "date LIKE %@", show.date)
+        
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [artistPredicate, datePredicate])
+        
+        do
+        {
+            let objects = try context.fetch(fetchRequest)
+            if (objects.count > 0)
+            {
+                print("Record exists")
+                return true
+            }
+            else
+            {
+                return false
+            }
+        }
+        catch
+        {
+            print("Fetch request error")
+        }
+        
+        return false
+        
     }
 }

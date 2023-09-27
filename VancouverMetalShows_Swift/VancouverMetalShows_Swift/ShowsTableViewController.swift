@@ -150,6 +150,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     {
         print("addTOFavs")
         CoreData_.createItem(show: show)
+        self.showsTableView?.reloadData()
     }
 }
 

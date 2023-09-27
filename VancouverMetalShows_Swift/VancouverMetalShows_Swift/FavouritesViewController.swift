@@ -122,7 +122,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         
         CoreData_.deleteItem(show: self.favShowsArray?[indexPath?.row ?? 0] ?? ShowItem())
         print("Item deleted")
-        self.favShowsArray?.remove(at: indexPath?.row ?? -1)
+        self.favShowsArray?.remove(at: indexPath?.row ?? 0)
         print("favShowsArray count: ", favShowsArray?.count)
         self.collectionView?.reloadData()
         
