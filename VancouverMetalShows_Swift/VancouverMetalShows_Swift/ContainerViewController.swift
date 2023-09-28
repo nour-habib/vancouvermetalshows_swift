@@ -108,6 +108,7 @@ extension ContainerViewController: MenuViewControllerDelegate
         favsVC.view.frame = view.frame
         favsVC.didMove(toParent: showsViewController)
         showsViewController.title = favsVC.title
+        
     }
     
     func resetToShows()

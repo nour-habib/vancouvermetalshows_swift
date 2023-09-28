@@ -37,12 +37,22 @@ class ShowView: UIView
     
     private func configureView()
     {
+      
+        let textAttributes: [NSAttributedString.Key : Any] = [
+            NSAttributedString.Key.foregroundColor: UIColor.white,
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15) ]
+
+        
         artistLabel?.textColor = .white
+        artistLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         venueLabel?.textColor = .white
+        venueLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         suppArtistLabel?.textColor = .white
         ticketsLabel?.textColor = .white
         dateLabel?.textColor = .white
+        dateLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         dateLabel?.backgroundColor = .lightGray
+        dateLabel?.textAlignment = .center
         
         imageView?.contentMode = .scaleAspectFit
         
@@ -55,5 +65,6 @@ class ShowView: UIView
        
         
     }
+
     
 }

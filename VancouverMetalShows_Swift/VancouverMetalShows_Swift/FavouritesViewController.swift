@@ -18,7 +18,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     {
         super.viewDidLoad()
 
-        view.backgroundColor = .black
+        view.backgroundColor = .white
         self.title = "Favs"
         
         getAllItems()
@@ -34,11 +34,12 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 15, bottom: 10, right: 15)
         layout.itemSize = CGSize(width: 140, height: 170)
-        self.collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collectionView?.backgroundColor = .clear
+        self.collectionView = UICollectionView(frame: CGRect(x:0,y:90,width:self.view.frame.width,height:self.view.frame.height), collectionViewLayout: layout)
+        collectionView?.backgroundColor = .black
         collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "celly")
         collectionView?.delegate = self
         collectionView?.dataSource = self
+        collectionView?.largeContentTitle = "Favs"
         collectionView?.reloadData()
         
         
@@ -63,18 +64,25 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         showView?.backgroundColor = .clear
         
         showView?.dateLabel?.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: 20)
-        showView?.artistLabel?.frame = CGRect(x: 10, y: 20, width:100, height: 50)
-        showView?.venueLabel?.frame = CGRect(x: 10, y: 60, width:150, height: 50)
+        showView?.artistLabel?.frame = CGRect(x: 10, y: 65, width:100, height: 50)
+        showView?.venueLabel?.frame = CGRect(x: 10, y: 95, width:150, height: 50)
         showView?.suppArtistLabel?.frame = CGRect(x: 10, y: 100, width: 100, height: 50)
+        showView?.imageView?.frame = CGRect(x: 35, y: 20, width: 80, height: 80)
+        
         let show = favShowsArray?[indexPath.row]
         
         showView?.artistLabel?.text = show?.artist
         showView?.dateLabel?.text = show?.date
         showView?.venueLabel?.text = show?.venue
         showView?.suppArtistLabel?.text = show?.supporting_artists
+        showView?.imageView?.image = UIImage(named: show?.image ?? "")
+        showView?.imageView?.alpha = 0.6
+        showView?.imageView?.layer.zPosition = -1
+        
 
         cell.addSubview(showView ?? UIView())
         initLongPressGesture()
+        
         return cell
         
     }
@@ -85,16 +93,16 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-             return 10;
-        }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+//             return 10;
+//        }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+//            return 10;
+//        }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
-            return 10;
-        }
     
-    
-    //MARK: Long Press Gesture
+    //MARK: Long Press Gesture to Delete Item
     private func initLongPressGesture()
     {
         let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture))
@@ -120,9 +128,11 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
             print("Could not finid index path)")
         }
         
-        CoreData_.deleteItem(show: self.favShowsArray?[indexPath?.row ?? 0] ?? ShowItem())
+        guard let indexPath = indexPath else {return}
+        
+        CoreData_.deleteItem(show: self.favShowsArray?[indexPath.row] ?? ShowItem())
         print("Item deleted")
-        self.favShowsArray?.remove(at: indexPath?.row ?? 0)
+        self.favShowsArray?.remove(at: indexPath.row)
         print("favShowsArray count: ", favShowsArray?.count)
         self.collectionView?.reloadData()
         

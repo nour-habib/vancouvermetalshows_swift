@@ -113,7 +113,6 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         
         let favButton = UIButton(frame: CGRect( x:300,y:40,width:70,height:70))
         favButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        //favButton.addTarget(self, action: #selector(addToFavs(show: show)), for: .touchUpInside)
         favButton.addAction(UIAction{_ in
             self.addToFavs(show: show)
         }, for: .touchUpInside)
