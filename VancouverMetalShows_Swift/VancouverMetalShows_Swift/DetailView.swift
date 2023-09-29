@@ -48,9 +48,11 @@ class DetailView: UIView
         showView?.artistLabel?.text = show?.artist
         showView?.artistLabel?.frame = CGRect(x: 20, y:140, width:130, height:30)
         
-        showView?.dateLabel?.text = show?.date
+        let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000", format: "MMM dd,yyy")
+        
+        showView?.dateLabel?.text = formattedDate
         showView?.dateLabel?.backgroundColor = .clear
-        showView?.dateLabel?.frame = CGRect (x:50, y:100, width: 130, height: 30)
+        showView?.dateLabel?.frame = CGRect (x:50, y:100, width: 200, height: 30)
         
         showView?.suppArtistLabel?.text = show?.supporting_artists
         showView?.suppArtistLabel?.frame = CGRect (x:20, y:200, width: 130, height: 30)

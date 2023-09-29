@@ -43,6 +43,10 @@ class CoreDataX
                 print("save error")
             }
         }
+        else
+        {
+            print("Already favourited")
+        }
 
     }
 

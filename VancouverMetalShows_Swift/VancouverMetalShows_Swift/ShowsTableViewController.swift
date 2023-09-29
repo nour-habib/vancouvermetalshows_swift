@@ -108,7 +108,11 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         
         cell.showView?.artistLabel?.text = show.artist
         cell.showView?.venueLabel?.text = show.venue
-        cell.showView?.dateLabel?.text = show.date
+        
+        let formattedDate = Date.shared.formatDate(dateString: show.date, format: "EEEE, MMM d, yyyy")
+        //print("formattedDate: ", formattedDate)
+        
+        cell.showView?.dateLabel?.text = formattedDate
         cell.showView?.imageView?.image =  UIImage(named: show.image)
         
         let favButton = UIButton(frame: CGRect( x:300,y:40,width:70,height:70))

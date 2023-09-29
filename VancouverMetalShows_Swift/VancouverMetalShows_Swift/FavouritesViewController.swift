@@ -72,7 +72,10 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         let show = favShowsArray?[indexPath.row]
         
         showView?.artistLabel?.text = show?.artist
-        showView?.dateLabel?.text = show?.date
+        
+        let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000", format: "MMM dd,yyy")
+        showView?.dateLabel?.text = formattedDate
+        
         showView?.venueLabel?.text = show?.venue
         showView?.suppArtistLabel?.text = show?.supporting_artists
         showView?.imageView?.image = UIImage(named: show?.image ?? "")

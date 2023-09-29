@@ -20,12 +20,12 @@ class ShowView: UIView
     override init(frame: CGRect)
     {
         super.init(frame: frame)
-        self.artistLabel = UILabel(frame: CGRect(x: 130, y: 20, width: 100, height: 50))
+        self.artistLabel = UILabel(frame: CGRect(x: 130, y: 25, width: 100, height: 50))
         self.venueLabel = UILabel(frame: CGRect(x: 130, y: 60, width: 150, height: 50))
         self.suppArtistLabel = UILabel(frame: CGRect(x: 130, y: 120, width: 100, height: 50))
         self.ticketsLabel = UILabel(frame: CGRect(x: 130, y: 160, width: 100, height: 50))
         self.dateLabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 20))
-        self.imageView = UIImageView(frame: CGRect(x:15,y:20,width:80,height:80))
+        self.imageView = UIImageView(frame: CGRect(x:18,y:25,width:80,height:80))
         
         configureView()
         

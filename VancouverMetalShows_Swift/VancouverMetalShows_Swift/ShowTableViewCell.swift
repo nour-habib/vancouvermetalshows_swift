@@ -18,6 +18,7 @@ class ShowTableViewCell: UITableViewCell
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.showView = ShowView(frame: self.frame)
+        //showView?.backgroundColor = .black
         
         configureCell()
     }
@@ -38,7 +39,7 @@ class ShowTableViewCell: UITableViewCell
         addSubview(showView ?? ShowView())
 //        self.contentView.clipsToBounds = true
         backgroundColor = .black
-        layoutMargins.left = 10
+        //layoutMargins.left = 10
         //self.layoutMargins.top = 20
         
    

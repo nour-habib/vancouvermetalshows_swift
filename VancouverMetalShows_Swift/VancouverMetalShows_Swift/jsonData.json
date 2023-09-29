@@ -3,7 +3,7 @@
     {
       "id": "1",
       "artist": "Opeth",
-      "date": "2020-02-15",
+      "date": "2024-02-15",
       "venue": "Orpheum",
       "supporting_artists": "Katatonia",
       "tickets": "$50",
@@ -12,7 +12,7 @@
     {
       "id": "2",
       "artist": "Amorphis",
-      "date": "2020-10-01",
+      "date": "2024-10-01",
       "venue": "Venue Nightclub",
       "supporting_artists": "",
       "tickets": "$40",
@@ -22,7 +22,7 @@
     {
       "id": "3",
       "artist": "Inquisition",
-      "date": "2020-09-03",
+      "date": "2024-09-03",
       "venue": "Rogers Arena",
       "supporting_artists": "",
       "tickets": "$75",
@@ -31,7 +31,7 @@
     {
       "id": "4",
       "artist": "Megadeth",
-      "date": "2020-09-11",
+      "date": "2024-09-11",
       "venue": "Rogers Arena",
       "supporting_artists": "",
       "tickets": "$90",
@@ -40,7 +40,7 @@
     {
       "id": "5",
       "artist": "Kataklysm",
-      "date": "2020-08-21",
+      "date": "2024-08-21",
       "venue": "Rickshaw Theatre",
       "supporting_artists": "",
       "tickets": "$40",
@@ -49,7 +49,7 @@
     {
       "id": "6",
       "artist": "Emperor",
-      "date": "2020-08-21",
+      "date": "2024-08-21",
       "venue": "Rickshaw Theatre",
       "supporting_artists": "",
       "tickets": "$40",
@@ -58,7 +58,7 @@
     {
       "id": "7",
       "artist": "Borknagar",
-      "date": "2020-03-21",
+      "date": "2024-03-21",
       "venue": "Rickshaw Theatre",
       "supporting_artists": "Rotting Christ, Wolfheart",
       "tickets": "$60",
@@ -67,7 +67,7 @@
     {
       "id": "8",
       "artist": "Anathema",
-      "date": "2020-04-01",
+      "date": "2024-04-01",
       "venue": "Rickshaw Theatre",
       "supporting_artists": "",
       "tickets": "$40",
@@ -76,7 +76,7 @@
     {
       "id": "9",
       "artist": "Katatonia",
-      "date": "2020-04-13",
+      "date": "2024-04-13",
       "venue": "Orpheum",
       "supporting_artists": "",
       "tickets": "$50",
@@ -85,7 +85,7 @@
     {
       "id": "10",
       "artist": "Agalloch",
-      "date": "2020-11-21",
+      "date": "2024-11-21",
       "venue": "Rickshaw Theatre",
       "supporting_artists": "",
       "tickets": "$60",
