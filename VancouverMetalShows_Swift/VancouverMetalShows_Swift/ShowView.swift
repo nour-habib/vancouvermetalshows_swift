@@ -37,19 +37,21 @@ class ShowView: UIView
     
     private func configureView()
     {
-      
-        let textAttributes: [NSAttributedString.Key : Any] = [
-            NSAttributedString.Key.foregroundColor: UIColor.white,
-            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15) ]
+        let textColor = UIColor.white
+        let textSize = CGFloat(17)
+        let fontType = "Helvetica-Bold"
+        
 
         
-        artistLabel?.textColor = .white
-        artistLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        venueLabel?.textColor = .white
-        venueLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        suppArtistLabel?.textColor = .white
-        ticketsLabel?.textColor = .white
-        dateLabel?.textColor = .white
+        artistLabel?.textColor = textColor
+        artistLabel?.font = UIFont(name: fontType, size: textSize)
+        
+        venueLabel?.textColor = textColor
+        venueLabel?.font = UIFont(name: fontType, size: textSize)
+        
+        suppArtistLabel?.textColor = textColor
+        ticketsLabel?.textColor = textColor
+        dateLabel?.textColor = textColor
         dateLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         dateLabel?.backgroundColor = .lightGray
         dateLabel?.textAlignment = .center

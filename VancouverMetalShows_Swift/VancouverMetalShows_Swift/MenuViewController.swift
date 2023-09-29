@@ -28,9 +28,9 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
             switch self
             {
             case .shows:
-                return "mic.square.fill"
+                return "music.mic.circle.fill"
             case .favs:
-                return "heart.square.fill"
+                return "heart.circle.fill"
             }
         }
     }
@@ -47,13 +47,16 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func configureView()
     {
         self.view.backgroundColor = .lightGray
+        
        // self.view.layer.opacity = 0.5
         
         self.tableView = UITableView(frame: CGRect(x:0,y:view.safeAreaInsets.top, width: view.bounds.size.width, height: view.bounds.size.height))
         self.tableView?.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.tableView?.delegate = self
         self.tableView?.dataSource = self
-        self.tableView?.backgroundColor = nil
+        self.tableView?.backgroundColor = CustomColor.darkGrayNew
+        self.tableView?.separatorStyle = .none
+    
       
         self.view.addSubview(self.tableView ?? UITableView())
         
@@ -75,8 +78,14 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
         cell.textLabel?.text = MenuOptions.allCases[indexPath.row].rawValue
-        cell.backgroundColor = nil
+        cell.textLabel?.textColor = .white
+        //cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        cell.textLabel?.font = UIFont(name: "Helvetica-Bold", size: 18)
+        cell.backgroundColor = CustomColor.darkGrayNew
+        
         cell.imageView?.image = UIImage(systemName: MenuOptions.allCases[indexPath.row].imageName)
+        
+        
         return cell
     }
     
