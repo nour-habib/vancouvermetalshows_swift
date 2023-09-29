@@ -37,6 +37,7 @@ class ShowView: UIView
     
     private func configureView()
     {
+        
         let textColor = UIColor.white
         let textSize = CGFloat(17)
         let fontType = "Helvetica-Bold"

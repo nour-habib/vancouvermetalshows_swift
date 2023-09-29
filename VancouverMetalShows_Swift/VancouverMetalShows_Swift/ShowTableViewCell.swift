@@ -11,14 +11,12 @@ class ShowTableViewCell: UITableViewCell
 {
     var showView: ShowView?
  
-    
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?)
     {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.showView = ShowView(frame: self.frame)
-        //showView?.backgroundColor = .black
+        //showView?.backgroundColor = .yellow
         
         configureCell()
     }

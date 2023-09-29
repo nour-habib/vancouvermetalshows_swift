@@ -45,9 +45,10 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     private func configureTableView()
     {
         self.showsTableView = ShowsTableView(frame: CGRect(x:0,y:0,width:self.view.frame.width,height:self.view.frame.height),style: UITableView.Style.plain)
-        self.showsTableView?.register(ShowTableViewCell.self, forCellReuseIdentifier: "cellId")
-        self.showsTableView?.delegate = self
-        self.showsTableView?.dataSource = self
+        showsTableView?.register(ShowTableViewCell.self, forCellReuseIdentifier: "cellId")
+        showsTableView?.delegate = self
+        showsTableView?.dataSource = self
+        showsTableView?.showsVerticalScrollIndicator = false
         self.view.addSubview(self.showsTableView!)
     }
     
@@ -99,15 +100,17 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     {
         
        let cell = showsTableView?.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! ShowTableViewCell
-        cell.frame = cell.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
-        cell.layer.cornerRadius = 10
-        cell.contentView.clipsToBounds = true
+        //cell.frame = cell.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+        //cell.layer.cornerRadius = 10
+        //cell.contentView.clipsToBounds = true
         cell.selectionStyle = .none
         
         let show = showsArray[indexPath.row]
         
         cell.showView?.artistLabel?.text = show.artist
         cell.showView?.venueLabel?.text = show.venue
+        
+        
         
         let formattedDate = Date.shared.formatDate(dateString: show.date, format: "EEEE, MMM d, yyyy")
         //print("formattedDate: ", formattedDate)
