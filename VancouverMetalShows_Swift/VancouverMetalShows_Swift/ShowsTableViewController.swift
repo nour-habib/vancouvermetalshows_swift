@@ -170,6 +170,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         })
     }
     
+    // MARK: Favourite Button
     private func addToFavs(show: Show)
     {
         print("addTOFavs")

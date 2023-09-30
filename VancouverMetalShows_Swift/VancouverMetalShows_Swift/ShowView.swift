@@ -38,7 +38,7 @@ class ShowView: UIView
     private func configureView()
     {
         
-        let textColor = UIColor.white
+        let textColor = CustomColor.ninjaGreen
         let textSize = CGFloat(17)
         let fontType = "Helvetica-Bold"
         
@@ -52,9 +52,9 @@ class ShowView: UIView
         
         suppArtistLabel?.textColor = textColor
         ticketsLabel?.textColor = textColor
-        dateLabel?.textColor = textColor
+        dateLabel?.textColor = .white
         dateLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        dateLabel?.backgroundColor = .lightGray
+        dateLabel?.backgroundColor = CustomColor.ninjaGreen
         dateLabel?.textAlignment = .center
         
         imageView?.contentMode = .scaleAspectFit

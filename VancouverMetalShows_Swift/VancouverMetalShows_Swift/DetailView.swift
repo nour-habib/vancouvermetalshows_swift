@@ -38,33 +38,44 @@ class DetailView: UIView
     private func configureView()
     {
         
-        backgroundColor = CustomColor.darkRed
+        backgroundColor = .lightGray
         isOpaque = false
         layer.cornerRadius = 10
         layer.borderColor = CustomColor.darkGray.cgColor
         layer.borderWidth = 2
 
+        let textColor = UIColor.white
+        let textSize = CGFloat(17)
+        let fontType = "Helvetica-Bold"
     
-        showView?.artistLabel?.text = show?.artist
+        showView?.artistLabel?.text = "Artist: " + show!.artist
         showView?.artistLabel?.frame = CGRect(x: 20, y:140, width:130, height:30)
+        showView?.artistLabel?.textColor = textColor
         
         let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000", format: "MMM dd,yyy")
         
         showView?.dateLabel?.text = formattedDate
         showView?.dateLabel?.backgroundColor = .clear
         showView?.dateLabel?.frame = CGRect (x:50, y:100, width: 200, height: 30)
+        showView?.dateLabel?.textColor = textColor
+        showView?.dateLabel?.font = UIFont(name: fontType, size: textSize)
         
         showView?.suppArtistLabel?.text = show?.supporting_artists
         showView?.suppArtistLabel?.frame = CGRect (x:20, y:200, width: 130, height: 30)
+        showView?.suppArtistLabel?.textColor = textColor
+        showView?.suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
         
         showView?.venueLabel?.text = show?.venue
         showView?.venueLabel?.frame = CGRect (x:20, y:165, width: 130, height: 30)
+        showView?.venueLabel?.textColor = textColor
         
         showView?.ticketsLabel?.text = show?.tickets
         showView?.ticketsLabel?.frame = CGRect (x:20, y:220, width: 130, height: 30)
+        showView?.ticketsLabel?.textColor = textColor
+        showView?.ticketsLabel?.font = UIFont(name: fontType, size: textSize)
         
         showView?.imageView?.image = UIImage(named: show?.image ?? "")
-        showView?.imageView?.frame = CGRect(x:50,y:10,width:80,height:80)
+        showView?.imageView?.frame = CGRect(x:100,y:10,width:80,height:80)
         showView?.imageView?.backgroundColor = .black
         showView?.imageView?.layer.cornerRadius = 5
         showView?.imageView?.layer.borderColor = UIColor.red.cgColor
