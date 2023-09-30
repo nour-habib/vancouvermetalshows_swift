@@ -73,6 +73,15 @@ class CoreDataX
     
     }
     
+    func existsInTable(show: Show) -> Bool
+    {
+        if(recordExists(show: show))
+        {
+            return true
+        }
+        return false
+    }
+    
     private func recordExists(show: Show) -> Bool
     {
         let fetchRequest: NSFetchRequest<ShowItem>

@@ -116,30 +116,32 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.showView?.dateLabel?.text = formattedDate
         cell.showView?.imageView?.image =  UIImage(named: show.image)
         
-        let favButton = UIButton(frame: CGRect( x:300,y:40,width:70,height:70))
+        let favButton = UIButton(frame: CGRect(x:320,y:60,width:20,height:20))
         
         print("fav status: ", show.favourite)
         print("current show: ", show.artist)
         
-        if(show.favourite == "1")
+        if(CoreData_.existsInTable(show: show))
         {
             favButton.setImage(UIImage(systemName: "heart.square.fill"), for: .normal)
+            favButton.backgroundColor = .blue
             favButton.addAction(UIAction{_ in
                 favButton.setImage(UIImage(systemName: "heart"), for: .normal)
+                favButton.backgroundColor = .none
                 self.removeItemFromFavs(show: show)
             }, for: .touchUpInside)
-            
-            cell.addSubview(favButton)
         }
-        else if(show.favourite == "0")
+        else
         {
             favButton.setImage(UIImage(systemName: "heart"), for: .normal)
             favButton.addAction(UIAction{_ in
                 self.addToFavs(show: show)
+                favButton.setImage(UIImage(systemName: "heart.square.fill"), for: .normal)
+                favButton.backgroundColor = .blue
             }, for: .touchUpInside)
-            
-            cell.addSubview(favButton)
         }
+        
+        cell.addSubview(favButton)
         
        return cell
     }
@@ -175,7 +177,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         
         show.favourite = "1"
         CoreData_.createItem(show: show)
-        self.showsTableView?.reloadData()
+        //self.showsTableView?.reloadData()
     }
     
     private func removeItemFromFavs(show: Show)
@@ -184,7 +186,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         var show = show
         show.favourite = "0"
         CoreData_.deleteItem(show: show)
-        self.showsTableView?.reloadData()
+        //self.showsTableView?.reloadData()
     }
 }
 
