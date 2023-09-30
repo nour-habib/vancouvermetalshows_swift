@@ -59,14 +59,15 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         //cell.clipsToBounds = true
 
         self.showView = ShowView(frame: cell.frame)
-        showView?.layer.borderColor = CustomColor.darkRed.cgColor
-        showView?.layer.borderWidth = 2
+        showView?.layer.borderColor = UIColor.lightGray.cgColor
+        showView?.layer.borderWidth = 0.8
         showView?.backgroundColor = .clear
         
         showView?.dateLabel?.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: 20)
         showView?.artistLabel?.frame = CGRect(x: 10, y: 65, width:100, height: 50)
-        showView?.venueLabel?.frame = CGRect(x: 10, y: 95, width:150, height: 50)
-        showView?.suppArtistLabel?.frame = CGRect(x: 10, y: 100, width: 100, height: 50)
+        showView?.venueLabel?.frame = CGRect(x: 10, y: 70, width:150, height: 50)
+        showView?.suppArtistLabel?.frame = CGRect(x: 10, y: 90, width: 100, height: 50)
+        showView?.ticketsLabel?.frame = CGRect(x: 10, y: 110, width: 100, height: 50)
         showView?.imageView?.frame = CGRect(x: 35, y: 20, width: 80, height: 80)
         
         let show = favShowsArray?[indexPath.row]
@@ -76,12 +77,20 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000", format: "MMM dd,yyy")
         showView?.dateLabel?.text = formattedDate
         
+        let textSize = CGFloat(14)
+        let fontType = "HelveticaNeue"
+        
+        showView?.ticketsLabel?.text = show?.tickets
+        showView?.ticketsLabel?.font = UIFont(name: fontType, size: textSize)
         showView?.venueLabel?.text = show?.venue
+        showView?.venueLabel?.font = UIFont(name: fontType, size: textSize)
         showView?.suppArtistLabel?.text = show?.supporting_artists
+        showView?.suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
         showView?.imageView?.image = UIImage(named: show?.image ?? "")
         showView?.imageView?.alpha = 0.6
         showView?.imageView?.layer.zPosition = -1
         
+        showView?.artistLabel?.removeFromSuperview()
 
         cell.addSubview(showView ?? UIView())
         initLongPressGesture()
@@ -137,7 +146,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         print("Item deleted")
         self.favShowsArray?.remove(at: indexPath.row)
         print("favShowsArray count: ", favShowsArray?.count)
-        self.collectionView?.reloadData()
+        //self.collectionView?.reloadData()
         
         
     }

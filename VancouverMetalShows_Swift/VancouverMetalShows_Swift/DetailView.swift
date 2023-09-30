@@ -46,7 +46,7 @@ class DetailView: UIView
 
         let textColor = UIColor.white
         let textSize = CGFloat(17)
-        let fontType = "Helvetica-Bold"
+        let fontType = "HelveticaNeue-Bold"
         
         showView?.artistLabel?.text = "Artist: " + show!.artist
         showView?.artistLabel?.frame = CGRect(x: 20, y:140, width:200, height:30)
