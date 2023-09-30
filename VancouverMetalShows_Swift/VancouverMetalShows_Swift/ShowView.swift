@@ -24,7 +24,7 @@ class ShowView: UIView
         self.venueLabel = UILabel(frame: CGRect(x: 130, y: 60, width: 150, height: 50))
         self.suppArtistLabel = UILabel(frame: CGRect(x: 130, y: 120, width: 100, height: 50))
         self.ticketsLabel = UILabel(frame: CGRect(x: 130, y: 160, width: 100, height: 50))
-        self.dateLabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 20))
+        self.dateLabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 16))
         self.imageView = UIImageView(frame: CGRect(x:18,y:25,width:80,height:80))
         
         configureView()
@@ -40,9 +40,8 @@ class ShowView: UIView
         
         let textColor = CustomColor.ninjaGreen
         let textSize = CGFloat(17)
-        let fontType = "Helvetica-Bold"
-        
-
+        //let fontType = "Helvetica-Bold"
+        let fontType = "HelveticaNeue-Bold"
         
         artistLabel?.textColor = textColor
         artistLabel?.font = UIFont(name: fontType, size: textSize)
@@ -51,11 +50,15 @@ class ShowView: UIView
         venueLabel?.font = UIFont(name: fontType, size: textSize)
         
         suppArtistLabel?.textColor = textColor
+        suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
         ticketsLabel?.textColor = textColor
+        ticketsLabel?.font = UIFont(name: fontType, size: textSize)
+        
         dateLabel?.textColor = .white
-        dateLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         dateLabel?.backgroundColor = CustomColor.ninjaGreen
         dateLabel?.textAlignment = .center
+        dateLabel?.font = UIFont(name: "CourierNewPSMT", size: 14)
+       
         
         imageView?.contentMode = .scaleAspectFit
         

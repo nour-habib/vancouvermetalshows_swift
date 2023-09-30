@@ -41,41 +41,47 @@ class DetailView: UIView
         backgroundColor = .lightGray
         isOpaque = false
         layer.cornerRadius = 10
-        layer.borderColor = CustomColor.darkGray.cgColor
+        layer.borderColor = CustomColor.ninjaGreen.cgColor
         layer.borderWidth = 2
 
         let textColor = UIColor.white
         let textSize = CGFloat(17)
         let fontType = "Helvetica-Bold"
-    
+        
         showView?.artistLabel?.text = "Artist: " + show!.artist
-        showView?.artistLabel?.frame = CGRect(x: 20, y:140, width:130, height:30)
+        showView?.artistLabel?.frame = CGRect(x: 20, y:140, width:200, height:30)
         showView?.artistLabel?.textColor = textColor
         
         let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000", format: "MMM dd,yyy")
         
-        showView?.dateLabel?.text = formattedDate
+        showView?.dateLabel?.text = "Date: " + formattedDate
         showView?.dateLabel?.backgroundColor = .clear
-        showView?.dateLabel?.frame = CGRect (x:50, y:100, width: 200, height: 30)
+        showView?.dateLabel?.frame = CGRect (x:20, y:120, width: 200, height: 30)
+        showView?.dateLabel?.textAlignment = .left
         showView?.dateLabel?.textColor = textColor
         showView?.dateLabel?.font = UIFont(name: fontType, size: textSize)
         
-        showView?.suppArtistLabel?.text = show?.supporting_artists
-        showView?.suppArtistLabel?.frame = CGRect (x:20, y:200, width: 130, height: 30)
+        if(show?.supporting_artists == "")
+        {
+            showView?.suppArtistLabel?.removeFromSuperview()
+        }
+        showView?.suppArtistLabel?.text = "With: " + show!.supporting_artists
+        showView?.suppArtistLabel?.frame = CGRect (x:20, y:210, width: 200, height: 30)
         showView?.suppArtistLabel?.textColor = textColor
         showView?.suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
+        showView?.suppArtistLabel?.numberOfLines = 2
         
-        showView?.venueLabel?.text = show?.venue
-        showView?.venueLabel?.frame = CGRect (x:20, y:165, width: 130, height: 30)
+        showView?.venueLabel?.text = "Venue: " + show!.venue
+        showView?.venueLabel?.frame = CGRect (x:20, y:165, width: self.frame.width, height: 30)
         showView?.venueLabel?.textColor = textColor
         
-        showView?.ticketsLabel?.text = show?.tickets
-        showView?.ticketsLabel?.frame = CGRect (x:20, y:220, width: 130, height: 30)
+        showView?.ticketsLabel?.text = "Tickets: " + show!.tickets
+        showView?.ticketsLabel?.frame = CGRect (x:20, y:190, width: 130, height: 30)
         showView?.ticketsLabel?.textColor = textColor
         showView?.ticketsLabel?.font = UIFont(name: fontType, size: textSize)
         
         showView?.imageView?.image = UIImage(named: show?.image ?? "")
-        showView?.imageView?.frame = CGRect(x:100,y:10,width:80,height:80)
+        showView?.imageView?.frame = CGRect(x:97,y:30,width:80,height:80)
         showView?.imageView?.backgroundColor = .black
         showView?.imageView?.layer.cornerRadius = 5
         showView?.imageView?.layer.borderColor = UIColor.red.cgColor
