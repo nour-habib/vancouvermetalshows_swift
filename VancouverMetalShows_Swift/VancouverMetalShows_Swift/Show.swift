@@ -21,9 +21,10 @@ struct Show: Codable
     var supporting_artists: String
     var tickets: String
     var image: String
+    var favourite: String
 
 
-init(id: String?, artist: String?, date: String?, venue: String?, supporting_artists: String?, tickets: String?, image: String?)
+    init(id: String?, artist: String?, date: String?, venue: String?, supporting_artists: String?, tickets: String?, image: String?, favourite: String?)
     {
     self.id = id ?? "x"
     self.artist = artist ?? ""
@@ -32,6 +33,7 @@ init(id: String?, artist: String?, date: String?, venue: String?, supporting_art
     self.supporting_artists = supporting_artists ?? ""
     self.tickets = tickets ?? ""
     self.image = image ?? ""
+    self.favourite = favourite ?? ""
 }
 
 }

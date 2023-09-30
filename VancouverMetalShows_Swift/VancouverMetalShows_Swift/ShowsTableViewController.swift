@@ -110,8 +110,6 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.showView?.artistLabel?.text = show.artist
         cell.showView?.venueLabel?.text = show.venue
         
-        
-        
         let formattedDate = Date.shared.formatDate(dateString: show.date, format: "EEEE, MMM d, yyyy")
         //print("formattedDate: ", formattedDate)
         
@@ -119,12 +117,30 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.showView?.imageView?.image =  UIImage(named: show.image)
         
         let favButton = UIButton(frame: CGRect( x:300,y:40,width:70,height:70))
-        favButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        favButton.addAction(UIAction{_ in
-            self.addToFavs(show: show)
-        }, for: .touchUpInside)
-        cell.addSubview(favButton)
-       
+        
+        print("fav status: ", show.favourite)
+        print("current show: ", show.artist)
+        
+        if(show.favourite == "1")
+        {
+            favButton.setImage(UIImage(systemName: "heart.square.fill"), for: .normal)
+            favButton.addAction(UIAction{_ in
+                favButton.setImage(UIImage(systemName: "heart"), for: .normal)
+                self.removeItemFromFavs(show: show)
+            }, for: .touchUpInside)
+            
+            cell.addSubview(favButton)
+        }
+        else if(show.favourite == "0")
+        {
+            favButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            favButton.addAction(UIAction{_ in
+                self.addToFavs(show: show)
+            }, for: .touchUpInside)
+            
+            cell.addSubview(favButton)
+        }
+        
        return cell
     }
     
@@ -137,7 +153,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     {
         print("row is clicked")
         self.show = showsArray[indexPath.row]
-        self.detailView = DetailView(frame: CGRect(x:50,y:200,width:(0.7)*UIScreen.main.bounds.width, height:300), show: self.show ?? Show(id: "", artist: "", date: "", venue: "", supporting_artists: "", tickets: "", image: ""))
+        self.detailView = DetailView(frame: CGRect(x:50,y:200,width:(0.7)*UIScreen.main.bounds.width, height:300), show: self.show ?? Show(id: "", artist: "", date: "", venue: "", supporting_artists: "", tickets: "", image: "", favourite: ""))
         self.detailView?.delegate = self
         
         self.overlayView = UIView(frame: self.view.frame)
@@ -152,10 +168,22 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         })
     }
     
-    func addToFavs(show: Show)
+    private func addToFavs(show: Show)
     {
         print("addTOFavs")
+        var show = show
+        
+        show.favourite = "1"
         CoreData_.createItem(show: show)
+        self.showsTableView?.reloadData()
+    }
+    
+    private func removeItemFromFavs(show: Show)
+    {
+        print("removeItemFromFavs()")
+        var show = show
+        show.favourite = "0"
+        CoreData_.deleteItem(show: show)
         self.showsTableView?.reloadData()
     }
 }

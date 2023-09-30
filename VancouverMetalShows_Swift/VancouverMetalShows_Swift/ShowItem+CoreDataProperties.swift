@@ -23,7 +23,7 @@ extension ShowItem {
     @NSManaged public var supporting_artists: String?
     @NSManaged public var image: String?
     @NSManaged public var tickets: String?
-
+    @NSManaged public var favourite: String?
 }
 
 extension ShowItem : Identifiable {

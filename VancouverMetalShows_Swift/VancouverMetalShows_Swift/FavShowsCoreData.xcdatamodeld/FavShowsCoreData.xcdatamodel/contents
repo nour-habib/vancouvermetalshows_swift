@@ -3,6 +3,7 @@
     <entity name="ShowItem" representedClassName=".ShowItem" syncable="YES">
         <attribute name="artist" optional="YES" attributeType="String"/>
         <attribute name="date" optional="YES" attributeType="String"/>
+        <attribute name="favourite" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="image" optional="YES" attributeType="String"/>
         <attribute name="supporting_artists" optional="YES" attributeType="String"/>
@@ -10,6 +11,6 @@
         <attribute name="venue" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="ShowItem" positionX="-63" positionY="-18" width="128" height="134"/>
+        <element name="ShowItem" positionX="-63" positionY="-18" width="128" height="149"/>
     </elements>
 </model>

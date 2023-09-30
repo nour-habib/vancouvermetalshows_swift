@@ -50,9 +50,18 @@ class CoreDataX
 
     }
 
-    func deleteItem(show: ShowItem)
+    func deleteItem(show: Show)
     {
-        context.delete(show)
+        let newShow = ShowItem(context: context)
+        newShow.id = show.id
+        newShow.artist = show.artist
+        newShow.date = show.date
+        newShow.venue = show.venue
+        newShow.supporting_artists = show.supporting_artists
+        newShow.tickets = show.tickets
+        newShow.image = show.image
+        
+        context.delete(newShow)
         do
         {
             try context.save()
@@ -93,6 +102,11 @@ class CoreDataX
         }
         
         return false
+        
+    }
+    
+    func clearAllItems()
+    {
         
     }
 }
