@@ -114,8 +114,22 @@ class CoreDataX
         
     }
     
-    func clearAllItems()
+    func clearAllItems(entityName: String)
     {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult>
+        fetchRequest = NSFetchRequest(entityName: entityName)
+        
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        batchDeleteRequest.resultType = .resultTypeObjectIDs
+        
+        let batchDelete = try? context.execute(batchDeleteRequest) as? NSBatchDeleteResult
+        
+      
+        guard let deleteResult = batchDelete?.result as? [NSManagedObjectID] else {return}
+        
+        let deletedObjects: [AnyHashable: Any] = [NSDeletedObjectsKey: deleteResult]
+        
+        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: deletedObjects, into: [context])
         
     }
 }

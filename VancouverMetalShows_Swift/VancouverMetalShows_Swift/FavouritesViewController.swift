@@ -22,9 +22,19 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         view.backgroundColor = .white
         self.title = "Favs"
         
+        print("Screen width: ", UIScreen.main.bounds.width)
+        print("Screen height: ", UIScreen.main.bounds.height)
+        
+        //CoreData_.clearAllItems(entityName: "ShowItem")
+        
         getAllItems()
         self.favShowsArray = convertArray(array: showsArray ?? [])
         print("favShowsArray size: ", favShowsArray?.count)
+        
+        guard let favShowsArray = favShowsArray else {
+            return
+        }
+ 
         
         print("showsArray size: ", showsArray?.count)
         configureCollectionView()
@@ -35,15 +45,24 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 15, bottom: 10, right: 15)
-        layout.itemSize = CGSize(width: 140, height: 170)
+        //layout.minimumInteritemSpacing = 36
+        //layout.minimumLineSpacing =
+        
+        layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 26, bottom: 10, right: 26)
+        layout.itemSize = CGSize(width: 156, height: 201)
+        
         self.collectionView = UICollectionView(frame: CGRect(x:0,y:90,width:self.view.frame.width,height:self.view.frame.height), collectionViewLayout: layout)
         collectionView?.backgroundColor = .black
         collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "celly")
         collectionView?.delegate = self
         collectionView?.dataSource = self
         collectionView?.largeContentTitle = "Favs"
+        collectionView?.isScrollEnabled = true
+        collectionView?.isUserInteractionEnabled = true
+        collectionView?.alwaysBounceVertical = true
         collectionView?.reloadData()
+        
         
         
         view.addSubview(collectionView ?? UICollectionView())
@@ -55,6 +74,8 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     {
         return favShowsArray?.count ?? 0
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
@@ -97,7 +118,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         showView?.artistLabel?.removeFromSuperview()
 
         cell.addSubview(showView ?? UIView())
-        initLongPressGesture()
+        //initLongPressGesture()
         
         return cell
         
@@ -105,9 +126,34 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
-           print("User tapped on item \(indexPath.row)")
-        
+        print("User tapped on item \(indexPath.row)")
+        initLongPressGesture()
     }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int
+    {
+        print("numOFSectiions")
+        return 1
+    }
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
+//    {
+////           let width = collectionView.bounds.width
+////           let numberOfItemsPerRow: CGFloat = 2
+////        let spacing: CGFloat = 3
+////           let availableWidth = width - spacing * (numberOfItemsPerRow + 1)
+////           let itemDimension = floor(availableWidth / numberOfItemsPerRow)
+////           return CGSize(width: itemDimension, height: itemDimension)
+//
+////        if (collectionView == collectionView) {
+////
+////                return CGSize(width: self.view.frame.width / 2, height: self.view.frame.height / 4)
+////
+////            } else {
+////
+////                return collectionView.frame.size
+////            }
+//    }
     
     //MARK: Long Press Gesture to Delete Item
     private func initLongPressGesture()
@@ -143,9 +189,9 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         
         CoreData_.deleteItem(show: show)
         print("Item deleted")
-        self.favShowsArray?.remove(at: indexPath.row)
+        //self.favShowsArray?.remove(at: indexPath.row)
         print("favShowsArray count: ", favShowsArray?.count)
-        self.collectionView?.reloadData()
+        //self.collectionView?.reloadData()
         
     }
     
@@ -170,7 +216,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     
     private func convertItem(item: ShowItem) -> Show
     {
-        
         let show = Show(item.id, item.artist, item.date, item.venue, item.supporting_artists, item.tickets, item.image, item.favourite)
         
         return show
@@ -189,5 +234,26 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         
         return showArray
     }
+    
+    //MARK: Display Alert
+    
+//    private func displayAlert()
+//    {
+//        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) in
+//               let alertController = UIAlertController(title: "Confirm delete", message: "Are you sure you would like to delete?", preferredStyle: .alert)
+//
+//            alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//            alertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: nil)) // temp nil for now
+//            self?.present(alertController, animated: true)
+//           }
+//
+//           let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+//
+//           // Add all the actions to acMain
+//           acMain.addAction(renameAction)
+//           acMain.addAction(deleteAction)
+//           acMain.addAction(cancelAction)
+//           present(acMain, animated: true)
+//    }
 
 }
