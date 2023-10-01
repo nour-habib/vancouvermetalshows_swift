@@ -155,7 +155,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     {
         print("row is clicked")
         self.show = showsArray[indexPath.row]
-        self.detailView = DetailView(frame: CGRect(x:50,y:200,width:(0.7)*UIScreen.main.bounds.width, height:300), show: self.show ?? Show(id: "", artist: "", date: "", venue: "", supporting_artists: "", tickets: "", image: "", favourite: ""))
+        self.detailView = DetailView(frame: CGRect(x:50,y:200,width:(0.7)*UIScreen.main.bounds.width, height:300), show: self.show ?? Show())
         self.detailView?.delegate = self
         
         self.overlayView = UIView(frame: self.view.frame)

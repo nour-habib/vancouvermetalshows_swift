@@ -14,26 +14,28 @@ struct ShowRoot: Codable
 
 struct Show: Codable
 {
-    var id: String
-    var artist: String
-    var date: String
-    var venue: String
-    var supporting_artists: String
-    var tickets: String
-    var image: String
-    var favourite: String
+    var id: String = ""
+    var artist: String = ""
+    var date: String = ""
+    var venue: String = ""
+    var supporting_artists: String = ""
+    var tickets: String = ""
+    var image: String = ""
+    var favourite: String = ""
 
 
-    init(id: String?, artist: String?, date: String?, venue: String?, supporting_artists: String?, tickets: String?, image: String?, favourite: String?)
+    init(_ id: String?, _ artist: String?,_ date: String?,_ venue: String?,_ supporting_artists: String?,_ tickets: String?,_ image: String?,_ favourite: String?)
     {
-    self.id = id ?? "x"
-    self.artist = artist ?? ""
-    self.date = date ?? ""
-    self.venue = venue ?? ""
-    self.supporting_artists = supporting_artists ?? ""
-    self.tickets = tickets ?? ""
-    self.image = image ?? ""
-    self.favourite = favourite ?? ""
+        self.id = id ?? ""
+        self.artist = artist ?? ""
+        self.date = date ?? ""
+        self.venue = venue ?? ""
+        self.supporting_artists = supporting_artists ?? ""
+        self.tickets = tickets ?? ""
+        self.image = image ?? ""
+        self.favourite = favourite ?? ""
 }
+    
+    init(){}
 
 }

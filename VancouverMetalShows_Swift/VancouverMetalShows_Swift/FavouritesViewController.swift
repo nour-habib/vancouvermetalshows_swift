@@ -11,7 +11,8 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
 {
     
     private var collectionView: UICollectionView?
-    private var favShowsArray: [ShowItem]?
+    private var showsArray: [ShowItem]?
+    private var favShowsArray: [Show]?
     private var showView: ShowView?
 
     override func viewDidLoad()
@@ -22,8 +23,10 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         self.title = "Favs"
         
         getAllItems()
-        
+        self.favShowsArray = convertArray(array: showsArray ?? [])
         print("favShowsArray size: ", favShowsArray?.count)
+        
+        print("showsArray size: ", showsArray?.count)
         configureCollectionView()
     }
     
@@ -65,12 +68,13 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         
         showView?.dateLabel?.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: 20)
         showView?.artistLabel?.frame = CGRect(x: 10, y: 65, width:100, height: 50)
-        showView?.venueLabel?.frame = CGRect(x: 10, y: 70, width:150, height: 50)
-        showView?.suppArtistLabel?.frame = CGRect(x: 10, y: 90, width: 100, height: 50)
-        showView?.ticketsLabel?.frame = CGRect(x: 10, y: 110, width: 100, height: 50)
-        showView?.imageView?.frame = CGRect(x: 35, y: 20, width: 80, height: 80)
+        showView?.venueLabel?.frame = CGRect(x: 10, y: 80, width:150, height: 50)
+        showView?.suppArtistLabel?.frame = CGRect(x: 10, y: 100, width: 100, height: 50)
+        showView?.ticketsLabel?.frame = CGRect(x: 110, y: 8, width: 100, height: 50)
+        showView?.imageView?.frame = CGRect(x: 35, y: 30, width: 80, height: 80)
         
         let show = favShowsArray?[indexPath.row]
+        
         
         showView?.artistLabel?.text = show?.artist
         
@@ -105,15 +109,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-//             return 10;
-//        }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
-//            return 10;
-//        }
-    
-    
     //MARK: Long Press Gesture to Delete Item
     private func initLongPressGesture()
     {
@@ -142,33 +137,57 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         
         guard let indexPath = indexPath else {return}
         
-        //CoreData_.deleteItem(show: self.favShowsArray?[indexPath.row] ?? ShowItem())
+        guard let show = self.favShowsArray?[indexPath.row] else {return}
+        
+        self.collectionView?.deleteItems(at: [indexPath])
+        
+        CoreData_.deleteItem(show: show)
         print("Item deleted")
         self.favShowsArray?.remove(at: indexPath.row)
         print("favShowsArray count: ", favShowsArray?.count)
-        //self.collectionView?.reloadData()
-        
+        self.collectionView?.reloadData()
         
     }
     
     //MARK: Get Favs from CoreData
     
     private func getAllItems() -> Void
+    {
+        do
         {
-            do
-            {
-                self.favShowsArray = try context.fetch(ShowItem.fetchRequest())
-                DispatchQueue.main.async{
-                    self.collectionView?.reloadData()
-                }
+            self.showsArray = try context.fetch(ShowItem.fetchRequest())
+            DispatchQueue.main.async{
+                self.collectionView?.reloadData()
             }
-            catch
-            {
-                //throw exception
-                print("getAllItems: Error")
-            }
-            
         }
-
+        catch
+        {
+            //throw exception
+            print("getAllItems: Error")
+        }
+            
+    }
+    
+    private func convertItem(item: ShowItem) -> Show
+    {
+        
+        let show = Show(item.id, item.artist, item.date, item.venue, item.supporting_artists, item.tickets, item.image, item.favourite)
+        
+        return show
+    }
+    
+    private func convertArray(array: [ShowItem]) -> [Show]
+    {
+        var showArray = [Show]()
+        
+        for item in array
+        {
+            let show = convertItem(item: item)
+            showArray.append(show)
+                
+        }
+        
+        return showArray
+    }
 
 }
