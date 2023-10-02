@@ -14,6 +14,8 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     private var showsArray: [ShowItem]?
     private var favShowsArray: [Show]?
     private var showView: ShowView?
+    private var cellWidth = 0
+    private var cellHeight = 0
 
     override func viewDidLoad()
     {
@@ -34,10 +36,13 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         guard let favShowsArray = favShowsArray else {
             return
         }
+        
+        
  
         
         print("showsArray size: ", showsArray?.count)
         configureCollectionView()
+//        configureShowView()
     }
     
     private func configureCollectionView()
@@ -45,12 +50,14 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        //layout.minimumInteritemSpacing = 36
-        //layout.minimumLineSpacing =
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
         
         layout.scrollDirection = .vertical
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 26, bottom: 10, right: 26)
-        layout.itemSize = CGSize(width: 156, height: 201)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 26, bottom: 26, right: 0)
+        self.cellWidth = 156
+        self.cellHeight = 201
+        layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
         
         self.collectionView = UICollectionView(frame: CGRect(x:0,y:90,width:self.view.frame.width,height:self.view.frame.height), collectionViewLayout: layout)
         collectionView?.backgroundColor = .black
@@ -68,6 +75,23 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         view.addSubview(collectionView ?? UICollectionView())
     }
     
+    private func configureShowView()
+    {
+        self.showView = ShowView(frame: CGRect(x: 0, y: 0, width: cellWidth, height: cellHeight))
+//        print("cellWidth: ", cellWidth)
+//        print("cellHeight ", cellHeight)
+        showView?.layer.borderColor = UIColor.lightGray.cgColor
+        showView?.layer.borderWidth = 0.8
+        showView?.backgroundColor = .clear
+        
+        showView?.dateLabel?.frame = CGRect(x: 0, y: 0, width: cellWidth, height: 20)
+        showView?.artistLabel?.frame = CGRect(x: 10, y: 65, width:100, height: 50)
+        showView?.venueLabel?.frame = CGRect(x: 10, y: 80, width:150, height: 50)
+        showView?.suppArtistLabel?.frame = CGRect(x: 10, y: 100, width: 100, height: 50)
+        showView?.ticketsLabel?.frame = CGRect(x: 110, y: 8, width: 100, height: 50)
+        showView?.imageView?.frame = CGRect(x: 35, y: 30, width: 80, height: 80)
+    }
+    
     //MARK: CollectionView Methods
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
@@ -81,22 +105,10 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "celly", for: indexPath)
         //cell.clipsToBounds = true
-
-        self.showView = ShowView(frame: cell.frame)
-        showView?.layer.borderColor = UIColor.lightGray.cgColor
-        showView?.layer.borderWidth = 0.8
-        showView?.backgroundColor = .clear
         
-        showView?.dateLabel?.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: 20)
-        showView?.artistLabel?.frame = CGRect(x: 10, y: 65, width:100, height: 50)
-        showView?.venueLabel?.frame = CGRect(x: 10, y: 80, width:150, height: 50)
-        showView?.suppArtistLabel?.frame = CGRect(x: 10, y: 100, width: 100, height: 50)
-        showView?.ticketsLabel?.frame = CGRect(x: 110, y: 8, width: 100, height: 50)
-        showView?.imageView?.frame = CGRect(x: 35, y: 30, width: 80, height: 80)
+        configureShowView()
         
         let show = favShowsArray?[indexPath.row]
-        
-        
         showView?.artistLabel?.text = show?.artist
         
         let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000", format: "MMM dd,yyy")
@@ -115,7 +127,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         showView?.imageView?.alpha = 0.6
         showView?.imageView?.layer.zPosition = -1
         
-        showView?.artistLabel?.removeFromSuperview()
+        //showView?.artistLabel?.removeFromSuperview()
 
         cell.addSubview(showView ?? UIView())
         //initLongPressGesture()
@@ -138,21 +150,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
 //    {
-////           let width = collectionView.bounds.width
-////           let numberOfItemsPerRow: CGFloat = 2
-////        let spacing: CGFloat = 3
-////           let availableWidth = width - spacing * (numberOfItemsPerRow + 1)
-////           let itemDimension = floor(availableWidth / numberOfItemsPerRow)
-////           return CGSize(width: itemDimension, height: itemDimension)
-//
-////        if (collectionView == collectionView) {
-////
-////                return CGSize(width: self.view.frame.width / 2, height: self.view.frame.height / 4)
-////
-////            } else {
-////
-////                return collectionView.frame.size
-////            }
+//        return CGSize(width: collectionView.frame.size.width/2-10,height: collectionView.frame.size.width/2-10);
 //    }
     
     //MARK: Long Press Gesture to Delete Item
@@ -189,7 +187,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         
         CoreData_.deleteItem(show: show)
         print("Item deleted")
-        //self.favShowsArray?.remove(at: indexPath.row)
+        self.favShowsArray?.remove(at: indexPath.row)
         print("favShowsArray count: ", favShowsArray?.count)
         //self.collectionView?.reloadData()
         

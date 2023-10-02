@@ -109,6 +109,8 @@ extension ContainerViewController: MenuViewControllerDelegate
         favsVC.didMove(toParent: showsViewController)
         showsViewController.title = favsVC.title
         
+        //reload collectionview
+        
         
     }
     
@@ -117,6 +119,7 @@ extension ContainerViewController: MenuViewControllerDelegate
         favsViewController.view.removeFromSuperview()
         favsViewController.didMove(toParent: nil)
         showsViewController.title = "Shows"
+        //reload tabbleview
         
     }
     
