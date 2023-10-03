@@ -61,7 +61,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         
         self.collectionView = UICollectionView(frame: CGRect(x:0,y:90,width:self.view.frame.width,height:self.view.frame.height), collectionViewLayout: layout)
         collectionView?.backgroundColor = .black
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "celly")
+        collectionView?.register(FavShowCollectionViewCell.self, forCellWithReuseIdentifier: "celly")
         collectionView?.delegate = self
         collectionView?.dataSource = self
         collectionView?.largeContentTitle = "Favs"
@@ -74,23 +74,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         
         view.addSubview(collectionView ?? UICollectionView())
     }
-    
-    private func configureShowView()
-    {
-        self.showView = ShowView(frame: CGRect(x: 0, y: 0, width: cellWidth, height: cellHeight))
-//        print("cellWidth: ", cellWidth)
-//        print("cellHeight ", cellHeight)
-        showView?.layer.borderColor = UIColor.lightGray.cgColor
-        showView?.layer.borderWidth = 0.8
-        showView?.backgroundColor = .clear
-        
-        showView?.dateLabel?.frame = CGRect(x: 0, y: 0, width: cellWidth, height: 20)
-        showView?.artistLabel?.frame = CGRect(x: 10, y: 65, width:100, height: 50)
-        showView?.venueLabel?.frame = CGRect(x: 10, y: 80, width:150, height: 50)
-        showView?.suppArtistLabel?.frame = CGRect(x: 10, y: 100, width: 100, height: 50)
-        showView?.ticketsLabel?.frame = CGRect(x: 110, y: 8, width: 100, height: 50)
-        showView?.imageView?.frame = CGRect(x: 35, y: 30, width: 80, height: 80)
-    }
+
     
     //MARK: CollectionView Methods
     
@@ -100,37 +84,29 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     }
     
     
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "celly", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "celly", for: indexPath) as! FavShowCollectionViewCell
         //cell.clipsToBounds = true
         
-        configureShowView()
-        
         let show = favShowsArray?[indexPath.row]
-        showView?.artistLabel?.text = show?.artist
+        cell.showView?.artistLabel?.text = show?.artist
         
         let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000", format: "MMM dd,yyy")
-        showView?.dateLabel?.text = formattedDate
+        cell.showView?.dateLabel?.text = formattedDate
         
         let textSize = CGFloat(14)
         let fontType = "HelveticaNeue"
         
-        showView?.ticketsLabel?.text = show?.tickets
-        showView?.ticketsLabel?.font = UIFont(name: fontType, size: textSize)
-        showView?.venueLabel?.text = show?.venue
-        showView?.venueLabel?.font = UIFont(name: fontType, size: textSize)
-        showView?.suppArtistLabel?.text = show?.supporting_artists
-        showView?.suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
-        showView?.imageView?.image = UIImage(named: show?.image ?? "")
-        showView?.imageView?.alpha = 0.6
-        showView?.imageView?.layer.zPosition = -1
-        
-        //showView?.artistLabel?.removeFromSuperview()
-
-        cell.addSubview(showView ?? UIView())
-        //initLongPressGesture()
+        cell.showView?.ticketsLabel?.text = show?.tickets
+        cell.showView?.ticketsLabel?.font = UIFont(name: fontType, size: textSize)
+        cell.showView?.venueLabel?.text = show?.venue
+        cell.showView?.venueLabel?.font = UIFont(name: fontType, size: textSize)
+        cell.showView?.suppArtistLabel?.text = show?.supporting_artists
+        cell.showView?.suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
+        cell.showView?.imageView?.image = UIImage(named: show?.image ?? "")
+        cell.showView?.imageView?.alpha = 0.6
+        cell.showView?.imageView?.layer.zPosition = -1
         
         return cell
         
@@ -147,11 +123,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         print("numOFSectiions")
         return 1
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
-//    {
-//        return CGSize(width: collectionView.frame.size.width/2-10,height: collectionView.frame.size.width/2-10);
-//    }
     
     //MARK: Long Press Gesture to Delete Item
     private func initLongPressGesture()
@@ -211,6 +182,8 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         }
             
     }
+    
+    //MARK: Convert ShowItem to Show
     
     private func convertItem(item: ShowItem) -> Show
     {

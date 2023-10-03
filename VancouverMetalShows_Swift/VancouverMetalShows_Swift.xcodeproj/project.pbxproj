@@ -32,6 +32,7 @@
 		14669B792ABE7B74005F2894 /* ShowItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B772ABE7B74005F2894 /* ShowItem+CoreDataClass.swift */; };
 		14669B7A2ABE7B74005F2894 /* ShowItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B782ABE7B74005F2894 /* ShowItem+CoreDataProperties.swift */; };
 		14669B7C2AC65118005F2894 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B7B2AC65118005F2894 /* Date.swift */; };
+		14669B802ACC9F51005F2894 /* FavShowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B7F2ACC9F51005F2894 /* FavShowCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		14669B772ABE7B74005F2894 /* ShowItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ShowItem+CoreDataClass.swift"; path = "VancouverMetalShows_Swift/ShowItem+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		14669B782ABE7B74005F2894 /* ShowItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ShowItem+CoreDataProperties.swift"; path = "VancouverMetalShows_Swift/ShowItem+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		14669B7B2AC65118005F2894 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		14669B7F2ACC9F51005F2894 /* FavShowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavShowCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +138,7 @@
 				14669B1E2AB79096005F2894 /* SceneDelegate.swift */,
 				14669B532AB79668005F2894 /* ShowsTableViewController.swift */,
 				14669B652ABB7614005F2894 /* FavouritesViewController.swift */,
+				14669B7F2ACC9F51005F2894 /* FavShowCollectionViewCell.swift */,
 				14669B672ABB8976005F2894 /* ContainerViewController.swift */,
 				14669B692ABB8A10005F2894 /* MenuViewController.swift */,
 				14669B7B2AC65118005F2894 /* Date.swift */,
@@ -327,6 +330,7 @@
 				14669B792ABE7B74005F2894 /* ShowItem+CoreDataClass.swift in Sources */,
 				14669B1D2AB79096005F2894 /* AppDelegate.swift in Sources */,
 				14669B272AB79096005F2894 /* VancouverMetalShows_Swift.xcdatamodeld in Sources */,
+				14669B802ACC9F51005F2894 /* FavShowCollectionViewCell.swift in Sources */,
 				14669B6C2ABBD344005F2894 /* DetailView.swift in Sources */,
 				14669B6A2ABB8A10005F2894 /* MenuViewController.swift in Sources */,
 				14669B5E2AB9043B005F2894 /* ShowTableViewCell.swift in Sources */,
