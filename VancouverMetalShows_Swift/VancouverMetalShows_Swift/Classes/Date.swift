@@ -14,7 +14,7 @@ class Date
     func formatDate(dateString: String, format: String) -> String
     {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyy-mm-dd"
+        dateFormatter.dateFormat = "yyy-MM-dd"
     
         guard let date = dateFormatter.date(from: dateString) else { return "none" }
         

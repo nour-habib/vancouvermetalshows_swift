@@ -14,6 +14,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     private var showsArray: [ShowItem]?
     private var favShowsArray: [Show]?
     private var showView: ShowView?
+    private var showsDict: [String: [Show]]?
     private var cellWidth = 0
     private var cellHeight = 0
 
@@ -37,6 +38,9 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
             return
         }
         
+        self.showsDict = groupShowsByMonth(array: favShowsArray)
+        print("group: ", showsDict)
+        
         
  
         
@@ -52,9 +56,10 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
+        layout.estimatedItemSize = .zero
         
         layout.scrollDirection = .vertical
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 26, bottom: 26, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 26, bottom: 0, right: 26)
         self.cellWidth = 156
         self.cellHeight = 201
         layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
@@ -68,6 +73,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         collectionView?.isScrollEnabled = true
         collectionView?.isUserInteractionEnabled = true
         collectionView?.alwaysBounceVertical = true
+        
         collectionView?.reloadData()
         
         
@@ -80,6 +86,12 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
+        //let enumerated = self.showsDict?.enumerated()
+//        for (index, element) in self.showsDict?.enumerated()
+//        {
+//                //
+      //  }
+        //let arr = showsDict?.
         return favShowsArray?.count ?? 0
     }
     
@@ -89,10 +101,12 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "celly", for: indexPath) as! FavShowCollectionViewCell
         //cell.clipsToBounds = true
         
-        let show = favShowsArray?[indexPath.row]
-        cell.showView?.artistLabel?.text = show?.artist
         
-        let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000", format: "MMM dd,yyy")
+        let show = favShowsArray?[indexPath.row]
+        //let show = showsDict?[]
+        cell.showView?.artistLabel?.text = show?.artist
+        //MMM dd,yyy
+        let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000", format: "EEE, MMM d, yyyy")
         cell.showView?.dateLabel?.text = formattedDate
         
         let textSize = CGFloat(14)
@@ -121,7 +135,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     func numberOfSections(in collectionView: UICollectionView) -> Int
     {
         print("numOFSectiions")
-        return 1
+        return showsDict?.count ?? 0
     }
     
     //MARK: Long Press Gesture to Delete Item
@@ -226,5 +240,35 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
 //           acMain.addAction(cancelAction)
 //           present(acMain, animated: true)
 //    }
+    
+    private func groupShowsByMonth(array: [Show]) -> [String: [Show]]
+    {
+        var dict: [String: [Show]] = [:]
+        
+        if(array.count == 0)
+        {
+            return dict
+        }
+        
+        for show in array
+        {
+            let month = Date.shared.formatDate(dateString: show.date, format: "MMM")
+            print("month: " , month)
+            if (dict.keys.contains(month))
+            {
+                var arr = dict[month]
+                arr?.append(show)
+                dict.updateValue(arr ?? [], forKey: month)
+            }
+            else
+            {
+                var arr: [Show] = []
+                arr.append(show)
+                dict.updateValue(arr, forKey: month)
+            }
+        }
+        
+        return dict
+    }
 
 }
