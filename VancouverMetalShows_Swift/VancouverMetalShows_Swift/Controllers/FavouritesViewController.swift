@@ -15,8 +15,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     private var favShowsArray: [Show]?
     private var showView: ShowView?
     private var showsDict: [String: [Show]]?
-    private var cellWidth = 0
-    private var cellHeight = 0
 
     override func viewDidLoad()
     {
@@ -52,19 +50,24 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     private func configureCollectionView()
     {
         
+//        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//
+//        layout.minimumInteritemSpacing = 0
+//        layout.minimumLineSpacing = 0
+//        layout.estimatedItemSize = .zero
+//
+//        layout.scrollDirection = .vertical
+//        layout.sectionInset = UIEdgeInsets(top: 10, left: 26, bottom: 0, right: 26)
         
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        let cellWidth = 156.0
+        let cellHeight = 201.0
         
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
-        layout.estimatedItemSize = .zero
+        let groupWidth = UIScreen.main.bounds.width-10
+        let groupHeight = cellHeight + 10
+//        layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
         
-        layout.scrollDirection = .vertical
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 26, bottom: 0, right: 26)
-        self.cellWidth = 156
-        self.cellHeight = 201
-        layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
-        
+        let layout = configureLayout(cellWidth: cellWidth, cellHeight: cellHeight, groupWidth: groupWidth, groupHeight: groupHeight)
+         
         self.collectionView = UICollectionView(frame: CGRect(x:0,y:90,width:self.view.frame.width,height:self.view.frame.height), collectionViewLayout: layout)
         collectionView?.backgroundColor = .black
         collectionView?.register(FavShowCollectionViewCell.self, forCellWithReuseIdentifier: "celly")
@@ -80,6 +83,24 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         
         
         view.addSubview(collectionView ?? UICollectionView())
+    }
+    
+    private func configureLayout(cellWidth:CGFloat, cellHeight: CGFloat, groupWidth: CGFloat, groupHeight: CGFloat ) -> UICollectionViewLayout
+    {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(cellWidth),
+                                             heightDimension: .fractionalHeight(cellHeight))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+      
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(groupWidth),
+                                               heightDimension: .absolute(groupHeight))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                         subitems: [item])
+      
+        let section = NSCollectionLayoutSection(group: group)
+
+
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
     }
 
     
