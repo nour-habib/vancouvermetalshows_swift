@@ -37,5 +37,16 @@ struct Show: Codable
 }
     
     init(){}
+    
+//    func sortObjectsByDate(shows: [Show]) -> [Show]
+//    {
+//        for show in shows
+//        {
+//            let dateFormatter = DateFormatter()
+//            let date = dateFormatter.date(from: show.date)
+//             
+//            
+//        }
+//    }
 
 }

@@ -54,6 +54,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         layout.estimatedItemSize = .zero
@@ -86,13 +87,17 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        //let enumerated = self.showsDict?.enumerated()
-//        for (index, element) in self.showsDict?.enumerated()
-//        {
-//                //
-      //  }
-        //let arr = showsDict?.
-        return favShowsArray?.count ?? 0
+        let intIndex = section
+        guard let startIndex = showsDict?.startIndex else {return 0}
+        guard let index = showsDict?.index(startIndex, offsetBy: intIndex) else {return 0}
+        guard let key = showsDict?.keys[index] else { return 0 }
+        let arr = showsDict?[key]
+        print(showsDict?.keys[index])
+        
+        
+        print("number of items in section: ", arr?.count)
+        
+        return arr?.count ?? 0
     }
     
     
@@ -245,14 +250,15 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     {
         var dict: [String: [Show]] = [:]
         
+
         if(array.count == 0)
         {
             return dict
         }
-        
+
         for show in array
         {
-            let month = Date.shared.formatDate(dateString: show.date, format: "MMM")
+            let month = Date.shared.formatDate(dateString: show.date, format: "M")
             print("month: " , month)
             if (dict.keys.contains(month))
             {
@@ -268,7 +274,11 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
             }
         }
         
+        
+
+
         return dict
     }
 
 }
+
