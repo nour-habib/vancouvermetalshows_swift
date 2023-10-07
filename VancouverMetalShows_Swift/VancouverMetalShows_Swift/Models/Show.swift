@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct ShowRoot: Codable
+struct ShowRoot: Codable, Hashable
 {
     let shows: [Show]
 }
 
-struct Show: Codable
+struct Show: Codable, Hashable
 {
     var id: String = ""
     var artist: String = ""

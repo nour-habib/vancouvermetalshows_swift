@@ -15,6 +15,8 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     private var favShowsArray: [Show]?
     private var showView: ShowView?
     private var showsDict: [String: [Show]]?
+    
+    private lazy var dataSource = initDataSource()
 
     override func viewDidLoad()
     {
@@ -50,29 +52,31 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     private func configureCollectionView()
     {
         
-//        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//
-//        layout.minimumInteritemSpacing = 0
-//        layout.minimumLineSpacing = 0
-//        layout.estimatedItemSize = .zero
-//
-//        layout.scrollDirection = .vertical
 //        layout.sectionInset = UIEdgeInsets(top: 10, left: 26, bottom: 0, right: 26)
         
         let cellWidth = 156.0
         let cellHeight = 201.0
         
-        let groupWidth = UIScreen.main.bounds.width-10
-        let groupHeight = cellHeight + 10
+        let groupWidth = UIScreen.main.bounds.width-20
+        let groupHeight = cellHeight + 30
 //        layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
         
         let layout = configureLayout(cellWidth: cellWidth, cellHeight: cellHeight, groupWidth: groupWidth, groupHeight: groupHeight)
+        
+//        let layout = UICollectionViewCompositionalLayout { sectionIndex, enviroment in
+//                    switch sectionIndex {
+//                    case let i where (contains(self.showsDict?.indices,i)):
+//                        self.getSection(section: sectionIndex)
+//                    default:
+//                        return self.getSection(section:2)
+//                    }
+//                }
          
         self.collectionView = UICollectionView(frame: CGRect(x:0,y:90,width:self.view.frame.width,height:self.view.frame.height), collectionViewLayout: layout)
         collectionView?.backgroundColor = .black
         collectionView?.register(FavShowCollectionViewCell.self, forCellWithReuseIdentifier: "celly")
         collectionView?.delegate = self
-        collectionView?.dataSource = self
+        collectionView?.dataSource = dataSource
         collectionView?.largeContentTitle = "Favs"
         collectionView?.isScrollEnabled = true
         collectionView?.isUserInteractionEnabled = true
@@ -97,11 +101,21 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
                                                          subitems: [item])
       
         let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
 
 
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
+    
+//    private func getSection(section: Int) -> NSCollectionLayoutSection
+//    {
+//        let section = NSCollectionLayoutSection(group: group)
+//
+//
+//
+//        return section
+//    }
 
     
     //MARK: CollectionView Methods
@@ -132,7 +146,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         //let show = showsDict?[]
         cell.showView?.artistLabel?.text = show?.artist
         //MMM dd,yyy
-        let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000", format: "EEE, MMM d, yyyy")
+        let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000", currentFormat: "yyy-MM-dd", format: "EEE, MMM d, yyyy")
         cell.showView?.dateLabel?.text = formattedDate
         
         let textSize = CGFloat(14)
@@ -279,7 +293,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
 
         for show in array
         {
-            let month = Date.shared.formatDate(dateString: show.date, format: "M")
+            let month = Date.shared.formatDate(dateString: show.date, currentFormat: "yyy-MM-dd",format: "M")
             print("month: " , month)
             if (dict.keys.contains(month))
             {
@@ -303,3 +317,83 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
 
 }
 
+private extension FavouritesViewController
+{
+    func initDataSource() -> UICollectionViewDiffableDataSource<Section, Show>
+    {
+    
+        UICollectionViewDiffableDataSource(collectionView: collectionView ?? UICollectionView(), cellProvider:  { collectionView, indexPath, show in
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "celly",
+                for: indexPath
+            ) as! FavShowCollectionViewCell
+
+            cell.showView?.artistLabel?.text = show.artist
+            //MMM dd,yyy
+            let formattedDate = Date.shared.formatDate(dateString: show.date ?? "000", currentFormat: "yyy-MM-dd", format: "EEE, MMM d, yyyy")
+            cell.showView?.dateLabel?.text = formattedDate
+            
+            let textSize = CGFloat(14)
+            let fontType = "HelveticaNeue"
+            
+            cell.showView?.ticketsLabel?.text = show.tickets
+            cell.showView?.ticketsLabel?.font = UIFont(name: fontType, size: textSize)
+            cell.showView?.venueLabel?.text = show.venue
+            cell.showView?.venueLabel?.font = UIFont(name: fontType, size: textSize)
+            cell.showView?.suppArtistLabel?.text = show.supporting_artists
+            cell.showView?.suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
+            cell.showView?.imageView?.image = UIImage(named: show.image ?? "")
+
+            return cell
+        
+        }
+        )
+    }
+}
+
+private extension FavouritesViewController
+{
+    func showsListDidLoad(_ dict: [String: [Show]] )
+    {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Show>()
+        
+        
+        
+        var sections = [Section]()
+      
+        
+        for (month, shows) in dict
+        {
+            guard let shows = dict[month] else {return}
+            let monthFormatted = Date.shared.formatDate(dateString: month, currentFormat: "M", format: "MMM")
+            guard let monthInt = Int(month) else {return}
+            
+            sections.append(Section.init(rawValue: monthInt)!)
+           
+            snapshot.appendItems(shows, toSection: Section.init(rawValue: monthInt))
+            
+        }
+        snapshot.appendSections(sections)
+        dataSource.apply(snapshot)
+    }
+}
+
+private extension FavouritesViewController
+{
+    enum Section: Int, CaseIterable
+    {
+        case Jan
+        case Feb
+        case Mar
+        case Apr
+        case May
+        case Jun
+        case Jul
+        case Aug
+        case Sep
+        case Oct
+        case Nov
+        case Dec
+    }
+    convenience init(){}
+}
