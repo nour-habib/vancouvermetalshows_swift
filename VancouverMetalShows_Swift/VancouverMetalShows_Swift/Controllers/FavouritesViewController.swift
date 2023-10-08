@@ -16,6 +16,12 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     private var showView: ShowView?
     private var showsDict: [String: [Show]]?
     
+    static let cellWidth = 156.0
+    static let cellHeight = 201.0
+    
+    static let groupWidth = UIScreen.main.bounds.width-20
+    static let groupHeight = cellHeight + 30
+    
     private lazy var dataSource = initDataSource()
 
     override func viewDidLoad()
@@ -24,9 +30,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
 
         view.backgroundColor = .white
         self.title = "Favs"
-        
-        print("Screen width: ", UIScreen.main.bounds.width)
-        print("Screen height: ", UIScreen.main.bounds.height)
         
         //CoreData_.clearAllItems(entityName: "ShowItem")
         
@@ -41,40 +44,16 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         self.showsDict = groupShowsByMonth(array: favShowsArray)
         print("group: ", showsDict)
         
-        
- 
-        
         print("showsArray size: ", showsArray?.count)
+        self.collectionView = makeCollectionView()
+        
         configureCollectionView()
-//        configureShowView()
+        
     }
     
     private func configureCollectionView()
     {
-        
-//        layout.sectionInset = UIEdgeInsets(top: 10, left: 26, bottom: 0, right: 26)
-        
-        let cellWidth = 156.0
-        let cellHeight = 201.0
-        
-        let groupWidth = UIScreen.main.bounds.width-20
-        let groupHeight = cellHeight + 30
-//        layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
-        
-        let layout = configureLayout(cellWidth: cellWidth, cellHeight: cellHeight, groupWidth: groupWidth, groupHeight: groupHeight)
-        
-//        let layout = UICollectionViewCompositionalLayout { sectionIndex, enviroment in
-//                    switch sectionIndex {
-//                    case let i where (contains(self.showsDict?.indices,i)):
-//                        self.getSection(section: sectionIndex)
-//                    default:
-//                        return self.getSection(section:2)
-//                    }
-//                }
-         
-        self.collectionView = UICollectionView(frame: CGRect(x:0,y:90,width:self.view.frame.width,height:self.view.frame.height), collectionViewLayout: layout)
         collectionView?.backgroundColor = .black
-        collectionView?.register(FavShowCollectionViewCell.self, forCellWithReuseIdentifier: "celly")
         collectionView?.delegate = self
         collectionView?.dataSource = dataSource
         collectionView?.largeContentTitle = "Favs"
@@ -82,40 +61,11 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         collectionView?.isUserInteractionEnabled = true
         collectionView?.alwaysBounceVertical = true
         
-        collectionView?.reloadData()
-        
-        
+        //collectionView?.reloadData()
+        showsListDidLoad(showsDict ?? [:])
         
         view.addSubview(collectionView ?? UICollectionView())
     }
-    
-    private func configureLayout(cellWidth:CGFloat, cellHeight: CGFloat, groupWidth: CGFloat, groupHeight: CGFloat ) -> UICollectionViewLayout
-    {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(cellWidth),
-                                             heightDimension: .fractionalHeight(cellHeight))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-      
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(groupWidth),
-                                               heightDimension: .absolute(groupHeight))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                         subitems: [item])
-      
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-
-
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
-    }
-    
-//    private func getSection(section: Int) -> NSCollectionLayoutSection
-//    {
-//        let section = NSCollectionLayoutSection(group: group)
-//
-//
-//
-//        return section
-//    }
 
     
     //MARK: CollectionView Methods
@@ -321,33 +271,10 @@ private extension FavouritesViewController
 {
     func initDataSource() -> UICollectionViewDiffableDataSource<Section, Show>
     {
-    
-        UICollectionViewDiffableDataSource(collectionView: collectionView ?? UICollectionView(), cellProvider:  { collectionView, indexPath, show in
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "celly",
-                for: indexPath
-            ) as! FavShowCollectionViewCell
-
-            cell.showView?.artistLabel?.text = show.artist
-            //MMM dd,yyy
-            let formattedDate = Date.shared.formatDate(dateString: show.date ?? "000", currentFormat: "yyy-MM-dd", format: "EEE, MMM d, yyyy")
-            cell.showView?.dateLabel?.text = formattedDate
-            
-            let textSize = CGFloat(14)
-            let fontType = "HelveticaNeue"
-            
-            cell.showView?.ticketsLabel?.text = show.tickets
-            cell.showView?.ticketsLabel?.font = UIFont(name: fontType, size: textSize)
-            cell.showView?.venueLabel?.text = show.venue
-            cell.showView?.venueLabel?.font = UIFont(name: fontType, size: textSize)
-            cell.showView?.suppArtistLabel?.text = show.supporting_artists
-            cell.showView?.suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
-            cell.showView?.imageView?.image = UIImage(named: show.image ?? "")
-
-            return cell
-        
-        }
-        )
+        UICollectionViewDiffableDataSource(
+            collectionView: collectionView ?? UICollectionView(),
+                    cellProvider: makeCellRegistration().cellProvider
+                )
     }
 }
 
@@ -356,9 +283,6 @@ private extension FavouritesViewController
     func showsListDidLoad(_ dict: [String: [Show]] )
     {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Show>()
-        
-        
-        
         var sections = [Section]()
       
         
@@ -380,8 +304,87 @@ private extension FavouritesViewController
 
 private extension FavouritesViewController
 {
+    typealias Cell = FavShowCollectionViewCell
+    typealias CellRegistration = UICollectionView.CellRegistration<Cell, Show>
+
+    func makeCellRegistration() -> CellRegistration
+    {
+        CellRegistration { cell, indexPath, show in
+            cell.showView?.artistLabel?.text = show.artist
+            let formattedDate = Date.shared.formatDate(dateString: show.date ?? "000", currentFormat: "yyy-MM-dd", format: "EEE, MMM d, yyyy")
+            cell.showView?.dateLabel?.text = formattedDate
+            
+            cell.showView?.ticketsLabel?.text = show.tickets
+            cell.showView?.venueLabel?.text = show.venue
+            cell.showView?.suppArtistLabel?.text = show.supporting_artists
+            cell.showView?.imageView?.image = UIImage(named: show.image ?? "")
+    
+        }
+    }
+}
+
+extension UICollectionView.CellRegistration {
+    var cellProvider: (UICollectionView, IndexPath, Item) -> Cell {
+        return { collectionView, indexPath, show in
+            collectionView.dequeueConfiguredReusableCell(
+                using: self,
+                for: indexPath,
+                item: show
+            )
+        }
+    }
+}
+
+
+private extension FavouritesViewController {
+    func makeLayoutSection() -> NSCollectionLayoutSection {
+        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
+            widthDimension: .absolute(FavouritesViewController.cellWidth),
+            heightDimension: .absolute(FavouritesViewController.cellHeight)
+        ))
+
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .absolute(FavouritesViewController.groupWidth),
+                heightDimension: .absolute(FavouritesViewController.groupWidth)
+            ),
+            subitems: [item]
+        )
+
+        return NSCollectionLayoutSection(group: group)
+    }
+}
+
+private extension FavouritesViewController{
+    func makeCollectionViewLayout() -> UICollectionViewLayout {
+        UICollectionViewCompositionalLayout {
+            [weak self] sectionIndex, _ in
+            
+            return self?.makeLayoutSection()
+        }
+    }
+}
+
+private extension FavouritesViewController {
+    func makeCollectionView() -> UICollectionView {
+        UICollectionView(
+            frame: .zero,
+            collectionViewLayout: makeCollectionViewLayout()
+        )
+    }
+}
+
+
+
+private extension FavouritesViewController
+{
     enum Section: Int, CaseIterable
     {
+        static var allCases: [FavouritesViewController.Section]
+        {
+            return [.Jan,.Feb,.Mar,.Apr, .Jun, .Jul, .Aug, .Sep, .Oct, .Nov, .Dec]
+        }
+        
         case Jan
         case Feb
         case Mar
@@ -394,6 +397,8 @@ private extension FavouritesViewController
         case Oct
         case Nov
         case Dec
+        
+        @available(*, unavailable)
+           case all
     }
-    convenience init(){}
 }

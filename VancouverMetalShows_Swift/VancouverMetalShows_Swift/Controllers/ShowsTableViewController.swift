@@ -110,7 +110,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.showView?.artistLabel?.text = show.artist
         cell.showView?.venueLabel?.text = show.venue
         
-        let formattedDate = Date.shared.formatDate(dateString: show.date, currentFormat: "yyy-MM-dd" format: "EEEE, MMM d, yyyy")
+        let formattedDate = Date.shared.formatDate(dateString: show.date, currentFormat: "yyy-MM-dd", format: "EEEE, MMM d, yyyy")
         //print("formattedDate: ", formattedDate)
         
         cell.showView?.dateLabel?.text = formattedDate.uppercased()

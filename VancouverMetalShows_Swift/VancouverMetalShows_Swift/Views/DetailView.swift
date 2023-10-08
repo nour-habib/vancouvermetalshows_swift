@@ -52,7 +52,7 @@ class DetailView: UIView
         showView?.artistLabel?.frame = CGRect(x: 20, y:140, width:200, height:30)
         showView?.artistLabel?.textColor = textColor
         
-        let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000", format: "MMM dd,yyy")
+        let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000",currentFormat: "yyy-MM-dd", format: "MMM dd,yyy")
         
         showView?.dateLabel?.text = "Date: " + formattedDate
         showView?.dateLabel?.backgroundColor = .clear

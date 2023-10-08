@@ -27,6 +27,13 @@ class FavShowCollectionViewCell: UICollectionViewCell
     
     private func configureView()
     {
+        let textSize = CGFloat(14)
+        let fontType = "HelveticaNeue"
+        
+        showView?.ticketsLabel?.font = UIFont(name: fontType, size: textSize)
+        showView?.venueLabel?.font = UIFont(name: fontType, size: textSize)
+        showView?.suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
+        
         showView?.layer.borderColor = UIColor.lightGray.cgColor
         showView?.layer.borderWidth = 0.8
         showView?.backgroundColor = .clear
