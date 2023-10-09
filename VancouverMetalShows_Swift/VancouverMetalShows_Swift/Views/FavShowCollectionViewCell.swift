@@ -45,6 +45,8 @@ class FavShowCollectionViewCell: UICollectionViewCell
         showView?.ticketsLabel?.frame = CGRect(x: 110, y: 8, width: 100, height: 50)
         showView?.imageView?.frame = CGRect(x: 35, y: 30, width: 80, height: 80)
         
+        
+        
         contentView.addSubview(showView ?? ShowView())
     }
     

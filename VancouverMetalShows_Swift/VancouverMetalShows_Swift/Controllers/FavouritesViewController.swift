@@ -62,10 +62,13 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         collectionView.isScrollEnabled = true
         collectionView.isUserInteractionEnabled = true
         collectionView.alwaysBounceVertical = true
+        //collectionView.contentInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         
         collectionView.reloadData()
         
         view.addSubview(collectionView ?? UICollectionView())
+        
+    
     }
 
     
@@ -99,25 +102,25 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
 //
 //    }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        print("header()")
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "groupHeader", for: indexPath)
-        
-        let headerData = Date.shared.formatDate(dateString: String(indexPath.section+1), currentFormat: "M", format: "MMM")
-        let monthLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
-        monthLabel.text = headerData
-        monthLabel.textColor = .white
-        header.addSubview(monthLabel)
-        return header
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
-    {
-        print("didSelectItemAt()")
-        print("User tapped on item \(indexPath.row)")
-        guard let show = dataSource.itemIdentifier(for: indexPath) else {return}
-        //initLongPressGesture()
-    }
+//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//        print("header()")
+//        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "groupHeader", for: indexPath)
+//
+//        let headerData = Date.shared.formatDate(dateString: String(indexPath.section+1), currentFormat: "M", format: "MMM")
+//        let monthLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
+//        monthLabel.text = headerData
+//        monthLabel.textColor = .white
+//        header.addSubview(monthLabel)
+//        return header
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
+//    {
+//        print("didSelectItemAt()")
+//        print("User tapped on item \(indexPath.row)")
+//        guard let show = dataSource.itemIdentifier(for: indexPath) else {return}
+//        //initLongPressGesture()
+//    }
 //
 //    func numberOfSections(in collectionView: UICollectionView) -> Int
 //    {
@@ -265,6 +268,45 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
 
 }
 
+extension FavouritesViewController: UICollectionViewDataSource
+{
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+    {
+        print("numberOfItemsInSection()")
+        return  dataSource.collectionView(collectionView, numberOfItemsInSection: section)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+    {
+        print("cellForItemAt()")
+        return dataSource.collectionView(collectionView, cellForItemAt: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView
+    {
+        print("viewForSupplementary()")
+        print("header()")
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "groupHeader", for: indexPath)
+
+        let headerData = Date.shared.formatDate(dateString: String(indexPath.section+1), currentFormat: "M", format: "MMM")
+        let monthLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
+        monthLabel.text = headerData
+        monthLabel.textColor = .white
+        header.addSubview(monthLabel)
+        return header
+    }
+  
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
+    {
+        print("didSelectItemAt()")
+        print("User tapped on item \(indexPath.row)")
+        //guard let show = dataSource.itemIdentifier(for: indexPath) else {return}
+        //initLongPressGesture()
+    }
+    
+}
 
 
 private extension FavouritesViewController
@@ -336,15 +378,19 @@ private extension FavouritesViewController {
             heightDimension: .absolute(FavouritesViewController.cellHeight)
         ))
 
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .absolute(FavouritesViewController.groupWidth),
-                heightDimension: .absolute(FavouritesViewController.groupWidth)
-            ),
-            subitems: [item]
-        )
-
-        return NSCollectionLayoutSection(group: group)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize:  NSCollectionLayoutSize(
+                            widthDimension: .fractionalWidth(1.0),
+                            heightDimension: .fractionalHeight(0.05)
+                        ), subitems: [item])
+        
+        group.interItemSpacing = .flexible(4)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.interGroupSpacing = 1
+        section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+        
+        return section
     }
 }
 
@@ -358,8 +404,10 @@ private extension FavouritesViewController{
     }
 }
 
-private extension FavouritesViewController {
-    func makeCollectionView() -> UICollectionView {
+private extension FavouritesViewController
+{
+    func makeCollectionView() -> UICollectionView
+    {
         UICollectionView(
             frame: CGRect(x:0,y:90,width:self.view.frame.width,height:self.view.frame.height),
             collectionViewLayout: makeCollectionViewLayout()
@@ -367,6 +415,26 @@ private extension FavouritesViewController {
     }
 }
 
+private extension FavouritesViewController
+{
+    func configureSectionHeader()
+    {
+        dataSource.supplementaryViewProvider = {(
+            collectionView: UICollectionView,
+            kind: String,
+            indexPath: IndexPath) -> UICollectionReusableView in
+            
+            let header: TitleView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "title", for: indexPath)
+            
+            if let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
+            {
+                header.label.text = Section.init(rawValue: section.rawValue)
+            }
+            
+        }
+    }
+    
+}
 
 
 private extension FavouritesViewController
