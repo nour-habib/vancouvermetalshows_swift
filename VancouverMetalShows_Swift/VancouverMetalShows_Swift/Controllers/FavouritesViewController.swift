@@ -7,10 +7,10 @@
 
 import UIKit
 
-class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate
+class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGestureRecognizerDelegate
 {
     
-    private var collectionView: UICollectionView?
+    private lazy var collectionView = makeCollectionView()
     private var showsArray: [ShowItem]?
     private var favShowsArray: [Show]?
     private var showView: ShowView?
@@ -45,24 +45,25 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         print("group: ", showsDict)
         
         print("showsArray size: ", showsArray?.count)
-        self.collectionView = makeCollectionView()
         
         configureCollectionView()
+        
+        showsListDidLoad(showsDict ?? [String:[Show]]())
         
     }
     
     private func configureCollectionView()
     {
-        collectionView?.backgroundColor = .black
-        collectionView?.delegate = self
-        collectionView?.dataSource = dataSource
-        collectionView?.largeContentTitle = "Favs"
-        collectionView?.isScrollEnabled = true
-        collectionView?.isUserInteractionEnabled = true
-        collectionView?.alwaysBounceVertical = true
         
-        //collectionView?.reloadData()
-        showsListDidLoad(showsDict ?? [:])
+        collectionView.backgroundColor = .black
+        collectionView.delegate = self
+        collectionView.dataSource = dataSource
+        collectionView.largeContentTitle = "Favs"
+        collectionView.isScrollEnabled = true
+        collectionView.isUserInteractionEnabled = true
+        collectionView.alwaysBounceVertical = true
+        
+        collectionView.reloadData()
         
         view.addSubview(collectionView ?? UICollectionView())
     }
@@ -70,63 +71,48 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     
     //MARK: CollectionView Methods
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
-    {
-        let intIndex = section
-        guard let startIndex = showsDict?.startIndex else {return 0}
-        guard let index = showsDict?.index(startIndex, offsetBy: intIndex) else {return 0}
-        guard let key = showsDict?.keys[index] else { return 0 }
-        let arr = showsDict?[key]
-        print(showsDict?.keys[index])
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+//    {
+//        print("numberofItemsInSection()")
+//        print("num items: ", dataSource.numberOfSections(in: collectionView))
+//        return dataSource.numberOfSections(in: collectionView)
         
-        
-        print("number of items in section: ", arr?.count)
-        
-        return arr?.count ?? 0
-    }
+//        let intIndex = section
+//        guard let startIndex = showsDict?.startIndex else {return 0}
+//        guard let index = showsDict?.index(startIndex, offsetBy: intIndex) else {return 0}
+//        guard let key = showsDict?.keys[index] else { return 0 }
+//        let arr = showsDict?[key]
+//        print(showsDict?.keys[index])
+//
+//
+//        print("number of items in section: ", arr?.count)
+//
+//        return arr?.count ?? 0
+  //  }
     
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
-    {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "celly", for: indexPath) as! FavShowCollectionViewCell
-        //cell.clipsToBounds = true
-        
-        
-        let show = favShowsArray?[indexPath.row]
-        //let show = showsDict?[]
-        cell.showView?.artistLabel?.text = show?.artist
-        //MMM dd,yyy
-        let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000", currentFormat: "yyy-MM-dd", format: "EEE, MMM d, yyyy")
-        cell.showView?.dateLabel?.text = formattedDate
-        
-        let textSize = CGFloat(14)
-        let fontType = "HelveticaNeue"
-        
-        cell.showView?.ticketsLabel?.text = show?.tickets
-        cell.showView?.ticketsLabel?.font = UIFont(name: fontType, size: textSize)
-        cell.showView?.venueLabel?.text = show?.venue
-        cell.showView?.venueLabel?.font = UIFont(name: fontType, size: textSize)
-        cell.showView?.suppArtistLabel?.text = show?.supporting_artists
-        cell.showView?.suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
-        cell.showView?.imageView?.image = UIImage(named: show?.image ?? "")
-        cell.showView?.imageView?.alpha = 0.6
-        cell.showView?.imageView?.layer.zPosition = -1
-        
-        return cell
-        
-    }
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+//    {
+//        return dataSource.collectionView(collectionView, cellForItemAt: indexPath)
+//
+//
+//
+//    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
+        print("didSelectItemAt()")
         print("User tapped on item \(indexPath.row)")
-        initLongPressGesture()
+        guard let show = dataSource.itemIdentifier(for: indexPath) else {return}
+        //initLongPressGesture()
     }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int
-    {
-        print("numOFSectiions")
-        return showsDict?.count ?? 0
-    }
+//
+//    func numberOfSections(in collectionView: UICollectionView) -> Int
+//    {
+//        print("numOFSectiions")
+//        return dataSource.numberOfSections(in: collectionView)
+////        return showsDict?.count ?? 0
+//    }
     
     //MARK: Long Press Gesture to Delete Item
     private func initLongPressGesture()
@@ -136,7 +122,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         gesture.delaysTouchesBegan = true
         gesture.delegate = self
         
-        self.collectionView?.addGestureRecognizer(gesture)
+        self.collectionView.addGestureRecognizer(gesture)
         
     }
     
@@ -144,7 +130,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     {
         guard gestureRecognizer.state != .began else{return}
         let point = gestureRecognizer.location(in: self.collectionView)
-        let indexPath = self.collectionView?.indexPathForItem(at: point)
+        let indexPath = self.collectionView.indexPathForItem(at: point)
         if let index = indexPath
         {
             print(index.row)
@@ -158,7 +144,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         
         guard let show = self.favShowsArray?[indexPath.row] else {return}
         
-        self.collectionView?.deleteItems(at: [indexPath])
+        self.collectionView.deleteItems(at: [indexPath])
         
         CoreData_.deleteItem(show: show)
         print("Item deleted")
@@ -176,7 +162,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         {
             self.showsArray = try context.fetch(ShowItem.fetchRequest())
             DispatchQueue.main.async{
-                self.collectionView?.reloadData()
+                self.collectionView.reloadData()
             }
         }
         catch
@@ -267,6 +253,23 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
 
 }
 
+//
+//extension FavouritesViewController: UICollectionViewDataSource
+//{
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        <#code#>
+//    }
+    
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//            let annotationType = AnnotationType.allCases[section]
+//            let label = UILabel()
+//            label.text = annotationType.rawValue
+//            return label
+//        }
+
+//
+//}
+
 private extension FavouritesViewController
 {
     func initDataSource() -> UICollectionViewDiffableDataSource<Section, Show>
@@ -282,25 +285,36 @@ private extension FavouritesViewController
 {
     func showsListDidLoad(_ dict: [String: [Show]] )
     {
+        print("showsListDidLoad()")
         var snapshot = NSDiffableDataSourceSnapshot<Section, Show>()
         var sections = [Section]()
       
-        
         for (month, shows) in dict
         {
-            guard let shows = dict[month] else {return}
-            let monthFormatted = Date.shared.formatDate(dateString: month, currentFormat: "M", format: "MMM")
-            guard let monthInt = Int(month) else {return}
+            print("dict: month: ", month)
+            print("dict: shows: ", shows)
+            //guard let shows = dict[month] else {return}
+            //let monthFormatted = Date.shared.formatDate(dateString: month, currentFormat: "M", format: "MMM")
             
-            sections.append(Section.init(rawValue: monthInt)!)
-           
-            snapshot.appendItems(shows, toSection: Section.init(rawValue: monthInt))
+            guard let monthInt = Int(month) else {return}
+            print("monthInt: ", monthInt-1)
+            
+            sections.append(Section.init(rawValue: monthInt-1)!)
+            print("Section: ",Section.init(rawValue: monthInt-1)! )
+            print("sections arr: ", sections)
+            
+            let sec = Section.init(rawValue: monthInt-1)
+            
+            snapshot.appendItems(shows, toSection: sec)
             
         }
+    
+        print("sections arr: ", sections)
         snapshot.appendSections(sections)
         dataSource.apply(snapshot)
     }
 }
+
 
 private extension FavouritesViewController
 {
@@ -368,7 +382,7 @@ private extension FavouritesViewController{
 private extension FavouritesViewController {
     func makeCollectionView() -> UICollectionView {
         UICollectionView(
-            frame: .zero,
+            frame: CGRect(x:0,y:90,width:self.view.frame.width,height:self.view.frame.height),
             collectionViewLayout: makeCollectionViewLayout()
         )
     }
