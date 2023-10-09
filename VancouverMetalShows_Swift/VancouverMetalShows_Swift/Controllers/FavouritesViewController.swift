@@ -19,8 +19,8 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     static let cellWidth = 156.0
     static let cellHeight = 201.0
     
-    static let groupWidth = UIScreen.main.bounds.width-20
-    static let groupHeight = cellHeight + 30
+    static let groupWidth = UIScreen.main.bounds.width-50
+    static let groupHeight = cellHeight + 5
     
     private lazy var dataSource = initDataSource()
 
@@ -98,6 +98,18 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
 //
 //
 //    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        print("header()")
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "groupHeader", for: indexPath)
+        
+        let headerData = Date.shared.formatDate(dateString: String(indexPath.section+1), currentFormat: "M", format: "MMM")
+        let monthLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
+        monthLabel.text = headerData
+        monthLabel.textColor = .white
+        header.addSubview(monthLabel)
+        return header
+    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
@@ -253,22 +265,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
 
 }
 
-//
-//extension FavouritesViewController: UICollectionViewDataSource
-//{
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        <#code#>
-//    }
-    
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//            let annotationType = AnnotationType.allCases[section]
-//            let label = UILabel()
-//            label.text = annotationType.rawValue
-//            return label
-//        }
 
-//
-//}
 
 private extension FavouritesViewController
 {
@@ -287,30 +284,12 @@ private extension FavouritesViewController
     {
         print("showsListDidLoad()")
         var snapshot = NSDiffableDataSourceSnapshot<Section, Show>()
-        var sections = [Section]()
-      
-        for (month, shows) in dict
-        {
-            print("dict: month: ", month)
-            print("dict: shows: ", shows)
-            //guard let shows = dict[month] else {return}
-            //let monthFormatted = Date.shared.formatDate(dateString: month, currentFormat: "M", format: "MMM")
-            
-            guard let monthInt = Int(month) else {return}
-            print("monthInt: ", monthInt-1)
-            
-            sections.append(Section.init(rawValue: monthInt-1)!)
-            print("Section: ",Section.init(rawValue: monthInt-1)! )
-            print("sections arr: ", sections)
-            
-            let sec = Section.init(rawValue: monthInt-1)
-            
-            snapshot.appendItems(shows, toSection: sec)
-            
+        
+        Section.allCases.forEach { snapshot.appendSections([$0]) }
+        dict.forEach { (key: String, value: [Show]) in
+            snapshot.appendItems(value, toSection: Section.init(rawValue: (Int(key) ?? 0)-1 ?? 0))
         }
-    
-        print("sections arr: ", sections)
-        snapshot.appendSections(sections)
+      
         dataSource.apply(snapshot)
     }
 }
