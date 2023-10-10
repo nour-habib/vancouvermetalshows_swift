@@ -34,6 +34,7 @@
 		14669B7C2AC65118005F2894 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B7B2AC65118005F2894 /* Date.swift */; };
 		14669B802ACC9F51005F2894 /* FavShowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B7F2ACC9F51005F2894 /* FavShowCollectionViewCell.swift */; };
 		14669B862ACF764F005F2894 /* Months.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B852ACF764E005F2894 /* Months.swift */; };
+		14669B882AD5E437005F2894 /* SectionHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B872AD5E437005F2894 /* SectionHeaderReusableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		14669B7B2AC65118005F2894 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		14669B7F2ACC9F51005F2894 /* FavShowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavShowCollectionViewCell.swift; sourceTree = "<group>"; };
 		14669B852ACF764E005F2894 /* Months.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Months.swift; sourceTree = "<group>"; };
+		14669B872AD5E437005F2894 /* SectionHeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderReusableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +197,7 @@
 			children = (
 				14669B5F2AB912AC005F2894 /* ShowView.swift */,
 				14669B7F2ACC9F51005F2894 /* FavShowCollectionViewCell.swift */,
+				14669B872AD5E437005F2894 /* SectionHeaderReusableView.swift */,
 				14669B5D2AB9043A005F2894 /* ShowTableViewCell.swift */,
 				14669B5B2AB90120005F2894 /* ShowsTableView.swift */,
 				14669B6B2ABBD344005F2894 /* DetailView.swift */,
@@ -363,6 +366,7 @@
 				14669B682ABB8976005F2894 /* ContainerViewController.swift in Sources */,
 				14669B7C2AC65118005F2894 /* Date.swift in Sources */,
 				14669B662ABB7614005F2894 /* FavouritesViewController.swift in Sources */,
+				14669B882AD5E437005F2894 /* SectionHeaderReusableView.swift in Sources */,
 				14669B792ABE7B74005F2894 /* ShowItem+CoreDataClass.swift in Sources */,
 				14669B1D2AB79096005F2894 /* AppDelegate.swift in Sources */,
 				14669B272AB79096005F2894 /* VancouverMetalShows_Swift.xcdatamodeld in Sources */,

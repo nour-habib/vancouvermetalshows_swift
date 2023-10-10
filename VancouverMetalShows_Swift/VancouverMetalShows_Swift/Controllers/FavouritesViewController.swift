@@ -49,6 +49,15 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         configureCollectionView()
         
         showsListDidLoad(showsDict ?? [String:[Show]]())
+        configureSectionHeader()
+        
+        let ids = dataSource.snapshot().sectionIdentifiers
+        print("snapshot section ids: ", ids)
+        print("ids count: ", ids.count)
+        
+        let sec  = Section.init(rawValue: 1)
+        
+        print("Section test: \(sec as Any)")
         
     }
     
@@ -63,6 +72,8 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         collectionView.isUserInteractionEnabled = true
         collectionView.alwaysBounceVertical = true
         //collectionView.contentInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        //collectionView.register(SectionHeaderReusableView.self, forSupplementaryViewOfKind: <#T##String#>, withReuseIdentifier: "title")
+       
         
         collectionView.reloadData()
         
@@ -287,6 +298,7 @@ extension FavouritesViewController: UICollectionViewDataSource
     {
         print("viewForSupplementary()")
         print("header()")
+        
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "groupHeader", for: indexPath)
 
         let headerData = Date.shared.formatDate(dateString: String(indexPath.section+1), currentFormat: "M", format: "MMM")
@@ -302,6 +314,8 @@ extension FavouritesViewController: UICollectionViewDataSource
     {
         print("didSelectItemAt()")
         print("User tapped on item \(indexPath.row)")
+        print("section: ", indexPath.section)
+        print(dataSource.snapshot().numberOfItems(inSection: FavouritesViewController.Section(rawValue: indexPath.section)!))
         //guard let show = dataSource.itemIdentifier(for: indexPath) else {return}
         //initLongPressGesture()
     }
@@ -314,7 +328,7 @@ private extension FavouritesViewController
     func initDataSource() -> UICollectionViewDiffableDataSource<Section, Show>
     {
         UICollectionViewDiffableDataSource(
-            collectionView: collectionView ?? UICollectionView(),
+            collectionView: collectionView ,
                     cellProvider: makeCellRegistration().cellProvider
                 )
     }
@@ -329,7 +343,7 @@ private extension FavouritesViewController
         
         Section.allCases.forEach { snapshot.appendSections([$0]) }
         dict.forEach { (key: String, value: [Show]) in
-            snapshot.appendItems(value, toSection: Section.init(rawValue: (Int(key) ?? 0)-1 ?? 0))
+            snapshot.appendItems(value, toSection: Section.init(rawValue: (Int(key) ?? 0) ))
         }
       
         dataSource.apply(snapshot)
@@ -346,13 +360,13 @@ private extension FavouritesViewController
     {
         CellRegistration { cell, indexPath, show in
             cell.showView?.artistLabel?.text = show.artist
-            let formattedDate = Date.shared.formatDate(dateString: show.date ?? "000", currentFormat: "yyy-MM-dd", format: "EEE, MMM d, yyyy")
+            let formattedDate = Date.shared.formatDate(dateString: show.date , currentFormat: "yyy-MM-dd", format: "EEE, MMM d, yyyy")
             cell.showView?.dateLabel?.text = formattedDate
             
             cell.showView?.ticketsLabel?.text = show.tickets
             cell.showView?.venueLabel?.text = show.venue
             cell.showView?.suppArtistLabel?.text = show.supporting_artists
-            cell.showView?.imageView?.image = UIImage(named: show.image ?? "")
+            cell.showView?.imageView?.image = UIImage(named: show.image )
     
         }
     }
@@ -419,17 +433,23 @@ private extension FavouritesViewController
 {
     func configureSectionHeader()
     {
+        print("confiigureSecHeader()")
         dataSource.supplementaryViewProvider = {(
             collectionView: UICollectionView,
             kind: String,
             indexPath: IndexPath) -> UICollectionReusableView in
             
-            let header: TitleView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "title", for: indexPath)
+            let header: SectionHeaderReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "title",for: indexPath) as! SectionHeaderReusableView
             
-            if let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
-            {
-                header.label.text = Section.init(rawValue: section.rawValue)
-            }
+            let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
+            
+            header.headerTitle?.text = "\(section)"
+            print("titleLabel: ")
+            print("\(section)")
+            
+            assert(false, "invalid element type")
+            return header
+            
             
         }
     }
@@ -446,20 +466,22 @@ private extension FavouritesViewController
             return [.Jan,.Feb,.Mar,.Apr, .Jun, .Jul, .Aug, .Sep, .Oct, .Nov, .Dec]
         }
         
-        case Jan
-        case Feb
-        case Mar
-        case Apr
-        case May
-        case Jun
-        case Jul
-        case Aug
-        case Sep
-        case Oct
-        case Nov
-        case Dec
+        case Jan = 1
+        case Feb = 2
+        case Mar = 3
+        case Apr = 4
+        case May = 5
+        case Jun = 6
+        case Jul = 7
+        case Aug = 8
+        case Sep = 9
+        case Oct = 10
+        case Nov = 11
+        case Dec = 12
         
         @available(*, unavailable)
            case all
     }
+    
+    
 }
