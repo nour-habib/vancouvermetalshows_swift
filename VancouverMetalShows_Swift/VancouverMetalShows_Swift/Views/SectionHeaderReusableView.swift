@@ -11,6 +11,8 @@ class SectionHeaderReusableView: UICollectionReusableView
 {
     var headerTitle: UILabel?
     
+    static var reuseIdentifier = "secView"
+    
     override init(frame: CGRect)
     {
         super.init(frame: frame)

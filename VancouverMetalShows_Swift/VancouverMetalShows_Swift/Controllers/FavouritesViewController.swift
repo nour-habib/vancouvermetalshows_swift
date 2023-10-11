@@ -55,10 +55,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         print("snapshot section ids: ", ids)
         print("ids count: ", ids.count)
         
-        let sec  = Section.init(rawValue: 1)
-        
-        print("Section test: \(sec as Any)")
-        
     }
     
     private func configureCollectionView()
@@ -72,8 +68,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         collectionView.isUserInteractionEnabled = true
         collectionView.alwaysBounceVertical = true
         //collectionView.contentInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        //collectionView.register(SectionHeaderReusableView.self, forSupplementaryViewOfKind: <#T##String#>, withReuseIdentifier: "title")
-       
+        collectionView.register(SectionHeaderReusableView.self, forSupplementaryViewOfKind: "sectionHeader", withReuseIdentifier: SectionHeaderReusableView.reuseIdentifier)
         
         collectionView.reloadData()
         
@@ -344,6 +339,7 @@ private extension FavouritesViewController
         Section.allCases.forEach { snapshot.appendSections([$0]) }
         dict.forEach { (key: String, value: [Show]) in
             snapshot.appendItems(value, toSection: Section.init(rawValue: (Int(key) ?? 0) ))
+            
         }
       
         dataSource.apply(snapshot)
@@ -404,6 +400,12 @@ private extension FavouritesViewController {
         section.interGroupSpacing = 1
         section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         
+        let headerSize = NSCollectionLayoutSize(widthDimension: .absolute(200), heightDimension: .absolute(50))
+        
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        section.boundarySupplementaryItems = [sectionHeader]
+        sectionHeader.zIndex = 5
+        
         return section
     }
 }
@@ -439,16 +441,27 @@ private extension FavouritesViewController
             kind: String,
             indexPath: IndexPath) -> UICollectionReusableView in
             
-            let header: SectionHeaderReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "title",for: indexPath) as! SectionHeaderReusableView
-            
-            let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
-            
-            header.headerTitle?.text = "\(section)"
-            print("titleLabel: ")
-            print("\(section)")
-            
-            assert(false, "invalid element type")
-            return header
+            if(kind == "sectionHeader")
+            {
+                let header: SectionHeaderReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderReusableView.reuseIdentifier,for: indexPath) as! SectionHeaderReusableView
+                
+                let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
+                
+                header.headerTitle?.text = "\(section)"
+                
+                print("titleLabel: ")
+                print("\(section)")
+                
+                
+                assert(false, "invalid element type")
+                return header
+                
+            }
+            else
+            {
+                return UICollectionReusableView()
+            }
+           
             
             
         }
@@ -459,7 +472,7 @@ private extension FavouritesViewController
 
 private extension FavouritesViewController
 {
-    enum Section: Int, CaseIterable
+    enum Section: Int, CaseIterable, Decodable
     {
         static var allCases: [FavouritesViewController.Section]
         {
