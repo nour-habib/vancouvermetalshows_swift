@@ -275,19 +275,34 @@ private extension FavouritesViewController
 //        }
       
         //dataSource.apply(snapshot)
+        var snapshot = NSDiffableDataSourceSnapshot<MonthSection, Show>()
+        
+        var sectionArray = [MonthSection]()
         dict.forEach { (key: String, value: [Show]) in
-            applySnapshot(value, month: key)
-
+            let section = MonthSection(month: key, shows: value)
+            sectionArray.append(section)
         }
+        
+        sectionArray.forEach { MonthSection
+            in
+            snapshot.appendSections([MonthSection])
+//            dataSource.apply(snapshot, animatingDifferences: false)
+            snapshot.appendItems(MonthSection.shows, toSection: MonthSection)
+//            dataSource.apply(snapshot, animatingDifferences: false)
+            
+        }
+        dataSource.apply(snapshot, animatingDifferences: false)
+        
         
     }
 }
 
 private extension FavouritesViewController
 {
-    func applySnapshot(_ shows: [Show], month: String)
+    func applySnapshot(_ shows: [Show], month: String, snapshot: NSDiffableDataSourceSnapshot<MonthSection, Show> )
     {
-        var snapshot = NSDiffableDataSourceSnapshot<MonthSection, Show>()
+        var snapshot = snapshot
+        //var snapshot = NSDiffableDataSourceSnapshot<MonthSection, Show>()
         let section = MonthSection(month: month, shows: shows)
         snapshot.appendSections([section])
         dataSource.apply(snapshot, animatingDifferences: false)
