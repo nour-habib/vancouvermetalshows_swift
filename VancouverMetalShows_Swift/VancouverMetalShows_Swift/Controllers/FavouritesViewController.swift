@@ -266,8 +266,8 @@ private extension FavouritesViewController
     func showsListDidLoad(_ dict: [String: [Show]] )
     {
         print("showsListDidLoad()")
-      //  var snapshot = NSDiffableDataSourceSnapshot<MonthSection, Show>()
-//
+        //var snapshot = NSDiffableDataSourceSnapshot<MonthSection, Show>()
+
 //        Section.allCases.forEach { snapshot.appendSections([$0]) }
 //        dict.forEach { (key: String, value: [Show]) in
 //            snapshot.appendItems(value, toSection: Section.init(rawValue: (Int(key) ?? 0) ))
@@ -277,7 +277,7 @@ private extension FavouritesViewController
         //dataSource.apply(snapshot)
         dict.forEach { (key: String, value: [Show]) in
             applySnapshot(value, month: key)
-        
+
         }
         
     }
@@ -290,8 +290,9 @@ private extension FavouritesViewController
         var snapshot = NSDiffableDataSourceSnapshot<MonthSection, Show>()
         let section = MonthSection(month: month, shows: shows)
         snapshot.appendSections([section])
+        dataSource.apply(snapshot, animatingDifferences: false)
         snapshot.appendItems(shows, toSection: section)
-        dataSource.apply(snapshot, animatingDifferences: true)
+        dataSource.apply(snapshot, animatingDifferences: false)
         
     }
 }
@@ -398,7 +399,7 @@ private extension FavouritesViewController
             let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
             
            // header.headerTitle?.text = "\(section)"
-            header.headerTitle?.text = "test header"
+            header.headerTitle?.text = section.month
             
             
             print("titleLabel: ")
