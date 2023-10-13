@@ -38,15 +38,9 @@ struct Show: Codable, Hashable
     
     init(){}
     
-//    func sortObjectsByDate(shows: [Show]) -> [Show]
-//    {
-//        for show in shows
-//        {
-//            let dateFormatter = DateFormatter()
-//            let date = dateFormatter.date(from: show.date)
-//             
-//            
-//        }
-//    }
+    public static func == (lhs: Show, rhs: Show) -> Bool
+    {
+           lhs.id == rhs.id // Error
+    }
 
 }

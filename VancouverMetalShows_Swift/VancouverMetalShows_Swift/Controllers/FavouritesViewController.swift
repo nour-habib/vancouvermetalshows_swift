@@ -68,7 +68,8 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         collectionView.isUserInteractionEnabled = true
         collectionView.alwaysBounceVertical = true
         //collectionView.contentInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        collectionView.register(SectionHeaderReusableView.self, forSupplementaryViewOfKind: "sectionHeader", withReuseIdentifier: SectionHeaderReusableView.reuseIdentifier)
+        collectionView.register(SectionHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderReusableView.reuseIdentifier)
+        
         
         collectionView.reloadData()
         
@@ -79,61 +80,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
 
     
     //MARK: CollectionView Methods
-    
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
-//    {
-//        print("numberofItemsInSection()")
-//        print("num items: ", dataSource.numberOfSections(in: collectionView))
-//        return dataSource.numberOfSections(in: collectionView)
-        
-//        let intIndex = section
-//        guard let startIndex = showsDict?.startIndex else {return 0}
-//        guard let index = showsDict?.index(startIndex, offsetBy: intIndex) else {return 0}
-//        guard let key = showsDict?.keys[index] else { return 0 }
-//        let arr = showsDict?[key]
-//        print(showsDict?.keys[index])
-//
-//
-//        print("number of items in section: ", arr?.count)
-//
-//        return arr?.count ?? 0
-  //  }
-    
-    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
-//    {
-//        return dataSource.collectionView(collectionView, cellForItemAt: indexPath)
-//
-//
-//
-//    }
-    
-//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//        print("header()")
-//        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "groupHeader", for: indexPath)
-//
-//        let headerData = Date.shared.formatDate(dateString: String(indexPath.section+1), currentFormat: "M", format: "MMM")
-//        let monthLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
-//        monthLabel.text = headerData
-//        monthLabel.textColor = .white
-//        header.addSubview(monthLabel)
-//        return header
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
-//    {
-//        print("didSelectItemAt()")
-//        print("User tapped on item \(indexPath.row)")
-//        guard let show = dataSource.itemIdentifier(for: indexPath) else {return}
-//        //initLongPressGesture()
-//    }
-//
-//    func numberOfSections(in collectionView: UICollectionView) -> Int
-//    {
-//        print("numOFSectiions")
-//        return dataSource.numberOfSections(in: collectionView)
-////        return showsDict?.count ?? 0
-//    }
     
     //MARK: Long Press Gesture to Delete Item
     private func initLongPressGesture()
@@ -289,28 +235,14 @@ extension FavouritesViewController: UICollectionViewDataSource
         return dataSource.collectionView(collectionView, cellForItemAt: indexPath)
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView
-    {
-        print("viewForSupplementary()")
-        print("header()")
-        
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "groupHeader", for: indexPath)
-
-        let headerData = Date.shared.formatDate(dateString: String(indexPath.section+1), currentFormat: "M", format: "MMM")
-        let monthLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
-        monthLabel.text = headerData
-        monthLabel.textColor = .white
-        header.addSubview(monthLabel)
-        return header
-    }
-  
+   
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
         print("didSelectItemAt()")
         print("User tapped on item \(indexPath.row)")
         print("section: ", indexPath.section)
-        print(dataSource.snapshot().numberOfItems(inSection: FavouritesViewController.Section(rawValue: indexPath.section)!))
+//        print(dataSource.snapshot().numberOfItems(inSection: FavouritesViewController.Section(rawValue: indexPath.section)!))
         //guard let show = dataSource.itemIdentifier(for: indexPath) else {return}
         //initLongPressGesture()
     }
@@ -320,7 +252,7 @@ extension FavouritesViewController: UICollectionViewDataSource
 
 private extension FavouritesViewController
 {
-    func initDataSource() -> UICollectionViewDiffableDataSource<Section, Show>
+    func initDataSource() -> UICollectionViewDiffableDataSource<MonthSection, Show>
     {
         UICollectionViewDiffableDataSource(
             collectionView: collectionView ,
@@ -334,15 +266,33 @@ private extension FavouritesViewController
     func showsListDidLoad(_ dict: [String: [Show]] )
     {
         print("showsListDidLoad()")
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Show>()
-        
-        Section.allCases.forEach { snapshot.appendSections([$0]) }
-        dict.forEach { (key: String, value: [Show]) in
-            snapshot.appendItems(value, toSection: Section.init(rawValue: (Int(key) ?? 0) ))
-            
-        }
+      //  var snapshot = NSDiffableDataSourceSnapshot<MonthSection, Show>()
+//
+//        Section.allCases.forEach { snapshot.appendSections([$0]) }
+//        dict.forEach { (key: String, value: [Show]) in
+//            snapshot.appendItems(value, toSection: Section.init(rawValue: (Int(key) ?? 0) ))
+//
+//        }
       
-        dataSource.apply(snapshot)
+        //dataSource.apply(snapshot)
+        dict.forEach { (key: String, value: [Show]) in
+            applySnapshot(value, month: key)
+        
+        }
+        
+    }
+}
+
+private extension FavouritesViewController
+{
+    func applySnapshot(_ shows: [Show], month: String)
+    {
+        var snapshot = NSDiffableDataSourceSnapshot<MonthSection, Show>()
+        let section = MonthSection(month: month, shows: shows)
+        snapshot.appendSections([section])
+        snapshot.appendItems(shows, toSection: section)
+        dataSource.apply(snapshot, animatingDifferences: true)
+        
     }
 }
 
@@ -411,7 +361,8 @@ private extension FavouritesViewController {
 }
 
 private extension FavouritesViewController{
-    func makeCollectionViewLayout() -> UICollectionViewLayout {
+    func makeCollectionViewLayout() -> UICollectionViewLayout
+    {
         UICollectionViewCompositionalLayout {
             [weak self] sectionIndex, _ in
             
@@ -441,26 +392,21 @@ private extension FavouritesViewController
             kind: String,
             indexPath: IndexPath) -> UICollectionReusableView in
             
-            if(kind == "sectionHeader")
-            {
-                let header: SectionHeaderReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderReusableView.reuseIdentifier,for: indexPath) as! SectionHeaderReusableView
-                
-                let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
-                
-                header.headerTitle?.text = "\(section)"
-                
-                print("titleLabel: ")
-                print("\(section)")
-                
-                
-                assert(false, "invalid element type")
-                return header
-                
-            }
-            else
-            {
-                return UICollectionReusableView()
-            }
+            
+            let header: SectionHeaderReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderReusableView.reuseIdentifier,for: indexPath) as! SectionHeaderReusableView
+            
+            let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
+            
+           // header.headerTitle?.text = "\(section)"
+            header.headerTitle?.text = "test header"
+            
+            
+            print("titleLabel: ")
+            print("\(section)")
+            
+            
+            //assert(false, "invalid element type")
+            return header
            
             
             
@@ -472,7 +418,7 @@ private extension FavouritesViewController
 
 private extension FavouritesViewController
 {
-    enum Section: Int, CaseIterable, Decodable
+    enum Section: Int, CaseIterable,Hashable
     {
         static var allCases: [FavouritesViewController.Section]
         {
@@ -496,5 +442,10 @@ private extension FavouritesViewController
            case all
     }
     
+    struct MonthSection: Hashable
+    {
+       var month: String
+       var shows: [Show]
+    }
     
 }
