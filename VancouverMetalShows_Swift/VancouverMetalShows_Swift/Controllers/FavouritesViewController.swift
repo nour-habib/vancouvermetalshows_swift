@@ -286,9 +286,7 @@ private extension FavouritesViewController
         sectionArray.forEach { MonthSection
             in
             snapshot.appendSections([MonthSection])
-//            dataSource.apply(snapshot, animatingDifferences: false)
             snapshot.appendItems(MonthSection.shows, toSection: MonthSection)
-//            dataSource.apply(snapshot, animatingDifferences: false)
             
         }
         dataSource.apply(snapshot, animatingDifferences: false)
@@ -350,27 +348,30 @@ extension UICollectionView.CellRegistration {
 private extension FavouritesViewController {
     func makeLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
-            widthDimension: .absolute(FavouritesViewController.cellWidth),
-            heightDimension: .absolute(FavouritesViewController.cellHeight)
+            widthDimension: .estimated(1/2),
+            heightDimension: .fractionalHeight(1.0)
         ))
+        
 
         let group = NSCollectionLayoutGroup.horizontal(layoutSize:  NSCollectionLayoutSize(
                             widthDimension: .fractionalWidth(1.0),
-                            heightDimension: .fractionalHeight(0.05)
-                        ), subitems: [item])
+                            heightDimension: .absolute(FavouritesViewController.cellHeight)
+        ), subitems: [item]
+        )
         
-        group.interItemSpacing = .flexible(4)
+        
+       // group.interItemSpacing = .flexible(4)
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
-        section.interGroupSpacing = 1
-        section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+       // section.interGroupSpacing = 1
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         
-        let headerSize = NSCollectionLayoutSize(widthDimension: .absolute(200), heightDimension: .absolute(50))
+        let headerSize = NSCollectionLayoutSize(widthDimension: .absolute(100), heightDimension: .absolute(25))
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         section.boundarySupplementaryItems = [sectionHeader]
-        sectionHeader.zIndex = 5
+       // sectionHeader.zIndex = 5
         
         return section
     }
