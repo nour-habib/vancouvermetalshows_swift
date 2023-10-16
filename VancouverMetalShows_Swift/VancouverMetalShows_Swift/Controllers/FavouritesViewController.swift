@@ -9,7 +9,7 @@ import UIKit
 
 class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGestureRecognizerDelegate
 {
-    
+    private lazy var dataSource = initDataSource()
     private lazy var collectionView = makeCollectionView()
     private var showsArray: [ShowItem]?
     private var favShowsArray: [Show]?
@@ -22,7 +22,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     static let groupWidth = UIScreen.main.bounds.width-50
     static let groupHeight = cellHeight + 5
     
-    private lazy var dataSource = initDataSource()
+    //private lazy var dataSource = initDataSource()
 
     override func viewDidLoad()
     {
@@ -349,21 +349,26 @@ private extension FavouritesViewController {
     func makeLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
             widthDimension: .estimated(1/2),
-            heightDimension: .fractionalHeight(1.0)
+            heightDimension: .estimated(1/2)
         ))
         
+        item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(2), top: .fixed(2), trailing: .fixed(2), bottom: .fixed(2))
+        
+        //let numOfSecs = dataSource.numberOfSections(in: collectionView)
 
         let group = NSCollectionLayoutGroup.horizontal(layoutSize:  NSCollectionLayoutSize(
                             widthDimension: .fractionalWidth(1.0),
-                            heightDimension: .absolute(FavouritesViewController.cellHeight)
+                            heightDimension: .fractionalHeight(0.55)
         ), subitems: [item]
         )
         
         
        // group.interItemSpacing = .flexible(4)
         
+        
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
+        
        // section.interGroupSpacing = 1
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         
