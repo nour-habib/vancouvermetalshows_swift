@@ -16,10 +16,10 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     private var showView: ShowView?
     private var showsDict: [String: [Show]]?
     
-    static let cellWidth = 156.0
+    static let cellWidth = 130.0
     static let cellHeight = 195.0
     
-    static let groupWidth = UIScreen.main.bounds.width-50
+    static let groupWidth = UIScreen.main.bounds.width
     static let groupHeight = cellHeight + 20
     
     //private lazy var dataSource = initDataSource()
@@ -65,9 +65,9 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         collectionView.dataSource = dataSource
         collectionView.largeContentTitle = "Favs"
         collectionView.isScrollEnabled = true
-        collectionView.isUserInteractionEnabled = true
+        //collectionView.isUserInteractionEnabled = true
         collectionView.alwaysBounceVertical = true
-        //collectionView.contentInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        //collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         collectionView.register(SectionHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderReusableView.reuseIdentifier)
         
         
@@ -242,6 +242,7 @@ extension FavouritesViewController: UICollectionViewDataSource
         print("didSelectItemAt()")
         print("User tapped on item \(indexPath.row)")
         print("section: ", indexPath.section)
+        print("cell frame: ", collectionView.cellForItem(at: indexPath)?.layer.frame)
 //        print(dataSource.snapshot().numberOfItems(inSection: FavouritesViewController.Section(rawValue: indexPath.section)!))
         //guard let show = dataSource.itemIdentifier(for: indexPath) else {return}
         //initLongPressGesture()
@@ -348,11 +349,11 @@ extension UICollectionView.CellRegistration {
 private extension FavouritesViewController {
     func makeLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1/3),
+            widthDimension: .estimated(FavouritesViewController.cellWidth),
             heightDimension: .absolute(FavouritesViewController.cellHeight)
         ))
         
-        //item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(2), top: .fixed(2), trailing: .fixed(2), bottom: .fixed(2))
+        item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(0), top: .fixed(0), trailing: .fixed(0), bottom: .fixed(0))
       
         let group = NSCollectionLayoutGroup.horizontal(layoutSize:  NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -360,16 +361,12 @@ private extension FavouritesViewController {
         ), subitems: [item]
         )
         
-        
-        
-       // group.interItemSpacing = .flexible(4)
-        
-        
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
+        section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+        
         
        // section.interGroupSpacing = 1
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+       // section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         
         let headerSize = NSCollectionLayoutSize(widthDimension: .absolute(100), heightDimension: .absolute(25))
         
@@ -423,9 +420,9 @@ private extension FavouritesViewController
             let month = Date.shared.formatDate(dateString: section.month, currentFormat: "M", format: "MMM")
             header.headerTitle?.text = month
             
-            
-            print("titleLabel: ")
-            print("\(section)")
+//
+//            print("titleLabel: ")
+//            print("\(section)")
             
             
             //assert(false, "invalid element type")

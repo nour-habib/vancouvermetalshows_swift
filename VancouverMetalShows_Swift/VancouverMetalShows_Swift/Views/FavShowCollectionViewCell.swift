@@ -35,8 +35,8 @@ class FavShowCollectionViewCell: UICollectionViewCell
         showView?.suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
         
         showView?.layer.borderColor = UIColor.lightGray.cgColor
-        showView?.layer.borderWidth = 0.8
-        showView?.backgroundColor = .clear
+        showView?.layer.borderWidth = 0.9
+        showView?.backgroundColor = .yellow
         
         showView?.dateLabel?.frame = CGRect(x: 0, y: 0, width: frame.width, height: 20)
         showView?.artistLabel?.frame = CGRect(x: 10, y: 65, width:100, height: 50)
