@@ -3,7 +3,7 @@
     {
       "id": "1",
       "artist": "Opeth",
-      "date": "2024-02-15",
+      "date": "2024-09-15",
       "venue": "Orpheum",
       "supporting_artists": "Katatonia",
       "tickets": "$50",
@@ -13,7 +13,7 @@
     {
       "id": "2",
       "artist": "Amorphis",
-      "date": "2024-10-01",
+      "date": "2024-09-01",
       "venue": "Venue Nightclub",
       "supporting_artists": "",
       "tickets": "$40",
@@ -44,7 +44,7 @@
     {
       "id": "5",
       "artist": "Kataklysm",
-      "date": "2024-08-21",
+      "date": "2024-09-21",
       "venue": "Rickshaw Theatre",
       "supporting_artists": "",
       "tickets": "$40",

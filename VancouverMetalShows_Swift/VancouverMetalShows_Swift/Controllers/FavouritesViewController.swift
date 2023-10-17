@@ -17,10 +17,10 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     private var showsDict: [String: [Show]]?
     
     static let cellWidth = 156.0
-    static let cellHeight = 201.0
+    static let cellHeight = 195.0
     
     static let groupWidth = UIScreen.main.bounds.width-50
-    static let groupHeight = cellHeight + 5
+    static let groupHeight = cellHeight + 20
     
     //private lazy var dataSource = initDataSource()
 
@@ -348,19 +348,18 @@ extension UICollectionView.CellRegistration {
 private extension FavouritesViewController {
     func makeLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
-            widthDimension: .estimated(1/2),
-            heightDimension: .estimated(1/2)
+            widthDimension: .fractionalWidth(1/3),
+            heightDimension: .absolute(FavouritesViewController.cellHeight)
         ))
         
-        item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(2), top: .fixed(2), trailing: .fixed(2), bottom: .fixed(2))
-        
-        //let numOfSecs = dataSource.numberOfSections(in: collectionView)
-
+        //item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(2), top: .fixed(2), trailing: .fixed(2), bottom: .fixed(2))
+      
         let group = NSCollectionLayoutGroup.horizontal(layoutSize:  NSCollectionLayoutSize(
-                            widthDimension: .fractionalWidth(1.0),
-                            heightDimension: .fractionalHeight(0.55)
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(FavouritesViewController.groupHeight)
         ), subitems: [item]
         )
+        
         
         
        // group.interItemSpacing = .flexible(4)
@@ -408,6 +407,7 @@ private extension FavouritesViewController
 {
     func configureSectionHeader()
     {
+    
         print("confiigureSecHeader()")
         dataSource.supplementaryViewProvider = {(
             collectionView: UICollectionView,
@@ -420,7 +420,8 @@ private extension FavouritesViewController
             let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
             
            // header.headerTitle?.text = "\(section)"
-            header.headerTitle?.text = section.month
+            let month = Date.shared.formatDate(dateString: section.month, currentFormat: "M", format: "MMM")
+            header.headerTitle?.text = month
             
             
             print("titleLabel: ")
@@ -437,33 +438,8 @@ private extension FavouritesViewController
     
 }
 
-
 private extension FavouritesViewController
 {
-    enum Section: Int, CaseIterable,Hashable
-    {
-        static var allCases: [FavouritesViewController.Section]
-        {
-            return [.Jan,.Feb,.Mar,.Apr, .Jun, .Jul, .Aug, .Sep, .Oct, .Nov, .Dec]
-        }
-        
-        case Jan = 1
-        case Feb = 2
-        case Mar = 3
-        case Apr = 4
-        case May = 5
-        case Jun = 6
-        case Jul = 7
-        case Aug = 8
-        case Sep = 9
-        case Oct = 10
-        case Nov = 11
-        case Dec = 12
-        
-        @available(*, unavailable)
-           case all
-    }
-    
     struct MonthSection: Hashable
     {
        var month: String

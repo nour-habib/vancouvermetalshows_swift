@@ -28,9 +28,8 @@ class SectionHeaderReusableView: UICollectionReusableView
     
     private func configureHeader()
     {
-        headerTitle?.textColor = .white
-        headerTitle?.font = UIFont(name: "CourierNewPSMT", size: 15)
-        backgroundColor = .blue
+        headerTitle?.textColor = CustomColor.ninjaGreen
+        headerTitle?.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
         
         addSubview(headerTitle ?? UILabel())
         
