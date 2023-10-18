@@ -17,7 +17,7 @@ class SectionHeaderReusableView: UICollectionReusableView
     {
         super.init(frame: frame)
         
-        self.headerTitle = UILabel(frame: CGRect(x: 50, y: 0, width: 200, height: 50))
+        self.headerTitle = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
         configureHeader()
         
     }
@@ -28,8 +28,9 @@ class SectionHeaderReusableView: UICollectionReusableView
     
     private func configureHeader()
     {
-        headerTitle?.textColor = CustomColor.ninjaGreen
+        headerTitle?.textColor = CustomColor.darkGrayNew
         headerTitle?.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
+        backgroundColor = CustomColor.ninjaGreen
         
         addSubview(headerTitle ?? UILabel())
         

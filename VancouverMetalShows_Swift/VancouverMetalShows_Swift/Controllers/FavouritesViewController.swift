@@ -70,12 +70,9 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         //collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         collectionView.register(SectionHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderReusableView.reuseIdentifier)
         
-        
         collectionView.reloadData()
         
-        view.addSubview(collectionView ?? UICollectionView())
-        
-    
+        view.addSubview(collectionView)
     }
 
     
@@ -239,7 +236,11 @@ extension FavouritesViewController: UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
+        
+        let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
+        
         print("didSelectItemAt()")
+        print("show: ", section.shows[indexPath.row])
         print("User tapped on item \(indexPath.row)")
         print("section: ", indexPath.section)
         print("cell frame: ", collectionView.cellForItem(at: indexPath)?.layer.frame)
@@ -348,31 +349,29 @@ extension UICollectionView.CellRegistration {
 
 private extension FavouritesViewController {
     func makeLayoutSection() -> NSCollectionLayoutSection {
+        
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
-            widthDimension: .estimated(FavouritesViewController.cellWidth),
-            heightDimension: .absolute(FavouritesViewController.cellHeight)
+            widthDimension: .fractionalWidth(1/3),
+            heightDimension: .fractionalHeight(1.0)
         ))
         
-        item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(0), top: .fixed(0), trailing: .fixed(0), bottom: .fixed(0))
+        //item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(0), top: .fixed(0), trailing: .fixed(0), bottom: .fixed(0))
       
         let group = NSCollectionLayoutGroup.horizontal(layoutSize:  NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(FavouritesViewController.groupHeight)
-        ), subitems: [item]
-        )
+            heightDimension: .fractionalHeight(1/3)
+        ), subitems: [item])
+        //group.interItemSpacing = .fixed(itemSpacing)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-        
-        
+        //section.orthogonalScrollingBehavior = .continuous
        // section.interGroupSpacing = 1
-       // section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        //section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: insets, bottom: 0, trailing: insets)
         
-        let headerSize = NSCollectionLayoutSize(widthDimension: .absolute(100), heightDimension: .absolute(25))
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(33))
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         section.boundarySupplementaryItems = [sectionHeader]
-       // sectionHeader.zIndex = 5
         
         return section
     }
