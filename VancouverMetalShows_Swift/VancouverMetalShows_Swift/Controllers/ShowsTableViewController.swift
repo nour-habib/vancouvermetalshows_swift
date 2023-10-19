@@ -22,6 +22,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     
     private var overlayView: UIView?
     private var show: Show?
+    let defaults = UserDefaults.standard
 
     override func viewDidLoad()
     {
@@ -30,11 +31,23 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         self.title = "Shows"
         self.view.backgroundColor = .white
         
-        let showsDataArray = getShowsData()
-        for show in showsDataArray
+        if(defaults.bool(forKey: "InitialLaunch") == true)
         {
-            print(show.artist)
+            //Second+ launch: load from CoreData
+            defaults.set(true, forKey: "InitialLaunch")
         }
+        else
+        {
+            //First launch: load from json
+            getShowsData()
+            defaults.set(true, forKey: "InitialLaunch")
+        }
+        
+       // let showsDataArray = getShowsData()
+//        for show in showsDataArray
+//        {
+//            print(show.artist)
+//        }
        
         configureNavigation()
         configureTableView()
@@ -77,6 +90,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
                let data = try Data(contentsOf: fileURL)
                let showsJSON = try JSONDecoder().decode(ShowRoot.self, from: data)
                showsArray.append(contentsOf: showsJSON.shows)
+               //CoreData_.batchLoad(entityName: <#T##String#>, array: <#T##[Show]#>)(array: showsArray)
                return showsArray
            }
             
@@ -110,7 +124,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.showView?.artistLabel?.text = show.artist
         cell.showView?.venueLabel?.text = show.venue
         
-        let formattedDate = Date.shared.formatDate(dateString: show.date, currentFormat: "yyy-MM-dd", format: "EEEE, MMM d, yyyy")
+        let formattedDate = Date.shared.formatDate(dateString: show.date, currentFormat: "yyy-MM-dd", format: "MMM d, yyyy")
         //print("formattedDate: ", formattedDate)
         
         cell.showView?.dateLabel?.text = formattedDate.uppercased()

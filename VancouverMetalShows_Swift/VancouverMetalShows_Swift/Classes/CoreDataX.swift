@@ -132,4 +132,17 @@ class CoreDataX
         NSManagedObjectContext.mergeChanges(fromRemoteContextSave: deletedObjects, into: [context])
         
     }
+    
+    func batchLoad(entityName: String, array: [Show])
+    {
+        if(array.count == 0)
+        {
+            return
+        }
+        
+        for show in array
+        {
+            createItem(show: show)
+        }
+    }
 }

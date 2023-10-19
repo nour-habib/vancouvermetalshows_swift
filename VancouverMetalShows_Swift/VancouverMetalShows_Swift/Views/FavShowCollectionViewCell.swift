@@ -42,7 +42,7 @@ class FavShowCollectionViewCell: UICollectionViewCell
         showView?.artistLabel?.frame = CGRect(x: 10, y: 65, width:100, height: 50)
         showView?.venueLabel?.frame = CGRect(x: 10, y: 80, width:150, height: 50)
         showView?.suppArtistLabel?.frame = CGRect(x: 10, y: 100, width: 100, height: 50)
-        showView?.ticketsLabel?.frame = CGRect(x: 110, y: 8, width: 100, height: 50)
+        showView?.ticketsLabel?.frame = CGRect(x: 100, y: 8, width: 100, height: 50)
         showView?.imageView?.frame = CGRect(x: 35, y: 30, width: 80, height: 80)
         
         

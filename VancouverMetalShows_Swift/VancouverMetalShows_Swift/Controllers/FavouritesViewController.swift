@@ -21,8 +21,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     
     static let groupWidth = UIScreen.main.bounds.width
     static let groupHeight = cellHeight + 20
-    
-    //private lazy var dataSource = initDataSource()
 
     override func viewDidLoad()
     {
@@ -35,7 +33,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         
         getAllItems()
         self.favShowsArray = convertArray(array: showsArray ?? [])
-        print("favShowsArray size: ", favShowsArray?.count)
+        print("favShowsArray size: ", favShowsArray?.count as Any)
         
         guard let favShowsArray = favShowsArray else {
             return
@@ -106,6 +104,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         
         guard let indexPath = indexPath else {return}
         
+        //Replace with datasource snapshot update
         guard let show = self.favShowsArray?[indexPath.row] else {return}
         
         self.collectionView.deleteItems(at: [indexPath])
@@ -208,13 +207,8 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
                 dict.updateValue(arr, forKey: month)
             }
         }
-        
-        
-
-
         return dict
     }
-
 }
 
 extension FavouritesViewController: UICollectionViewDataSource
@@ -246,7 +240,7 @@ extension FavouritesViewController: UICollectionViewDataSource
         print("cell frame: ", collectionView.cellForItem(at: indexPath)?.layer.frame)
 //        print(dataSource.snapshot().numberOfItems(inSection: FavouritesViewController.Section(rawValue: indexPath.section)!))
         //guard let show = dataSource.itemIdentifier(for: indexPath) else {return}
-        //initLongPressGesture()
+        initLongPressGesture()
     }
     
 }
@@ -268,15 +262,7 @@ private extension FavouritesViewController
     func showsListDidLoad(_ dict: [String: [Show]] )
     {
         print("showsListDidLoad()")
-        //var snapshot = NSDiffableDataSourceSnapshot<MonthSection, Show>()
-
-//        Section.allCases.forEach { snapshot.appendSections([$0]) }
-//        dict.forEach { (key: String, value: [Show]) in
-//            snapshot.appendItems(value, toSection: Section.init(rawValue: (Int(key) ?? 0) ))
-//
-//        }
-      
-        //dataSource.apply(snapshot)
+        
         var snapshot = NSDiffableDataSourceSnapshot<MonthSection, Show>()
         
         var sectionArray = [MonthSection]()
@@ -299,22 +285,6 @@ private extension FavouritesViewController
 
 private extension FavouritesViewController
 {
-    func applySnapshot(_ shows: [Show], month: String, snapshot: NSDiffableDataSourceSnapshot<MonthSection, Show> )
-    {
-        var snapshot = snapshot
-        //var snapshot = NSDiffableDataSourceSnapshot<MonthSection, Show>()
-        let section = MonthSection(month: month, shows: shows)
-        snapshot.appendSections([section])
-        dataSource.apply(snapshot, animatingDifferences: false)
-        snapshot.appendItems(shows, toSection: section)
-        dataSource.apply(snapshot, animatingDifferences: false)
-        
-    }
-}
-
-
-private extension FavouritesViewController
-{
     typealias Cell = FavShowCollectionViewCell
     typealias CellRegistration = UICollectionView.CellRegistration<Cell, Show>
 
@@ -324,7 +294,6 @@ private extension FavouritesViewController
             cell.showView?.artistLabel?.text = show.artist
             let formattedDate = Date.shared.formatDate(dateString: show.date , currentFormat: "yyy-MM-dd", format: "EEE, MMM d, yyyy")
             cell.showView?.dateLabel?.text = formattedDate
-            
             cell.showView?.ticketsLabel?.text = show.tickets
             cell.showView?.venueLabel?.text = show.venue
             cell.showView?.suppArtistLabel?.text = show.supporting_artists
@@ -346,7 +315,6 @@ extension UICollectionView.CellRegistration {
     }
 }
 
-
 private extension FavouritesViewController {
     func makeLayoutSection() -> NSCollectionLayoutSection {
         
@@ -355,7 +323,7 @@ private extension FavouritesViewController {
             heightDimension: .fractionalHeight(1.0)
         ))
         
-        //item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(0), top: .fixed(0), trailing: .fixed(0), bottom: .fixed(0))
+        item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(0), top: .fixed(0), trailing: .fixed(0), bottom: .fixed(0))
       
         let group = NSCollectionLayoutGroup.horizontal(layoutSize:  NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -365,8 +333,8 @@ private extension FavouritesViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         //section.orthogonalScrollingBehavior = .continuous
-       // section.interGroupSpacing = 1
-        //section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: insets, bottom: 0, trailing: insets)
+        section.interGroupSpacing = 2
+        section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 2)
         
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(33))
         
@@ -412,23 +380,12 @@ private extension FavouritesViewController
             
             
             let header: SectionHeaderReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderReusableView.reuseIdentifier,for: indexPath) as! SectionHeaderReusableView
-            
+
             let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
-            
-           // header.headerTitle?.text = "\(section)"
             let month = Date.shared.formatDate(dateString: section.month, currentFormat: "M", format: "MMM")
             header.headerTitle?.text = month
-            
-//
-//            print("titleLabel: ")
-//            print("\(section)")
-            
-            
-            //assert(false, "invalid element type")
+
             return header
-           
-            
-            
         }
     }
     

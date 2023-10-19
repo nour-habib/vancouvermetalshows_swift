@@ -49,10 +49,10 @@ class DetailView: UIView
         let fontType = "HelveticaNeue-Bold"
         
         showView?.artistLabel?.text = "Artist: " + show!.artist
-        showView?.artistLabel?.frame = CGRect(x: 20, y:140, width:200, height:30)
+        showView?.artistLabel?.frame = CGRect(x: 20, y:145, width:200, height:30)
         showView?.artistLabel?.textColor = textColor
         
-        let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000",currentFormat: "yyy-MM-dd", format: "MMM dd,yyy")
+        let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000",currentFormat: "yyy-MM-dd", format: "MMM dd, yyy")
         
         showView?.dateLabel?.text = "Date: " + formattedDate
         showView?.dateLabel?.backgroundColor = .clear
@@ -66,17 +66,17 @@ class DetailView: UIView
             showView?.suppArtistLabel?.removeFromSuperview()
         }
         showView?.suppArtistLabel?.text = "With: " + show!.supporting_artists
-        showView?.suppArtistLabel?.frame = CGRect (x:20, y:210, width: 200, height: 30)
+        showView?.suppArtistLabel?.frame = CGRect (x:20, y:220, width: 200, height: 30)
         showView?.suppArtistLabel?.textColor = textColor
         showView?.suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
         showView?.suppArtistLabel?.numberOfLines = 2
         
         showView?.venueLabel?.text = "Venue: " + show!.venue
-        showView?.venueLabel?.frame = CGRect (x:20, y:165, width: self.frame.width, height: 30)
+        showView?.venueLabel?.frame = CGRect (x:20, y:170, width: self.frame.width, height: 30)
         showView?.venueLabel?.textColor = textColor
         
         showView?.ticketsLabel?.text = "Tickets: " + show!.tickets
-        showView?.ticketsLabel?.frame = CGRect (x:20, y:190, width: 130, height: 30)
+        showView?.ticketsLabel?.frame = CGRect (x:20, y:195, width: 130, height: 30)
         showView?.ticketsLabel?.textColor = textColor
         showView?.ticketsLabel?.font = UIFont(name: fontType, size: textSize)
         
