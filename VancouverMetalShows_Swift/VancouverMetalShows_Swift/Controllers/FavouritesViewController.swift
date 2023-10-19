@@ -27,12 +27,11 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         super.viewDidLoad()
 
         view.backgroundColor = .white
-        self.title = "Favs"
+        title = "Favs"
         
         //CoreData_.clearAllItems(entityName: "ShowItem")
         
-        getAllItems()
-        self.favShowsArray = convertArray(array: showsArray ?? [])
+        self.favShowsArray = CoreData_.loadItems()
         print("favShowsArray size: ", favShowsArray?.count as Any)
         
         guard let favShowsArray = favShowsArray else {
@@ -40,9 +39,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         }
         
         self.showsDict = groupShowsByMonth(array: favShowsArray)
-        print("group: ", showsDict)
-        
-        print("showsArray size: ", showsArray?.count)
+        print("group: ", showsDict ?? Show())
         
         configureCollectionView()
         
@@ -117,47 +114,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         
     }
     
-    //MARK: Get Favs from CoreData
-    
-    private func getAllItems() -> Void
-    {
-        do
-        {
-            self.showsArray = try context.fetch(ShowItem.fetchRequest())
-            DispatchQueue.main.async{
-                self.collectionView.reloadData()
-            }
-        }
-        catch
-        {
-            //throw exception
-            print("getAllItems: Error")
-        }
-            
-    }
-    
-    //MARK: Convert ShowItem to Show
-    
-    private func convertItem(item: ShowItem) -> Show
-    {
-        let show = Show(item.id, item.artist, item.date, item.venue, item.supporting_artists, item.tickets, item.image, item.favourite)
-        
-        return show
-    }
-    
-    private func convertArray(array: [ShowItem]) -> [Show]
-    {
-        var showArray = [Show]()
-        
-        for item in array
-        {
-            let show = convertItem(item: item)
-            showArray.append(show)
-                
-        }
-        
-        return showArray
-    }
     
     //MARK: Display Alert
     

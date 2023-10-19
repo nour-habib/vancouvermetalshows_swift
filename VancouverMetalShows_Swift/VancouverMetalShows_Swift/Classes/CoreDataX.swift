@@ -97,7 +97,7 @@ class CoreDataX
             let objects = try context.fetch(fetchRequest)
             if (objects.count > 0)
             {
-                print("Record exists")
+                //print("Record exists")
                 return true
             }
             else
@@ -144,5 +144,43 @@ class CoreDataX
         {
             createItem(show: show)
         }
+    }
+    
+    func loadItems() -> [Show]
+    {
+        var showsArray = [ShowItem]()
+        
+        do
+        {
+            showsArray = try context.fetch(ShowItem.fetchRequest())
+        }
+        catch
+        {
+            //throw exception
+            print("getAllItems: Error")
+        }
+        
+        return convertArray(array: showsArray)
+    }
+    
+    private func convertArray(array: [ShowItem]) -> [Show]
+    {
+        var showArray = [Show]()
+        
+        for item in array
+        {
+            let show = convertItem(item: item)
+            showArray.append(show)
+                
+        }
+        
+        return showArray
+    }
+    
+    private func convertItem(item: ShowItem) -> Show
+    {
+        let show = Show(item.id, item.artist, item.date, item.venue, item.supporting_artists, item.tickets, item.image, item.favourite)
+        
+        return show
     }
 }

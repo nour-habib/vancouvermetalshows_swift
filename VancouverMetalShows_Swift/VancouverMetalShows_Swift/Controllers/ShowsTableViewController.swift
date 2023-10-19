@@ -22,32 +22,23 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     
     private var overlayView: UIView?
     private var show: Show?
-    let defaults = UserDefaults.standard
+    
+    private var favShowsArray: [Show]?
 
     override func viewDidLoad()
     {
         
         super.viewDidLoad()
-        self.title = "Shows"
-        self.view.backgroundColor = .white
+        title = "Shows"
+        view.backgroundColor = .white
+    
         
-        if(defaults.bool(forKey: "InitialLaunch") == true)
-        {
-            //Second+ launch: load from CoreData
-            defaults.set(true, forKey: "InitialLaunch")
-        }
-        else
-        {
-            //First launch: load from json
-            getShowsData()
-            defaults.set(true, forKey: "InitialLaunch")
-        }
-        
-       // let showsDataArray = getShowsData()
+        getShowsData()
 //        for show in showsDataArray
 //        {
 //            print(show.artist)
 //        }
+        self.favShowsArray = CoreData_.loadItems()
        
         configureNavigation()
         configureTableView()
@@ -62,13 +53,12 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         showsTableView?.delegate = self
         showsTableView?.dataSource = self
         showsTableView?.showsVerticalScrollIndicator = false
-        self.view.addSubview(self.showsTableView!)
+        view.addSubview(self.showsTableView!)
     }
     
     private func configureNavigation()
     {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .done, target: self, action: #selector(didTapMenuButton))
-        
     }
     
     @objc func didTapMenuButton()
@@ -90,7 +80,6 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
                let data = try Data(contentsOf: fileURL)
                let showsJSON = try JSONDecoder().decode(ShowRoot.self, from: data)
                showsArray.append(contentsOf: showsJSON.shows)
-               //CoreData_.batchLoad(entityName: <#T##String#>, array: <#T##[Show]#>)(array: showsArray)
                return showsArray
            }
             
@@ -114,9 +103,6 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     {
         
        let cell = showsTableView?.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! ShowTableViewCell
-        //cell.frame = cell.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
-        //cell.layer.cornerRadius = 10
-        //cell.contentView.clipsToBounds = true
         cell.selectionStyle = .none
         
         let show = showsArray[indexPath.row]
@@ -125,24 +111,20 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.showView?.venueLabel?.text = show.venue
         
         let formattedDate = Date.shared.formatDate(dateString: show.date, currentFormat: "yyy-MM-dd", format: "MMM d, yyyy")
-        //print("formattedDate: ", formattedDate)
         
         cell.showView?.dateLabel?.text = formattedDate.uppercased()
         cell.showView?.imageView?.image =  UIImage(named: show.image)
         
         let favButton = UIButton(frame: CGRect(x:320,y:60,width:20,height:20))
         
-        print("fav status: ", show.favourite)
-        print("current show: ", show.artist)
-        
-        if(CoreData_.existsInTable(show: show))
+        if((favShowsArray?.contains(show)) != nil)
         {
             favButton.setImage(UIImage(systemName: "heart.square.fill"), for: .normal)
             favButton.backgroundColor = .blue
             favButton.addAction(UIAction{_ in
                 favButton.setImage(UIImage(systemName: "heart"), for: .normal)
                 favButton.backgroundColor = .none
-                self.removeItemFromFavs(show: show)
+                self.removeItemFromFavs(show: show, index: self.favShowsArray?.firstIndex(of: show) ?? -1)
             }, for: .touchUpInside)
         }
         else
@@ -169,7 +151,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     {
         print("row is clicked")
         self.show = showsArray[indexPath.row]
-        self.detailView = DetailView(frame: CGRect(x:50,y:200,width:(0.7)*UIScreen.main.bounds.width, height:300), show: self.show ?? Show())
+        self.detailView = DetailView(frame: CGRect(x:60,y:200,width:(0.7)*UIScreen.main.bounds.width, height:300), show: self.show ?? Show())
         self.detailView?.delegate = self
         
         self.overlayView = UIView(frame: self.view.frame)
@@ -195,13 +177,14 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         //self.showsTableView?.reloadData()
     }
     
-    private func removeItemFromFavs(show: Show)
+    private func removeItemFromFavs(show: Show, index: Int)
     {
         print("removeItemFromFavs()")
         var show = show
         show.favourite = "0"
         CoreData_.deleteItem(show: show)
-        //self.showsTableView?.reloadData()
+        favShowsArray?.remove(at: index)
+        //showsTableView?.reloadData()
     }
 }
 
