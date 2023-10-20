@@ -14,7 +14,6 @@ protocol MenuViewControllerDelegate: AnyObject
 
 class MenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
 {
-
     weak var delegate: MenuViewControllerDelegate?
     
     enum MenuOptions: String, CaseIterable
@@ -78,7 +77,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
         cell.textLabel?.text = MenuOptions.allCases[indexPath.row].rawValue
-        cell.textLabel?.textColor = .white
+        cell.textLabel?.textColor = CustomColor.ninjaGreen
         //cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         cell.textLabel?.font = UIFont(name: "Helvetica-Bold", size: 18)
         cell.backgroundColor = CustomColor.darkGrayNew

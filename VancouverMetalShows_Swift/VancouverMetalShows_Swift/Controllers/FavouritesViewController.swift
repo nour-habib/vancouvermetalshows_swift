@@ -29,9 +29,11 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         view.backgroundColor = .white
         title = "Favs"
         
-        //CoreData_.clearAllItems(entityName: "ShowItem")
+       // CoreData_.clearAllItems(entityName: "ShowItem")
         
-        self.favShowsArray = CoreData_.loadItems()
+        let allShows = CoreData_.loadItems()
+        print("allShows: ", allShows)
+        self.favShowsArray = getFavShows(array: allShows)
         print("favShowsArray size: ", favShowsArray?.count as Any)
         
         guard let favShowsArray = favShowsArray else {
@@ -135,6 +137,22 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
 //           acMain.addAction(cancelAction)
 //           present(acMain, animated: true)
 //    }
+    
+    //MARK: Fetch and Process Data
+    
+    private func getFavShows(array: [Show]) -> [Show]
+    {
+        var favShows = [Show]()
+        for show in array
+        {
+            if(show.favourite == "1")
+            {
+                favShows.append(show)
+            }
+        }
+        
+        return favShows
+    }
     
     private func groupShowsByMonth(array: [Show]) -> [String: [Show]]
     {

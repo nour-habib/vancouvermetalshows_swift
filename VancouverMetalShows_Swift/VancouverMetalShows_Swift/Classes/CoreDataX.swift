@@ -17,11 +17,11 @@ enum CoreDataError: Error
 
 class CoreDataX
 {
-    static let shared = CoreDataX()
+    //static let shared = CoreDataX()
     
     init(){}
 
-    func createItem(show: Show)
+    func saveItem(show: Show)
     {
         if(!recordExists(show: show))
         {
@@ -133,7 +133,7 @@ class CoreDataX
         
     }
     
-    func batchLoad(entityName: String, array: [Show])
+    func batchLoad(array: [Show])
     {
         if(array.count == 0)
         {
@@ -142,7 +142,7 @@ class CoreDataX
         
         for show in array
         {
-            createItem(show: show)
+            saveItem(show: show)
         }
     }
     

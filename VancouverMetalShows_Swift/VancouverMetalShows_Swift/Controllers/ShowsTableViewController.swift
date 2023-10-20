@@ -24,6 +24,8 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     private var show: Show?
     
     private var favShowsArray: [Show]?
+    
+    let defaults = UserDefaults.standard
 
     override func viewDidLoad()
     {
@@ -31,14 +33,32 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         super.viewDidLoad()
         title = "Shows"
         view.backgroundColor = .white
-    
         
-        getShowsData()
-//        for show in showsDataArray
-//        {
-//            print(show.artist)
-//        }
-        self.favShowsArray = CoreData_.loadItems()
+        defaults.set(true, forKey: "InitialLaunch")
+        if (defaults.bool(forKey: "InitialLaunch") == true)
+        {
+            //Seecond+ launch: load from CoreData
+            print("Second+ launch")
+            self.showsArray = CoreData_.loadItems()
+            defaults.set(true, forKey: "InitialLaunch")
+            
+        }
+        else
+        {
+            print("First launch")
+            //First launch, load from JSON
+            self.showsArray = getShowsData()
+            defaults.set(true, forKey: "InitialLaunch")
+        }
+        
+//        let testArray = CoreData_.loadItems()
+//        print("testArray: ", testArray)
+    
+        for show in showsArray
+        {
+            print(show.artist)
+        }
+        
        
         configureNavigation()
         configureTableView()
@@ -71,6 +91,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     private func getShowsData() -> [Show]
     {
         print("getshowsData()")
+        var showsArray = [Show]()
         
         do
         {
@@ -80,7 +101,8 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
                let data = try Data(contentsOf: fileURL)
                let showsJSON = try JSONDecoder().decode(ShowRoot.self, from: data)
                showsArray.append(contentsOf: showsJSON.shows)
-               return showsArray
+               CoreData_.batchLoad(array: showsArray)
+               //return showsArray
            }
             
         }
@@ -89,7 +111,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
             print("error: \(error)")
         }
       
-        return []
+        return showsArray
     }
     
     // MARK: TableView Protocol Methods
@@ -117,7 +139,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         
         let favButton = UIButton(frame: CGRect(x:320,y:60,width:20,height:20))
         
-        if((favShowsArray?.contains(show)) != nil)
+        if(show.favourite == "0")
         {
             favButton.setImage(UIImage(systemName: "heart.square.fill"), for: .normal)
             favButton.backgroundColor = .blue
@@ -171,9 +193,8 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     {
         print("addTOFavs")
         var show = show
-        
         show.favourite = "1"
-        CoreData_.createItem(show: show)
+        CoreData_.saveItem(show: show)
         //self.showsTableView?.reloadData()
     }
     
@@ -183,7 +204,6 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         var show = show
         show.favourite = "0"
         CoreData_.deleteItem(show: show)
-        favShowsArray?.remove(at: index)
         //showsTableView?.reloadData()
     }
 }
