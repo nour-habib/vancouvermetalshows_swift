@@ -7,40 +7,39 @@
 
 import Foundation
 
-struct ShowRoot: Codable, Hashable
+class Show: Decodable, Hashable
 {
-    let shows: [Show]
-}
-
-struct Show: Codable, Hashable
-{
-    var id: String = ""
-    var artist: String = ""
-    var date: String = ""
-    var venue: String = ""
-    var supporting_artists: String = ""
-    var tickets: String = ""
-    var image: String = ""
-    var favourite: String = "0"
-
-
-    init(_ id: String?, _ artist: String?,_ date: String?,_ venue: String?,_ supporting_artists: String?,_ tickets: String?,_ image: String?,_ favourite: String?)
-    {
-        self.id = id ?? ""
-        self.artist = artist ?? ""
-        self.date = date ?? ""
-        self.venue = venue ?? ""
-        self.supporting_artists = supporting_artists ?? ""
-        self.tickets = tickets ?? ""
-        self.image = image ?? ""
-        self.favourite = favourite ?? "0"
-}
+    var id: String
+    var artist: String
+    var date: String
+    var venue:String
+    var supporting_artists: String
+    var tickets: String
+    var image: String
+    var favourite: String
     
-    init(){}
+   init(_ id: String?=nil, _ artist:String?=nil, _ date:String?=nil, _ venue: String?=nil, _ supporting_artists: String?=nil, _ tickets: String?=nil, _ image: String?=nil, _ favourite: String?=nil)
+   {
+       self.id = id ?? "-1"
+       self.artist = artist ?? ""
+       self.date = date ?? ""
+       self.venue = venue ?? ""
+       self.supporting_artists = supporting_artists ?? ""
+       self.tickets = tickets ?? ""
+       self.image = image ?? ""
+       self.favourite = favourite ?? ""
+   }
     
-    public static func == (lhs: Show, rhs: Show) -> Bool
+    static func == (lhs: Show, rhs: Show) -> Bool
     {
-           lhs.id == rhs.id // Error
+        return lhs.id == rhs.id
     }
+    
+    func hash(into hasher: inout Hasher)
+    {
+        hasher.combine(id)
+    }
+    
+    
 
 }

@@ -32,7 +32,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         title = "Shows"
         view.backgroundColor = .white
         
-        //CoreData_.clearAllItems(entityName: "ShowItem")
+        CoreData_.clearAllItems(entityName: "ShowItem")
     
         defaults.set(false, forKey: "InitialLaunch")
         if (defaults.bool(forKey: "InitialLaunch") == true)
@@ -57,7 +57,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     
         for show in showsArray
         {
-            print(show)
+            print(show.artist)
         }
         
        
@@ -100,9 +100,8 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
             {
                let fileURL = URL(fileURLWithPath: path)
                let data = try Data(contentsOf: fileURL)
-               let showsJSON = try JSONDecoder().decode(ShowRoot.self, from: data)
-               showsArray.append(contentsOf: showsJSON.shows)
-               
+               let showsJSON = try JSONDecoder().decode([Show].self, from: data)
+               showsArray.append(contentsOf: showsJSON)
                //return showsArray
            }
             
@@ -195,7 +194,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         print("addTOFavs")
         CoreData_.updateItem(show: show, newValue: "1")
         showsArray = CoreData_.loadItems()
-        showsTableView?.reloadData()
+        //showsTableView?.reloadData()
     }
     
     private func removeItemFromFavs(show: Show)
@@ -203,7 +202,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         print("removeItemFromFavs()")
         CoreData_.updateItem(show: show, newValue: "0")
         showsArray = CoreData_.loadItems()
-        showsTableView?.reloadData()
+        //showsTableView?.reloadData()
     }
 }
 

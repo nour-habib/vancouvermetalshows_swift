@@ -1,105 +1,102 @@
-{
-  "shows": [
+[
     {
-      "id": "1",
-      "artist": "Opeth",
-      "date": "2024-09-15",
-      "venue": "Orpheum",
-      "supporting_artists": "Katatonia",
-      "tickets": "$50",
-      "image": "opeth",
-      "favourite": "0"
+        "id": "1",
+        "artist": "Opeth",
+        "date": "2024-09-15",
+        "venue": "Orpheum",
+        "supporting_artists": "Katatonia",
+        "tickets": "$50",
+        "image": "opeth",
+        "favourite": "0"
     },
     {
-      "id": "2",
-      "artist": "Amorphis",
-      "date": "2024-09-01",
-      "venue": "Venue Nightclub",
-      "supporting_artists": "",
-      "tickets": "$40",
-      "image": "amorphis",
-      "favourite": "0"
-
+        "id": "2",
+        "artist": "Amorphis",
+        "date": "2024-09-01",
+        "venue": "Venue Nightclub",
+        "supporting_artists": "",
+        "tickets": "$40",
+        "image": "amorphis",
+        "favourite": "0"
     },
     {
-      "id": "3",
-      "artist": "Inquisition",
-      "date": "2024-09-03",
-      "venue": "Rogers Arena",
-      "supporting_artists": "",
-      "tickets": "$75",
-      "image": "inquisition",
-      "favourite": "0"
+        "id": "3",
+        "artist": "Inquisition",
+        "date": "2024-09-03",
+        "venue": "Rogers Arena",
+        "supporting_artists": "",
+        "tickets": "$75",
+        "image": "inquisition",
+        "favourite": "0"
     },
     {
-      "id": "4",
-      "artist": "Megadeth",
-      "date": "2024-09-11",
-      "venue": "Rogers Arena",
-      "supporting_artists": "",
-      "tickets": "$90",
-      "image": "megadeth",
-      "favourite": "0"
+        "id": "4",
+        "artist": "Megadeth",
+        "date": "2024-09-11",
+        "venue": "Rogers Arena",
+        "supporting_artists": "",
+        "tickets": "$90",
+        "image": "megadeth",
+        "favourite": "0"
     },
     {
-      "id": "5",
-      "artist": "Kataklysm",
-      "date": "2024-09-21",
-      "venue": "Rickshaw Theatre",
-      "supporting_artists": "",
-      "tickets": "$40",
-      "image": "kataklysm",
-      "favourite": "0"
+        "id": "5",
+        "artist": "Kataklysm",
+        "date": "2024-09-21",
+        "venue": "Rickshaw Theatre",
+        "supporting_artists": "",
+        "tickets": "$40",
+        "image": "kataklysm",
+        "favourite": "0"
     },
     {
-      "id": "6",
-      "artist": "Emperor",
-      "date": "2024-08-21",
-      "venue": "Rickshaw Theatre",
-      "supporting_artists": "",
-      "tickets": "$40",
-      "image": "emperor",
-      "favourite": "0"
+        "id": "6",
+        "artist": "Emperor",
+        "date": "2024-08-21",
+        "venue": "Rickshaw Theatre",
+        "supporting_artists": "",
+        "tickets": "$40",
+        "image": "emperor",
+        "favourite": "0"
     },
     {
-      "id": "7",
-      "artist": "Borknagar",
-      "date": "2024-03-21",
-      "venue": "Rickshaw Theatre",
-      "supporting_artists": "Rotting Christ, Wolfheart",
-      "tickets": "$60",
-      "image": "borknagar",
-      "favourite": "0"
+        "id": "7",
+        "artist": "Borknagar",
+        "date": "2024-03-21",
+        "venue": "Rickshaw Theatre",
+        "supporting_artists": "Rotting Christ, Wolfheart",
+        "tickets": "$60",
+        "image": "borknagar",
+        "favourite": "0"
     },
     {
-      "id": "8",
-      "artist": "Anathema",
-      "date": "2024-04-01",
-      "venue": "Rickshaw Theatre",
-      "supporting_artists": "",
-      "tickets": "$40",
-      "image": "anathema",
-      "favourite": "0"
+        "id": "8",
+        "artist": "Anathema",
+        "date": "2024-04-01",
+        "venue": "Rickshaw Theatre",
+        "supporting_artists": "",
+        "tickets": "$40",
+        "image": "anathema",
+        "favourite": "0"
     },
     {
-      "id": "9",
-      "artist": "Katatonia",
-      "date": "2024-04-13",
-      "venue": "Orpheum",
-      "supporting_artists": "",
-      "tickets": "$50",
-      "image": "katatonia",
-      "favourite": "0"
+        "id": "9",
+        "artist": "Katatonia",
+        "date": "2024-04-13",
+        "venue": "Orpheum",
+        "supporting_artists": "",
+        "tickets": "$50",
+        "image": "katatonia",
+        "favourite": "0"
     },
     {
-      "id": "10",
-      "artist": "Agalloch",
-      "date": "2024-11-21",
-      "venue": "Rickshaw Theatre",
-      "supporting_artists": "",
-      "tickets": "$60",
-      "image": "agalloch",
-      "favourite": "0"
+        "id": "10",
+        "artist": "Agalloch",
+        "date": "2024-11-21",
+        "venue": "Rickshaw Theatre",
+        "supporting_artists": "",
+        "tickets": "$60",
+        "image": "agalloch",
+        "favourite": "0"
     }
-  ]
-}   
+]
