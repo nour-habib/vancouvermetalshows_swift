@@ -21,7 +21,7 @@ struct Show: Codable, Hashable
     var supporting_artists: String = ""
     var tickets: String = ""
     var image: String = ""
-    var favourite: String = ""
+    var favourite: String = "0"
 
 
     init(_ id: String?, _ artist: String?,_ date: String?,_ venue: String?,_ supporting_artists: String?,_ tickets: String?,_ image: String?,_ favourite: String?)
@@ -33,7 +33,7 @@ struct Show: Codable, Hashable
         self.supporting_artists = supporting_artists ?? ""
         self.tickets = tickets ?? ""
         self.image = image ?? ""
-        self.favourite = favourite ?? ""
+        self.favourite = favourite ?? "0"
 }
     
     init(){}

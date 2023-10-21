@@ -163,6 +163,42 @@ class CoreDataX
         return convertArray(array: showsArray)
     }
     
+    func updateItem(show: Show, newValue: String)
+    {
+//        deleteItem(show: show)
+//        var show = show
+//        show.favourite = newValue
+//        saveItem(show: show)
+        
+        let fetchRequest: NSFetchRequest<ShowItem>
+        fetchRequest = ShowItem.fetchRequest()
+        
+        let idPredicate = NSPredicate(format: "id LIKE %@", show.id)
+        
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [idPredicate])
+        
+        do
+        {
+            let objects = try context.fetch(fetchRequest)
+            if (objects.count > 0)
+            {
+                let show = objects.first
+                show?.favourite = newValue
+                //print("Record exists")
+                try context.save()
+                
+            }
+            else
+            {
+                saveItem(show: show)
+            }
+        }
+        catch
+        {
+            print("Fetch request error")
+        }
+    }
+    
     private func convertArray(array: [ShowItem]) -> [Show]
     {
         var showArray = [Show]()

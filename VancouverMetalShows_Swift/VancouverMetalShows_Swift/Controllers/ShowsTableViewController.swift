@@ -23,8 +23,6 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     private var overlayView: UIView?
     private var show: Show?
     
-    private var favShowsArray: [Show]?
-    
     let defaults = UserDefaults.standard
 
     override func viewDidLoad()
@@ -34,7 +32,9 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         title = "Shows"
         view.backgroundColor = .white
         
-        defaults.set(true, forKey: "InitialLaunch")
+        //CoreData_.clearAllItems(entityName: "ShowItem")
+    
+        defaults.set(false, forKey: "InitialLaunch")
         if (defaults.bool(forKey: "InitialLaunch") == true)
         {
             //Seecond+ launch: load from CoreData
@@ -48,15 +48,16 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
             print("First launch")
             //First launch, load from JSON
             self.showsArray = getShowsData()
+            CoreData_.batchLoad(array: showsArray)
             defaults.set(true, forKey: "InitialLaunch")
         }
         
-//        let testArray = CoreData_.loadItems()
-//        print("testArray: ", testArray)
+        let testArray = CoreData_.loadItems()
+        print("testArray: ", testArray)
     
         for show in showsArray
         {
-            print(show.artist)
+            print(show)
         }
         
        
@@ -101,7 +102,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
                let data = try Data(contentsOf: fileURL)
                let showsJSON = try JSONDecoder().decode(ShowRoot.self, from: data)
                showsArray.append(contentsOf: showsJSON.shows)
-               CoreData_.batchLoad(array: showsArray)
+               
                //return showsArray
            }
             
@@ -139,14 +140,14 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         
         let favButton = UIButton(frame: CGRect(x:320,y:60,width:20,height:20))
         
-        if(show.favourite == "0")
+        if(show.favourite == "1")
         {
             favButton.setImage(UIImage(systemName: "heart.square.fill"), for: .normal)
             favButton.backgroundColor = .blue
             favButton.addAction(UIAction{_ in
                 favButton.setImage(UIImage(systemName: "heart"), for: .normal)
                 favButton.backgroundColor = .none
-                self.removeItemFromFavs(show: show, index: self.favShowsArray?.firstIndex(of: show) ?? -1)
+                self.removeItemFromFavs(show: show)
             }, for: .touchUpInside)
         }
         else
@@ -192,19 +193,17 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     private func addToFavs(show: Show)
     {
         print("addTOFavs")
-        var show = show
-        show.favourite = "1"
-        CoreData_.saveItem(show: show)
-        //self.showsTableView?.reloadData()
+        CoreData_.updateItem(show: show, newValue: "1")
+        showsArray = CoreData_.loadItems()
+        showsTableView?.reloadData()
     }
     
-    private func removeItemFromFavs(show: Show, index: Int)
+    private func removeItemFromFavs(show: Show)
     {
         print("removeItemFromFavs()")
-        var show = show
-        show.favourite = "0"
-        CoreData_.deleteItem(show: show)
-        //showsTableView?.reloadData()
+        CoreData_.updateItem(show: show, newValue: "0")
+        showsArray = CoreData_.loadItems()
+        showsTableView?.reloadData()
     }
 }
 
