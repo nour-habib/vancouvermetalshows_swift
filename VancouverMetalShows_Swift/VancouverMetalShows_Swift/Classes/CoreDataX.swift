@@ -17,13 +17,13 @@ enum CoreDataError: Error
 
 class CoreDataX
 {
-    //static let shared = CoreDataX()
-    
     init(){}
 
-    func saveItem(show: Show)
+    func saveItem(show: Show) throws
     {
-        if(!recordExists(show: show))
+        let value = try? recordExists(show: show)
+        
+        if(value == false)
         {
             let newShow = ShowItem(context: context)
             newShow.id = show.id
@@ -40,17 +40,17 @@ class CoreDataX
             }
             catch
             {
-                print("save error")
+                throw CoreDataError.saveError
             }
         }
         else
         {
-            print("Already favourited")
+            throw CoreDataError.saveError
         }
 
     }
 
-    func deleteItem(show: Show)
+    func deleteItem(show: Show) throws
     {
         let newShow = ShowItem(context: context)
         newShow.id = show.id
@@ -68,21 +68,22 @@ class CoreDataX
         }
         catch
         {
-            print("delete error")
+            throw CoreDataError.deleteError
         }
     
     }
     
     func existsInTable(show: Show) -> Bool
     {
-        if(recordExists(show: show))
+        let value = try? recordExists(show: show)
+        if(value != nil)
         {
             return true
         }
         return false
     }
     
-    private func recordExists(show: Show) -> Bool
+    private func recordExists(show: Show) throws -> Bool
     {
         let fetchRequest: NSFetchRequest<ShowItem>
         fetchRequest = ShowItem.fetchRequest()
@@ -97,7 +98,6 @@ class CoreDataX
             let objects = try context.fetch(fetchRequest)
             if (objects.count > 0)
             {
-                //print("Record exists")
                 return true
             }
             else
@@ -107,7 +107,7 @@ class CoreDataX
         }
         catch
         {
-            print("Fetch request error")
+            throw CoreDataError.searchError
         }
         
         return false
@@ -142,7 +142,7 @@ class CoreDataX
         
         for show in array
         {
-            saveItem(show: show)
+            try? saveItem(show: show)
         }
     }
     
@@ -163,13 +163,8 @@ class CoreDataX
         return convertArray(array: showsArray)
     }
     
-    func updateItem(show: Show, newValue: String)
+    func updateItem(show: Show, newValue: String) throws
     {
-//        deleteItem(show: show)
-//        var show = show
-//        show.favourite = newValue
-//        saveItem(show: show)
-        
         let fetchRequest: NSFetchRequest<ShowItem>
         fetchRequest = ShowItem.fetchRequest()
         
@@ -184,18 +179,17 @@ class CoreDataX
             {
                 let show = objects.first
                 show?.favourite = newValue
-                //print("Record exists")
                 try context.save()
                 
             }
             else
             {
-                saveItem(show: show)
+                try saveItem(show: show)
             }
         }
         catch
         {
-            print("Fetch request error")
+            throw CoreDataError.searchError
         }
     }
     

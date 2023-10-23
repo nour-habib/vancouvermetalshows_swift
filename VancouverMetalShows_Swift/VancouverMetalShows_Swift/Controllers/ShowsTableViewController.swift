@@ -51,13 +51,11 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
             CoreData_.batchLoad(array: showsArray)
             defaults.set(true, forKey: "InitialLaunch")
         }
-        
-        let testArray = CoreData_.loadItems()
-        print("testArray: ", testArray)
     
         for show in showsArray
         {
-            print(show.artist)
+            print("artist: ", show.artist)
+            print("fav: ", show.favourite)
         }
         
        
