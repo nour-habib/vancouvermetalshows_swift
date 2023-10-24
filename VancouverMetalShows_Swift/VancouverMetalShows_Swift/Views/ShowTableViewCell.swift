@@ -10,6 +10,7 @@ import UIKit
 class ShowTableViewCell: UITableViewCell
 {
     var showView: ShowView?
+    var favButton: UIButton?
  
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?)
     {
@@ -19,6 +20,7 @@ class ShowTableViewCell: UITableViewCell
         //showView?.backgroundColor = .yellow
         
         configureCell()
+        configureHeartButton()
     }
 
         
@@ -40,7 +42,15 @@ class ShowTableViewCell: UITableViewCell
         //layoutMargins.left = 10
         //self.layoutMargins.top = 20
         
-   
+    }
+    
+    private func configureHeartButton()
+    {
+        self.favButton = UIButton(frame: CGRect(x:320,y:60,width:20,height:20))
+    }
+    
+    func didTapHeartButton()
+    {
         
     }
 }

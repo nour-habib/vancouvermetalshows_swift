@@ -12,9 +12,15 @@ protocol ShowsTableViewControllerDelegate: AnyObject
     func didTapMenuButton()
 }
 
+protocol TableViewCellDelegate: AnyObject
+{
+    func didTapHeartButton()
+}
+
 class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate
 {
     weak var delegate: ShowsTableViewControllerDelegate?
+    weak var cellDelegate: TableViewCellDelegate?
     
     private var detailView: DetailView?
     private var showsTableView: ShowsTableView?
@@ -157,7 +163,9 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
             }, for: .touchUpInside)
         }
         
+        
         cell.addSubview(favButton)
+        
         
        return cell
     }
@@ -189,8 +197,10 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     // MARK: Favourite Button
     private func addToFavs(show: Show)
     {
+        cellDelegate?.didTapHeartButton()
+        
         print("addTOFavs")
-        CoreData_.updateItem(show: show, newValue: "1")
+        try? CoreData_.updateItem(show: show, newValue: "1")
         showsArray = CoreData_.loadItems()
         //showsTableView?.reloadData()
     }
@@ -198,7 +208,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     private func removeItemFromFavs(show: Show)
     {
         print("removeItemFromFavs()")
-        CoreData_.updateItem(show: show, newValue: "0")
+        try? CoreData_.updateItem(show: show, newValue: "0")
         showsArray = CoreData_.loadItems()
         //showsTableView?.reloadData()
     }
@@ -213,6 +223,14 @@ extension ShowsTableViewController: DetailViewDelegate
        })
         
         self.overlayView?.removeFromSuperview()
+    }
+}
+
+extension ShowsTableViewController: TableViewCellDelegate
+{
+    func didTapHeartButton()
+    {
+        <#code#>
     }
 }
 
