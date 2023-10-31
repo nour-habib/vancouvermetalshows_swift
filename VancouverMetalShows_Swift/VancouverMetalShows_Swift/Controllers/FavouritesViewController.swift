@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGestureRecognizerDelegate
 {
     private lazy var dataSource = initDataSource()
@@ -371,6 +372,15 @@ private extension FavouritesViewController
     {
        var month: String
        var shows: [Show]
+    }
+    
+}
+
+extension FavouritesViewController: ContainerViewControllerControllerDelegate
+{
+    func updateCollectionView()
+    {
+        
     }
     
 }

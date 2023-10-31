@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol ContainerViewControllerControllerDelegate: AnyObject
+{
+    func updateCollectionView()
+}
+
 class ContainerViewController: UIViewController
 {
     let menuViewController = MenuViewController()
