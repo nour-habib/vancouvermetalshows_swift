@@ -7,13 +7,22 @@
 
 import UIKit
 
-protocol ContainerViewControllerControllerDelegate: AnyObject
+protocol ContainerViewDelegateTB: AnyObject
+{
+    func updateTableView()
+}
+
+protocol ContainerViewDelegateCV: AnyObject
 {
     func updateCollectionView()
 }
 
 class ContainerViewController: UIViewController
 {
+    
+    weak var delegate_tb: ContainerViewDelegateTB?
+    weak var delegate_cv: ContainerViewDelegateCV?
+    
     let menuViewController = MenuViewController()
     let showsViewController = ShowsTableViewController()
     let favsViewController = FavouritesViewController()
@@ -107,24 +116,24 @@ extension ContainerViewController: MenuViewControllerDelegate
     
     func addFavs()
     {
+        print("addFavs()")
         let favsVC = favsViewController
         showsViewController.addChild(favsVC)
         showsViewController.view.addSubview(favsVC.view)
         favsVC.view.frame = view.frame
         favsVC.didMove(toParent: showsViewController)
         showsViewController.title = favsVC.title
-        
-        //reload collectionview
-        
+        delegate_cv?.updateCollectionView()
         
     }
     
     func resetToShows()
     {
+        print("resetToShows()")
         favsViewController.view.removeFromSuperview()
         favsViewController.didMove(toParent: nil)
         showsViewController.title = "Shows"
-        //reload tabbleview
+        delegate_tb?.updateTableView()
         
     }
     

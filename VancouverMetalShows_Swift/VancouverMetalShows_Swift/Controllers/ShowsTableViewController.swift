@@ -17,6 +17,7 @@ protocol TableViewCellDelegate: AnyObject
     func didTapHeartButton()
 }
 
+
 class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate
 {
     weak var delegate: ShowsTableViewControllerDelegate?
@@ -38,7 +39,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         title = "Shows"
         view.backgroundColor = .white
         
-        CoreData_.clearAllItems(entityName: "ShowItem")
+        //CoreData_.clearAllItems(entityName: "ShowItem")
     
         defaults.set(false, forKey: "InitialLaunch")
         if (defaults.bool(forKey: "InitialLaunch") == true)
@@ -230,7 +231,18 @@ extension ShowsTableViewController: TableViewCellDelegate
 {
     func didTapHeartButton()
     {
-        <#code#>
+        //do
     }
+}
+
+extension ShowsTableViewController: ContainerViewDelegateTB
+{
+    func updateTableView()
+    {
+        print("updateTableView")
+        showsTableView?.reloadData()
+        
+    }
+    
 }
 

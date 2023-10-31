@@ -109,7 +109,16 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         
         self.collectionView.deleteItems(at: [indexPath])
         
-        CoreData_.deleteItem(show: show)
+        
+        do
+        {
+            try CoreData_.deleteItem(show: show)
+        }
+        catch
+        {
+            //fill in error
+        }
+        
         print("Item deleted")
         self.favShowsArray?.remove(at: indexPath.row)
         print("favShowsArray count: ", favShowsArray?.count)
@@ -376,10 +385,14 @@ private extension FavouritesViewController
     
 }
 
-extension FavouritesViewController: ContainerViewControllerControllerDelegate
+extension FavouritesViewController: ContainerViewDelegateCV
 {
     func updateCollectionView()
     {
+        print("updateCollectionView()")
+        //CoreData_.loadItems()
+        viewDidLoad()
+        
         
     }
     
