@@ -14,7 +14,7 @@ class FavShowCollectionViewCell: UICollectionViewCell
     override init(frame: CGRect)
     {
         super.init(frame: frame)
-        self.showView = ShowView(frame: frame)
+        self.showView = ShowView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
         
         configureView()
 
@@ -27,6 +27,9 @@ class FavShowCollectionViewCell: UICollectionViewCell
     
     private func configureView()
     {
+        
+        backgroundColor = .lightGray
+        
         let textSize = CGFloat(14)
         let fontType = "HelveticaNeue"
         
@@ -46,8 +49,9 @@ class FavShowCollectionViewCell: UICollectionViewCell
         showView?.imageView?.frame = CGRect(x: 35, y: 30, width: 80, height: 80)
         
         
-        
-        contentView.addSubview(showView ?? ShowView())
+        let dummyShowView = ShowView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
+        dummyShowView.backgroundColor = .blue
+        contentView.addSubview(showView ?? dummyShowView)
     }
     
 }

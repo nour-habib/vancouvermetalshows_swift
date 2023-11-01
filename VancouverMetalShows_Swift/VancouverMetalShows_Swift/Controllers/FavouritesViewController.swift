@@ -277,12 +277,13 @@ private extension FavouritesViewController
     {
         CellRegistration { cell, indexPath, show in
             cell.showView?.artistLabel?.text = show.artist
-            let formattedDate = Date.shared.formatDate(dateString: show.date , currentFormat: "yyy-MM-dd", format: "EEE, MMM d, yyyy")
+            let formattedDate = Date.shared.formatDate(dateString: show.date , currentFormat: "yyy-MM-dd", format: "MMM d, yyyy")
             cell.showView?.dateLabel?.text = formattedDate
             cell.showView?.ticketsLabel?.text = show.tickets
             cell.showView?.venueLabel?.text = show.venue
             cell.showView?.suppArtistLabel?.text = show.supporting_artists
             cell.showView?.imageView?.image = UIImage(named: show.image )
+            
     
         }
     }
@@ -308,7 +309,9 @@ private extension FavouritesViewController {
             heightDimension: .fractionalHeight(1.0)
         ))
         
-        item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(0), top: .fixed(0), trailing: .fixed(0), bottom: .fixed(0))
+        item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(0), top: .fixed(0), trailing: .fixed(0), bottom: .fixed(5))
+        
+    
       
         let group = NSCollectionLayoutGroup.horizontal(layoutSize:  NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -316,15 +319,18 @@ private extension FavouritesViewController {
         ), subitems: [item])
         //group.interItemSpacing = .fixed(itemSpacing)
         
+        group.edgeSpacing =  NSCollectionLayoutEdgeSpacing(leading: .fixed(0), top: .fixed(0), trailing: .fixed(0), bottom: .fixed(0))
+        
         let section = NSCollectionLayoutSection(group: group)
         //section.orthogonalScrollingBehavior = .continuous
         section.interGroupSpacing = 2
-        section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 2)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 0)
         
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(33))
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         section.boundarySupplementaryItems = [sectionHeader]
+        //sectionHeader.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(0), top: .fixed(0), trailing: .fixed(0), bottom: .fixed(0))
         
         return section
     }
@@ -391,8 +397,6 @@ extension FavouritesViewController: ContainerViewDelegateCV
     func updateCollectionView()
     {
         print("updateCollectionView()")
-        //CoreData_.loadItems()
-        //viewDidLoad()
         let allShows = CoreData_.loadItems()
         self.favShowsArray = getFavShows(array: allShows)
         self.showsDict = groupShowsByMonth(array: favShowsArray ?? [Show]())
@@ -400,9 +404,6 @@ extension FavouritesViewController: ContainerViewDelegateCV
         
         showsListDidLoad(showsDict ?? [String:[Show]]())
         configureSectionHeader()
-       
-        
-        
     }
     
 }

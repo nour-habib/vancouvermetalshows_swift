@@ -41,7 +41,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         
         //CoreData_.clearAllItems(entityName: "ShowItem")
     
-        defaults.set(false, forKey: "InitialLaunch")
+        defaults.set(true, forKey: "InitialLaunch")
         if (defaults.bool(forKey: "InitialLaunch") == true)
         {
             //Seecond+ launch: load from CoreData
