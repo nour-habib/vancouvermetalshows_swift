@@ -240,7 +240,9 @@ extension ShowsTableViewController: ContainerViewDelegateTB
     func updateTableView()
     {
         print("updateTableView")
-        showsTableView?.reloadData()
+        //showsTableView?.reloadData()
+        viewDidLoad()
+        
         
     }
     

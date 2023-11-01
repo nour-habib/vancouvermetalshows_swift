@@ -65,6 +65,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         collectionView.isScrollEnabled = true
         //collectionView.isUserInteractionEnabled = true
         collectionView.alwaysBounceVertical = true
+        collectionView.bounces = true
         //collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         collectionView.register(SectionHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderReusableView.reuseIdentifier)
         
@@ -391,7 +392,15 @@ extension FavouritesViewController: ContainerViewDelegateCV
     {
         print("updateCollectionView()")
         //CoreData_.loadItems()
-        viewDidLoad()
+        //viewDidLoad()
+        let allShows = CoreData_.loadItems()
+        self.favShowsArray = getFavShows(array: allShows)
+        self.showsDict = groupShowsByMonth(array: favShowsArray ?? [Show]())
+        configureCollectionView()
+        
+        showsListDidLoad(showsDict ?? [String:[Show]]())
+        configureSectionHeader()
+       
         
         
     }
