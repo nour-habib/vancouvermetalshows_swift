@@ -17,7 +17,7 @@ class SectionHeaderReusableView: UICollectionReusableView
     {
         super.init(frame: frame)
         
-        self.headerTitle = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
+        self.headerTitle = UILabel(frame: CGRect(x: 10, y: -8, width: 200, height: 50))
         configureHeader()
         
     }

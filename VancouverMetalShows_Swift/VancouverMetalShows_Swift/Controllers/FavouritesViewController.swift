@@ -315,7 +315,7 @@ private extension FavouritesViewController {
       
         let group = NSCollectionLayoutGroup.horizontal(layoutSize:  NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalHeight(1/3)
+            heightDimension: .fractionalHeight(1/4)
         ), subitems: [item])
         //group.interItemSpacing = .fixed(itemSpacing)
         
@@ -373,7 +373,7 @@ private extension FavouritesViewController
             let header: SectionHeaderReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderReusableView.reuseIdentifier,for: indexPath) as! SectionHeaderReusableView
 
             let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
-            let month = Date.shared.formatDate(dateString: section.month, currentFormat: "M", format: "MMM")
+            let month = Date.shared.formatDate(dateString: section.month, currentFormat: "M", format: "MMMM")
             header.headerTitle?.text = month
 
             return header

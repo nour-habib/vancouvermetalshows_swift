@@ -39,14 +39,16 @@ class FavShowCollectionViewCell: UICollectionViewCell
         
         showView?.layer.borderColor = UIColor.lightGray.cgColor
         showView?.layer.borderWidth = 0.9
-        showView?.backgroundColor = .yellow
+        showView?.backgroundColor = .black
         
         showView?.dateLabel?.frame = CGRect(x: 0, y: 0, width: frame.width, height: 20)
-        showView?.artistLabel?.frame = CGRect(x: 10, y: 65, width:100, height: 50)
-        showView?.venueLabel?.frame = CGRect(x: 10, y: 80, width:150, height: 50)
-        showView?.suppArtistLabel?.frame = CGRect(x: 10, y: 100, width: 100, height: 50)
+        showView?.artistLabel?.frame = CGRect(x: 10, y: 90, width:100, height: 50)
+        showView?.venueLabel?.frame = CGRect(x: 10, y: 110, width:150, height: 50)
+        showView?.suppArtistLabel?.frame = CGRect(x: 10, y: 130, width: 110, height: 50)
         showView?.ticketsLabel?.frame = CGRect(x: 100, y: 8, width: 100, height: 50)
         showView?.imageView?.frame = CGRect(x: 35, y: 30, width: 80, height: 80)
+        
+        showView?.suppArtistLabel?.numberOfLines = 3
         
         
         let dummyShowView = ShowView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))

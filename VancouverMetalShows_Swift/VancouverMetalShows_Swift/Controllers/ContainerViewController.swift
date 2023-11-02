@@ -51,11 +51,7 @@ class ContainerViewController: UIViewController
         view.addSubview(naviController.view)
         naviController.didMove(toParent: self)
         self.naviController = naviController
-        
-
     }
-    
-
 }
 
 
@@ -96,8 +92,6 @@ extension ContainerViewController: ShowsTableViewControllerDelegate
         }
         
     }
-    
-    
 }
 
 extension ContainerViewController: MenuViewControllerDelegate
@@ -108,13 +102,13 @@ extension ContainerViewController: MenuViewControllerDelegate
         switch menuItem
         {
         case .shows:
-            self.resetToShows()
+            self.resetToShowsViewController()
         case .favs:
-            self.addFavs()
+            self.addFavsViewController()
         }
     }
     
-    func addFavs()
+    func addFavsViewController()
     {
         print("addFavs()")
         let favsVC = favsViewController
@@ -127,7 +121,7 @@ extension ContainerViewController: MenuViewControllerDelegate
         
     }
     
-    func resetToShows()
+    func resetToShowsViewController()
     {
         print("resetToShows()")
         favsViewController.view.removeFromSuperview()
