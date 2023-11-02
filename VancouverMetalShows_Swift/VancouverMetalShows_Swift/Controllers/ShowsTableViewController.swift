@@ -34,7 +34,6 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
 
     override func viewDidLoad()
     {
-        
         super.viewDidLoad()
         title = "Shows"
         view.backgroundColor = .white
@@ -143,11 +142,15 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.showView?.imageView?.image =  UIImage(named: show.image)
         
         let favButton = UIButton(frame: CGRect(x:320,y:60,width:20,height:20))
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .small)
+        let heartIcon = UIImage(systemName: "heart.square.fill", withConfiguration:symbolConfig)
+        heartIcon?.withTintColor(.systemRed, renderingMode: .alwaysTemplate)
+        
         
         if(show.favourite == "1")
         {
-            favButton.setImage(UIImage(systemName: "heart.square.fill"), for: .normal)
-            favButton.backgroundColor = .blue
+            favButton.setImage(heartIcon, for: .normal)
+            favButton.backgroundColor = .systemRed
             favButton.addAction(UIAction{_ in
                 favButton.setImage(UIImage(systemName: "heart"), for: .normal)
                 favButton.backgroundColor = .none
@@ -156,14 +159,14 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         else
         {
-            favButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            favButton.setImage(UIImage(systemName: "heart", withConfiguration: symbolConfig), for: .normal)
             favButton.addAction(UIAction{_ in
                 self.addToFavs(show: show)
-                favButton.setImage(UIImage(systemName: "heart.square.fill"), for: .normal)
-                favButton.backgroundColor = .blue
+                favButton.setImage(UIImage(systemName: "heart.square.fill", withConfiguration: symbolConfig), for: .normal)
+                heartIcon?.withTintColor(.systemRed, renderingMode: .alwaysTemplate)
+                favButton.backgroundColor = .systemRed
             }, for: .touchUpInside)
         }
-        
         
         cell.addSubview(favButton)
         
