@@ -79,7 +79,35 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     @objc func handleLongPressGesture(gestureRecognizer: UILongPressGestureRecognizer)
     {
         guard gestureRecognizer.state != .began else{return}
+        
+        
         let point = gestureRecognizer.location(in: collectionView)
+        
+        let alertController = UIAlertController(title: "Are you sure you want to delete?", message: "", preferredStyle: .alert)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { UIAlertAction in
+            self.deleteCollectionViewItem(point: point)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+       
+//        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) in
+//        let alertController = UIAlertController(title: "Confirm delete", message: "Are you sure you would like to delete?", preferredStyle: .alert)
+//
+//        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//        alertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { UIAlertAction in
+//                self?.deleteCollectionViewItem(point: point)
+//            }))
+//            self?.present(alertController, animated: true)
+//           }
+//
+//           let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
+    }
+    
+    private func deleteCollectionViewItem(point: CGPoint)
+    {
         let indexPath = collectionView.indexPathForItem(at: point)
         print("indexPath: ", indexPath)
         
@@ -94,11 +122,20 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         
         guard let indexPath = indexPath, let showsDict = showsDict else {return}
         
-        
         guard let show = dataSource.itemIdentifier(for: indexPath) else {return}
         var snapshot = dataSource.snapshot()
         snapshot.deleteItems([show])
         dataSource.apply(snapshot)
+        
+        guard let section = snapshot.sectionIdentifier(containingItem: show)else {return}
+        let numberOfItemsInSection = snapshot.numberOfItems(inSection: section)
+        
+        if(numberOfItemsInSection == 0)
+        {
+            snapshot.deleteSections([section])
+            dataSource.apply(snapshot)
+        }
+        
         
         do
         {
@@ -108,33 +145,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         {
             //insert errror
         }
-        
-        //Option 1
-//        self.showsDict = loadData()
-//        showsListDidLoad(showsDict)
     }
-    
-    
-    //MARK: Display Alert
-    
-//    private func displayAlert()
-//    {
-//        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) in
-//               let alertController = UIAlertController(title: "Confirm delete", message: "Are you sure you would like to delete?", preferredStyle: .alert)
-//
-//            alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-//            alertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: nil)) // temp nil for now
-//            self?.present(alertController, animated: true)
-//           }
-//
-//           let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-//
-//           // Add all the actions to acMain
-//           acMain.addAction(renameAction)
-//           acMain.addAction(deleteAction)
-//           acMain.addAction(cancelAction)
-//           present(acMain, animated: true)
-//    }
     
     //MARK: Fetch and Process Data
     

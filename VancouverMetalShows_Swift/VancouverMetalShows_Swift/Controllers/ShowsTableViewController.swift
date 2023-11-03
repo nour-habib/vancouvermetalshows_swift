@@ -242,10 +242,8 @@ extension ShowsTableViewController: ContainerViewDelegateTB
     func updateTableView()
     {
         print("updateTableView")
-        //showsTableView?.reloadData()
-        viewDidLoad()
-        
-        
+        showsArray = CoreData_.loadItems()
+        showsTableView?.reloadData()
     }
     
 }
