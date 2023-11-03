@@ -109,9 +109,6 @@ class CoreDataX
         {
             throw CoreDataError.searchError
         }
-        
-        return false
-        
     }
     
     func clearAllItems(entityName: String)

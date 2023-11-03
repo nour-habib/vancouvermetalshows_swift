@@ -12,46 +12,36 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
 {
     private lazy var dataSource = initDataSource()
     private lazy var collectionView = makeCollectionView()
+    
     private var showsArray: [ShowItem]?
     private var favShowsArray: [Show]?
     private var showView: ShowView?
     private var showsDict: [String: [Show]]?
-    
+
+/*
     static let cellWidth = 130.0
     static let cellHeight = 195.0
     
     static let groupWidth = UIScreen.main.bounds.width
     static let groupHeight = cellHeight + 20
-
+ */
     override func viewDidLoad()
     {
         super.viewDidLoad()
-
         view.backgroundColor = .white
         title = "Favs"
         
        // CoreData_.clearAllItems(entityName: "ShowItem")
-        
-        let allShows = CoreData_.loadItems()
-        print("allShows: ", allShows)
-        self.favShowsArray = getFavShows(array: allShows)
-        print("favShowsArray size: ", favShowsArray?.count as Any)
-        
-        guard let favShowsArray = favShowsArray else {
-            return
-        }
-        
-        self.showsDict = groupShowsByMonth(array: favShowsArray)
-        print("group: ", showsDict ?? Show())
+        self.showsDict = loadData()
+        showsListDidLoad(showsDict ?? [String:[Show]]())
         
         configureCollectionView()
         
-        showsListDidLoad(showsDict ?? [String:[Show]]())
         configureSectionHeader()
         
-        let ids = dataSource.snapshot().sectionIdentifiers
-        print("snapshot section ids: ", ids)
-        print("ids count: ", ids.count)
+//        let ids = dataSource.snapshot().sectionIdentifiers
+//        print("snapshot section ids: ", ids)
+//        print("ids count: ", ids.count)
         
     }
     
@@ -63,10 +53,9 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         collectionView.dataSource = dataSource
         collectionView.largeContentTitle = "Favs"
         collectionView.isScrollEnabled = true
-        //collectionView.isUserInteractionEnabled = true
+        collectionView.isUserInteractionEnabled = true
         collectionView.alwaysBounceVertical = true
         collectionView.bounces = true
-        //collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         collectionView.register(SectionHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderReusableView.reuseIdentifier)
         
         collectionView.reloadData()
@@ -74,8 +63,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         view.addSubview(collectionView)
     }
 
-    
-    //MARK: CollectionView Methods
     
     //MARK: Long Press Gesture to Delete Item
     private func initLongPressGesture()
@@ -85,46 +72,46 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         gesture.delaysTouchesBegan = true
         gesture.delegate = self
         
-        self.collectionView.addGestureRecognizer(gesture)
+        collectionView.addGestureRecognizer(gesture)
         
     }
     
     @objc func handleLongPressGesture(gestureRecognizer: UILongPressGestureRecognizer)
     {
         guard gestureRecognizer.state != .began else{return}
-        let point = gestureRecognizer.location(in: self.collectionView)
-        let indexPath = self.collectionView.indexPathForItem(at: point)
+        let point = gestureRecognizer.location(in: collectionView)
+        let indexPath = collectionView.indexPathForItem(at: point)
+        print("indexPath: ", indexPath)
+        
         if let index = indexPath
         {
             print(index.row)
         }
         else
         {
-            print("Could not finid index path)")
+            print("Could not find index path)")
         }
         
-        guard let indexPath = indexPath else {return}
+        guard let indexPath = indexPath, let showsDict = showsDict else {return}
         
-        //Replace with datasource snapshot update
-        guard let show = self.favShowsArray?[indexPath.row] else {return}
         
-        self.collectionView.deleteItems(at: [indexPath])
-        
+        guard let show = dataSource.itemIdentifier(for: indexPath) else {return}
+        var snapshot = dataSource.snapshot()
+        snapshot.deleteItems([show])
+        dataSource.apply(snapshot)
         
         do
         {
-            try CoreData_.deleteItem(show: show)
+            try CoreData_.updateItem(show: show, newValue: "0")
         }
         catch
         {
-            //fill in error
+            //insert errror
         }
         
-        print("Item deleted")
-        self.favShowsArray?.remove(at: indexPath.row)
-        print("favShowsArray count: ", favShowsArray?.count)
-        //self.collectionView?.reloadData()
-        
+        //Option 1
+//        self.showsDict = loadData()
+//        showsListDidLoad(showsDict)
     }
     
     
@@ -151,7 +138,16 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     
     //MARK: Fetch and Process Data
     
-    private func getFavShows(array: [Show]) -> [Show]
+    private func loadData() -> [String:[Show]]
+    {
+        let allShows = CoreData_.loadItems()
+        let favShowsArray = filterFavShows(array: allShows)
+        let dict = groupShowsByMonth(array: favShowsArray)
+        
+        return dict
+    }
+    
+    private func filterFavShows(array: [Show]) -> [Show]
     {
         var favShows = [Show]()
         for show in array
@@ -178,7 +174,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         for show in array
         {
             let month = Date.shared.formatDate(dateString: show.date, currentFormat: "yyy-MM-dd",format: "M")
-            print("month: " , month)
             if (dict.keys.contains(month))
             {
                 var arr = dict[month]
@@ -196,6 +191,8 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     }
 }
 
+//MARK: CollectionView Methods
+
 extension FavouritesViewController: UICollectionViewDataSource
 {
     
@@ -210,8 +207,6 @@ extension FavouritesViewController: UICollectionViewDataSource
         print("cellForItemAt()")
         return dataSource.collectionView(collectionView, cellForItemAt: indexPath)
     }
-    
-   
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
@@ -229,7 +224,6 @@ extension FavouritesViewController: UICollectionViewDataSource
     }
     
 }
-
 
 private extension FavouritesViewController
 {
@@ -263,8 +257,6 @@ private extension FavouritesViewController
             
         }
         dataSource.apply(snapshot, animatingDifferences: false)
-        
-        
     }
 }
 
@@ -283,8 +275,7 @@ private extension FavouritesViewController
             cell.showView?.venueLabel?.text = show.venue
             cell.showView?.suppArtistLabel?.text = show.supporting_artists
             cell.showView?.imageView?.image = UIImage(named: show.image )
-            
-    
+            self.initLongPressGesture()
         }
     }
 }
@@ -311,8 +302,6 @@ private extension FavouritesViewController {
         
         item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(0), top: .fixed(0), trailing: .fixed(0), bottom: .fixed(5))
         
-    
-      
         let group = NSCollectionLayoutGroup.horizontal(layoutSize:  NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1/4)
@@ -397,12 +386,9 @@ extension FavouritesViewController: ContainerViewDelegateCV
     func updateCollectionView()
     {
         print("updateCollectionView()")
-        let allShows = CoreData_.loadItems()
-        self.favShowsArray = getFavShows(array: allShows)
-        self.showsDict = groupShowsByMonth(array: favShowsArray ?? [Show]())
-        configureCollectionView()
-        
+        self.showsDict = loadData()
         showsListDidLoad(showsDict ?? [String:[Show]]())
+        configureCollectionView()
         configureSectionHeader()
     }
     

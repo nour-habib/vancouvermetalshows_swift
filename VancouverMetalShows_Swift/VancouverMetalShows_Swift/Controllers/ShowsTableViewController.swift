@@ -64,7 +64,6 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
             print("fav: ", show.favourite)
         }
         
-       
         configureNavigation()
         configureTableView()
     }
@@ -146,6 +145,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         let heartIcon = UIImage(systemName: "heart.square.fill", withConfiguration:symbolConfig)
         heartIcon?.withTintColor(.systemRed, renderingMode: .alwaysTemplate)
         
+        //Fav icon colors not working
         
         if(show.favourite == "1")
         {
@@ -169,7 +169,6 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         
         cell.addSubview(favButton)
-        
         
        return cell
     }
