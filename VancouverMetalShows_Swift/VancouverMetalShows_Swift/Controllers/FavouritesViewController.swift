@@ -73,14 +73,11 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         gesture.delegate = self
         
         collectionView.addGestureRecognizer(gesture)
-        
     }
     
     @objc func handleLongPressGesture(gestureRecognizer: UILongPressGestureRecognizer)
     {
         guard gestureRecognizer.state != .began else{return}
-        
-        
         let point = gestureRecognizer.location(in: collectionView)
         
         let alertController = UIAlertController(title: "Are you sure you want to delete?", message: "", preferredStyle: .alert)
@@ -88,18 +85,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
             self.deleteCollectionViewItem(point: point)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-       
-//        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) in
-//        let alertController = UIAlertController(title: "Confirm delete", message: "Are you sure you would like to delete?", preferredStyle: .alert)
-//
-//        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-//        alertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { UIAlertAction in
-//                self?.deleteCollectionViewItem(point: point)
-//            }))
-//            self?.present(alertController, animated: true)
-//           }
-//
-//           let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
@@ -120,22 +105,10 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
             print("Could not find index path)")
         }
         
-        guard let indexPath = indexPath, let showsDict = showsDict else {return}
+        
+        guard let indexPath = indexPath, var showsDict = showsDict else {return}
         
         guard let show = dataSource.itemIdentifier(for: indexPath) else {return}
-        var snapshot = dataSource.snapshot()
-        snapshot.deleteItems([show])
-        dataSource.apply(snapshot)
-        
-        guard let section = snapshot.sectionIdentifier(containingItem: show)else {return}
-        let numberOfItemsInSection = snapshot.numberOfItems(inSection: section)
-        
-        if(numberOfItemsInSection == 0)
-        {
-            snapshot.deleteSections([section])
-            dataSource.apply(snapshot)
-        }
-        
         
         do
         {
@@ -145,6 +118,31 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         {
             //insert errror
         }
+        
+        var snapshot = dataSource.snapshot()
+        guard let section = snapshot.sectionIdentifier(containingItem: show)else {return}
+        let numberOfItemsInSection = snapshot.numberOfItems(inSection: section)
+        print("numberOfItemsInSection: ", numberOfItemsInSection)
+        
+        guard var showsInSection = showsDict[section.month] else {return}
+        print("showsInSection count: ", showsInSection.count)
+        
+        showsInSection.remove(at: indexPath[1])
+        
+        if(showsInSection.count == 0)
+        {
+            snapshot.deleteSections([section])
+            dataSource.apply(snapshot)
+        }
+        else
+        {
+            showsDict.updateValue(showsInSection, forKey: section.month)
+            snapshot.deleteItems([show])
+            dataSource.apply(snapshot)
+        }
+        
+        print("deleted.")
+        
     }
     
     //MARK: Fetch and Process Data
@@ -175,8 +173,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     private func groupShowsByMonth(array: [Show]) -> [String: [Show]]
     {
         var dict: [String: [Show]] = [:]
-        
-
+    
         if(array.count == 0)
         {
             return dict
@@ -362,13 +359,11 @@ private extension FavouritesViewController
 {
     func configureSectionHeader()
     {
-    
         print("confiigureSecHeader()")
         dataSource.supplementaryViewProvider = {(
             collectionView: UICollectionView,
             kind: String,
             indexPath: IndexPath) -> UICollectionReusableView in
-            
             
             let header: SectionHeaderReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderReusableView.reuseIdentifier,for: indexPath) as! SectionHeaderReusableView
 
