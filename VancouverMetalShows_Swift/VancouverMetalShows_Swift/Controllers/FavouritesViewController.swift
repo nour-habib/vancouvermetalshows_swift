@@ -122,7 +122,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         var snapshot = dataSource.snapshot()
         guard let section = snapshot.sectionIdentifier(containingItem: show)else {return}
         let numberOfItemsInSection = snapshot.numberOfItems(inSection: section)
-        print("numberOfItemsInSection: ", numberOfItemsInSection)
+        print("numberOfItems: ", numberOfItemsInSection)
         
         guard var showsInSection = showsDict[section.month] else {return}
         print("showsInSection count: ", showsInSection.count)
@@ -140,9 +140,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
             snapshot.deleteItems([show])
             dataSource.apply(snapshot)
         }
-        
-        print("deleted.")
-        
     }
     
     //MARK: Fetch and Process Data
