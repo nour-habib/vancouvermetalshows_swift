@@ -36,7 +36,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         showsListDidLoad(showsDict ?? [String:[Show]]())
         
         configureCollectionView()
-        
         configureSectionHeader()
         
 //        let ids = dataSource.snapshot().sectionIdentifiers
@@ -90,7 +89,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
     }
-    
+     
     private func deleteCollectionViewItem(point: CGPoint)
     {
         let indexPath = collectionView.indexPathForItem(at: point)
@@ -146,8 +145,8 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     
     private func loadData() -> [String:[Show]]
     {
-        let allShows = CoreData_.loadItems()
-        let favShowsArray = filterFavShows(array: allShows)
+        let allShows = Show.sortShows(shows: CoreData_.loadItems())
+        let favShowsArray = Show.sortShows(shows: filterFavShows(array: allShows))
         let dict = groupShowsByMonth(array: favShowsArray)
         
         return dict

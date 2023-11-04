@@ -45,7 +45,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         {
             //Seecond+ launch: load from CoreData
             print("Second+ launch")
-            self.showsArray = CoreData_.loadItems()
+            self.showsArray = Show.sortShows(shows: CoreData_.loadItems())
             defaults.set(true, forKey: "InitialLaunch")
             
         }
@@ -53,7 +53,7 @@ class ShowsTableViewController: UIViewController, UITableViewDelegate, UITableVi
         {
             print("First launch")
             //First launch, load from JSON
-            self.showsArray = getShowsData()
+            self.showsArray = Show.sortShows(shows: getShowsData())
             CoreData_.batchLoad(array: showsArray)
             defaults.set(true, forKey: "InitialLaunch")
         }

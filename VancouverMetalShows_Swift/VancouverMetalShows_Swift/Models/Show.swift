@@ -41,5 +41,17 @@ class Show: Decodable, Hashable
     }
     
     
+    static func sortShows(shows: [Show]) -> [Show]
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        let sorted = shows
+            .map { return ($0, dateFormatter.date(from: $0.date)!) }
+            .sorted { $0.1 < $1.1 }
+            .map(\.0)
 
+        return sorted
+    }
+    
 }

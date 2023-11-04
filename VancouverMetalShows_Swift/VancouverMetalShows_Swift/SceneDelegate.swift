@@ -16,7 +16,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController =  ContainerViewController()
+        
+        let defaults = UserDefaults.standard
+        if (defaults.bool(forKey: "InitialLaunch") == true)
+        {
+            window.rootViewController =  ContainerViewController()
+        }
+        else
+        {
+            
+            //window.rootViewController =  Splash
+        }
+       
         self.window = window
         window.makeKeyAndVisible()
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
