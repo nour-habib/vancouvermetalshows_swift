@@ -145,7 +145,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     
     private func loadData() -> [String:[Show]]
     {
-        let allShows = Show.sortShows(shows: CoreData_.loadItems())
+        let allShows = CoreData_.loadItems()
         let favShowsArray = Show.sortShows(shows: filterFavShows(array: allShows))
         let dict = groupShowsByMonth(array: favShowsArray)
         

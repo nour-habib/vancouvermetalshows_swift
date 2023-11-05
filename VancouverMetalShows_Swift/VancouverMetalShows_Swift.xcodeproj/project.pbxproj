@@ -35,6 +35,7 @@
 		14669B802ACC9F51005F2894 /* FavShowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B7F2ACC9F51005F2894 /* FavShowCollectionViewCell.swift */; };
 		14669B862ACF764F005F2894 /* Months.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B852ACF764E005F2894 /* Months.swift */; };
 		14669B882AD5E437005F2894 /* SectionHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B872AD5E437005F2894 /* SectionHeaderReusableView.swift */; };
+		14A6EA2F2AF6F575002A549C /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A6EA2E2AF6F574002A549C /* TableViewDataSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		14669B7F2ACC9F51005F2894 /* FavShowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavShowCollectionViewCell.swift; sourceTree = "<group>"; };
 		14669B852ACF764E005F2894 /* Months.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Months.swift; sourceTree = "<group>"; };
 		14669B872AD5E437005F2894 /* SectionHeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderReusableView.swift; sourceTree = "<group>"; };
+		14A6EA2E2AF6F574002A549C /* TableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +222,7 @@
 				14669B6D2ABCF077005F2894 /* CoreDataX.swift */,
 				14669B632ABB65D7005F2894 /* CustomColor.swift */,
 				14669B7B2AC65118005F2894 /* Date.swift */,
+				14A6EA2E2AF6F574002A549C /* TableViewDataSource.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				14669B5E2AB9043B005F2894 /* ShowTableViewCell.swift in Sources */,
 				14669B1F2AB79096005F2894 /* SceneDelegate.swift in Sources */,
 				14669B642ABB65D7005F2894 /* CustomColor.swift in Sources */,
+				14A6EA2F2AF6F575002A549C /* TableViewDataSource.swift in Sources */,
 				14669B602AB912AC005F2894 /* ShowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
