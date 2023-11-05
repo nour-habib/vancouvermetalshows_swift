@@ -8,9 +8,15 @@
 import Foundation
 import UIKit
 
-class TableViewDataSource: NSObject, UITableViewDataSource, UITableViewDelegate
+protocol TableViewData: AnyObject
+{
+    func addToView(view: UIView)
+}
+
+class TableViewDataSourceDelegate: NSObject, UITableViewDataSource, UITableViewDelegate
 {
     private var showsArray: [Show]
+    weak var viewDelegate: TableViewData?
     
     init(shows:[Show])
     {
@@ -24,7 +30,6 @@ class TableViewDataSource: NSObject, UITableViewDataSource, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        
        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! ShowTableViewCell
         cell.selectionStyle = .none
         
@@ -82,26 +87,21 @@ class TableViewDataSource: NSObject, UITableViewDataSource, UITableViewDelegate
         let show = showsArray[indexPath.row]
         let detailView = DetailView(frame: CGRect(x:60,y:200,width:(0.7)*UIScreen.main.bounds.width, height:300), show: show ?? Show())
         //detailView.delegate = self
-        //viewDelegate?.showDetailView(detailView: detailView)
-        
         
         let overlayView = UIView(frame:CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         overlayView.backgroundColor = .black
         overlayView.alpha = 0.5
-        //viewDelegate?.showOverlay(overLay: overlayView)
         tableView.addSubview(overlayView)
-    
+        //viewDelegate?.addToView(view: overlayView)
+        
+       
         
         UIView.animate(withDuration: 1,delay:0, options: .curveEaseInOut,animations:{
             detailView.alpha = 0.9
-            //self.viewDelegate?.showDetailView(detailView: detailView)
             tableView.addSubview(detailView)
-
+            //self.viewDelegate?.addToView(view: detailView)
+            
         })
     }
-    
-
-    
-    
     
 }

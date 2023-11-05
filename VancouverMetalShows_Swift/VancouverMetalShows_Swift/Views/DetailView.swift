@@ -37,7 +37,6 @@ class DetailView: UIView
     
     private func configureView()
     {
-        
         backgroundColor = .lightGray
         isOpaque = false
         layer.cornerRadius = 10
