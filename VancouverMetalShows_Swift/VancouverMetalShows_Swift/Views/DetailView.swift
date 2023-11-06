@@ -100,10 +100,11 @@ class DetailView: UIView
     
     @objc func closeView()
     {
+        print("closeView()")
         UIView.animate(withDuration: 1.0, delay:0, options: .curveEaseInOut, animations: {
             self.alpha = 0.0
             //self.isHidden = true
-            self.delegate?.didCloseView()
+            //self.delegate?.didCloseView()
             
        })
         

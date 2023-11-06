@@ -8,15 +8,11 @@
 import Foundation
 import UIKit
 
-protocol TableViewData: AnyObject
-{
-    func addToView(view: UIView)
-}
+
 
 class TableViewDataSourceDelegate: NSObject, UITableViewDataSource, UITableViewDelegate
 {
     private var showsArray: [Show]
-    weak var viewDelegate: TableViewData?
     
     init(shows:[Show])
     {
@@ -50,26 +46,30 @@ class TableViewDataSourceDelegate: NSObject, UITableViewDataSource, UITableViewD
         
         //Fav icon colors not working
         
-//        if(show.favourite == "1")
-//        {
-//            favButton.setImage(heartIcon, for: .normal)
-//            favButton.backgroundColor = .systemRed
-//            favButton.addAction(UIAction{_ in
-//                favButton.setImage(UIImage(systemName: "heart"), for: .normal)
-//                favButton.backgroundColor = .none
-//                self.removeItemFromFavs(show: show)
-//            }, for: .touchUpInside)
-//        }
-//        else
-//        {
-//            favButton.setImage(UIImage(systemName: "heart", withConfiguration: symbolConfig), for: .normal)
-//            favButton.addAction(UIAction{_ in
-//                self.addToFavs(show: show)
-//                favButton.setImage(UIImage(systemName: "heart.square.fill", withConfiguration: symbolConfig), for: .normal)
-//                heartIcon?.withTintColor(.systemRed, renderingMode: .alwaysTemplate)
-//                favButton.backgroundColor = .systemRed
-//            }, for: .touchUpInside)
-//        }
+        if(show.favourite == "1")
+        {
+            favButton.setImage(heartIcon, for: .normal)
+            favButton.backgroundColor = .systemRed
+            favButton.addAction(UIAction{_ in
+                favButton.setImage(UIImage(systemName: "heart"), for: .normal)
+                favButton.backgroundColor = .clear
+                //self.removeItemFromFavs(show: show)
+                try? CoreData_.updateItem(show: show, newValue: "0")
+                self.showsArray = CoreData_.loadItems()
+            }, for: .touchUpInside)
+        }
+        else
+        {
+            favButton.setImage(UIImage(systemName: "heart", withConfiguration: symbolConfig), for: .normal)
+            favButton.addAction(UIAction{_ in
+                //self.addToFavs(show: show)
+                try? CoreData_.updateItem(show: show, newValue: "1")
+                self.showsArray = CoreData_.loadItems()
+                favButton.setImage(UIImage(systemName: "heart.square.fill", withConfiguration: symbolConfig), for: .normal)
+                heartIcon?.withTintColor(.systemRed, renderingMode: .alwaysTemplate)
+                favButton.backgroundColor = .systemRed
+            }, for: .touchUpInside)
+        }
         
         cell.addSubview(favButton)
         
@@ -87,19 +87,11 @@ class TableViewDataSourceDelegate: NSObject, UITableViewDataSource, UITableViewD
         let show = showsArray[indexPath.row]
         let detailView = DetailView(frame: CGRect(x:60,y:200,width:(0.7)*UIScreen.main.bounds.width, height:300), show: show ?? Show())
         //detailView.delegate = self
-        
-        let overlayView = UIView(frame:CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
-        overlayView.backgroundColor = .black
-        overlayView.alpha = 0.5
-        tableView.addSubview(overlayView)
-        //viewDelegate?.addToView(view: overlayView)
-        
        
         
         UIView.animate(withDuration: 1,delay:0, options: .curveEaseInOut,animations:{
             detailView.alpha = 0.9
             tableView.addSubview(detailView)
-            //self.viewDelegate?.addToView(view: detailView)
             
         })
     }

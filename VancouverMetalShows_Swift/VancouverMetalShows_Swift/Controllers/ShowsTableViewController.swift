@@ -23,18 +23,25 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
     weak var delegate: ShowsTableViewControllerDelegate?
     weak var cellDelegate: TableViewCellDelegate?
     
-    private var tableViewDataSourceDelgate: TableViewDataSourceDelegate?
-    
     lazy var showsTableView: ShowsTableView =
     {
         let showsTableView = ShowsTableView(frame: CGRect(x:0,y:0,width:self.view.frame.width,height:self.view.frame.height),style: UITableView.Style.plain)
         showsTableView.register(ShowTableViewCell.self, forCellReuseIdentifier: "cellId")
-        showsTableView.delegate = tableViewDataSourceDelgate
-        showsTableView.dataSource = tableViewDataSourceDelgate
         showsTableView.showsVerticalScrollIndicator = false
         return showsTableView
         
     }()
+    
+    private var tableViewDataSourceDelgate: TableViewDataSourceDelegate?
+    {
+     didSet
+        {
+            showsTableView.delegate = tableViewDataSourceDelgate
+            showsTableView.dataSource = tableViewDataSourceDelgate
+            showsTableView.reloadData()
+        }
+        
+    }
     
     private var detailView: DetailView?
     private var showsArray = [Show]()
@@ -178,15 +185,5 @@ extension ShowsTableViewController: ContainerViewDelegateTB
     }
     
 }
-
-extension ShowsTableViewController: TableViewData
-{
-    func addToView(view: UIView)
-    {
-        self.view.addSubview(view)
-    }
-}
-
-
 
 
