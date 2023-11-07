@@ -48,13 +48,15 @@ class DetailView: UIView
         let textSize = CGFloat(17)
         let fontType = "HelveticaNeue-Bold"
         
-        showView?.imageView?.image = UIImage(named: show?.image ?? "")
+        guard let show = show else {return}
+        
+        showView?.imageView?.image = UIImage(named: show.image)
         showView?.imageView?.backgroundColor = .black
         showView?.imageView?.layer.cornerRadius = 5
         showView?.imageView?.layer.borderColor = UIColor.red.cgColor
         layer.borderWidth = 4
         
-        let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000",currentFormat: "yyy-MM-dd", format: "MMM dd, yyy")
+        let formattedDate = Date.shared.formatDate(dateString: show.date,currentFormat: "yyy-MM-dd", format: "MMM dd, yyy")
         
         showView?.dateLabel?.text = "Date: " + formattedDate
         showView?.dateLabel?.backgroundColor = .clear
@@ -62,24 +64,23 @@ class DetailView: UIView
         showView?.dateLabel?.textColor = textColor
         showView?.dateLabel?.font = UIFont(name: fontType, size: textSize)
 
-        showView?.artistLabel?.text = "Artist: " + show!.artist
+        showView?.artistLabel?.text = "Artist: " + show.artist
         showView?.artistLabel?.textColor = textColor
         
-        showView?.venueLabel?.text = "Venue: " + show!.venue
+        showView?.venueLabel?.text = "Venue: " + show.venue
         showView?.venueLabel?.textColor = textColor
         
-        showView?.suppArtistLabel?.text = "With: " + show!.supporting_artists
+        showView?.suppArtistLabel?.text = "With: " + show.supporting_artists
         showView?.suppArtistLabel?.textColor = textColor
         showView?.suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
         showView?.suppArtistLabel?.numberOfLines = 3
         
-        showView?.ticketsLabel?.text = "Tickets: " + show!.tickets
+        showView?.ticketsLabel?.text = "Tickets: " + show.tickets
         showView?.ticketsLabel?.textColor = textColor
         showView?.ticketsLabel?.font = UIFont(name: fontType, size: textSize)
         showView?.venueLabel?.numberOfLines = 3
         
         addSubview(showView ?? UIView())
-    
     }
     
     private func configureConstraints()
@@ -133,7 +134,6 @@ class DetailView: UIView
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.closeView))
         tapGesture.cancelsTouchesInView = false
         self.addGestureRecognizer(tapGesture)
-    
     }
     
     @objc func closeView()
@@ -145,8 +145,6 @@ class DetailView: UIView
             //self.delegate?.didCloseView()
             
        })
-        
-        
     }
 
 }
