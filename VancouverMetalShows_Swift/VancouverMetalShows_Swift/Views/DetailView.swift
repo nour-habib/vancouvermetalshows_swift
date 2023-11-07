@@ -28,6 +28,7 @@ class DetailView: UIView
         
         configureView()
         configureTapGesture()
+        configureConstraints()
     }
     
     required init?(coder: NSCoder)
@@ -47,47 +48,84 @@ class DetailView: UIView
         let textSize = CGFloat(17)
         let fontType = "HelveticaNeue-Bold"
         
-        showView?.artistLabel?.text = "Artist: " + show!.artist
-        showView?.artistLabel?.frame = CGRect(x: 20, y:145, width:200, height:30)
-        showView?.artistLabel?.textColor = textColor
-        
-        let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000",currentFormat: "yyy-MM-dd", format: "MMM dd, yyy")
-        
-        showView?.dateLabel?.text = "Date: " + formattedDate
-        showView?.dateLabel?.backgroundColor = .clear
-        showView?.dateLabel?.frame = CGRect (x:20, y:120, width: 200, height: 30)
-        showView?.dateLabel?.textAlignment = .left
-        showView?.dateLabel?.textColor = textColor
-        showView?.dateLabel?.font = UIFont(name: fontType, size: textSize)
-        
-        if(show?.supporting_artists == "")
-        {
-            showView?.suppArtistLabel?.removeFromSuperview()
-        }
-        showView?.suppArtistLabel?.text = "With: " + show!.supporting_artists
-        showView?.suppArtistLabel?.frame = CGRect (x:20, y:220, width: 200, height: 30)
-        showView?.suppArtistLabel?.textColor = textColor
-        showView?.suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
-        showView?.suppArtistLabel?.numberOfLines = 2
-        
-        showView?.venueLabel?.text = "Venue: " + show!.venue
-        showView?.venueLabel?.frame = CGRect (x:20, y:170, width: self.frame.width, height: 30)
-        showView?.venueLabel?.textColor = textColor
-        
-        showView?.ticketsLabel?.text = "Tickets: " + show!.tickets
-        showView?.ticketsLabel?.frame = CGRect (x:20, y:195, width: 130, height: 30)
-        showView?.ticketsLabel?.textColor = textColor
-        showView?.ticketsLabel?.font = UIFont(name: fontType, size: textSize)
-        
         showView?.imageView?.image = UIImage(named: show?.image ?? "")
-        showView?.imageView?.frame = CGRect(x:97,y:30,width:80,height:80)
         showView?.imageView?.backgroundColor = .black
         showView?.imageView?.layer.cornerRadius = 5
         showView?.imageView?.layer.borderColor = UIColor.red.cgColor
         layer.borderWidth = 4
         
+        let formattedDate = Date.shared.formatDate(dateString: show?.date ?? "000",currentFormat: "yyy-MM-dd", format: "MMM dd, yyy")
+        
+        showView?.dateLabel?.text = "Date: " + formattedDate
+        showView?.dateLabel?.backgroundColor = .clear
+        showView?.dateLabel?.textAlignment = .left
+        showView?.dateLabel?.textColor = textColor
+        showView?.dateLabel?.font = UIFont(name: fontType, size: textSize)
+
+        showView?.artistLabel?.text = "Artist: " + show!.artist
+        showView?.artistLabel?.textColor = textColor
+        
+        showView?.venueLabel?.text = "Venue: " + show!.venue
+        showView?.venueLabel?.textColor = textColor
+        
+        showView?.suppArtistLabel?.text = "With: " + show!.supporting_artists
+        showView?.suppArtistLabel?.textColor = textColor
+        showView?.suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
+        showView?.suppArtistLabel?.numberOfLines = 3
+        
+        showView?.ticketsLabel?.text = "Tickets: " + show!.tickets
+        showView?.ticketsLabel?.textColor = textColor
+        showView?.ticketsLabel?.font = UIFont(name: fontType, size: textSize)
+        showView?.venueLabel?.numberOfLines = 3
+        
         addSubview(showView ?? UIView())
     
+    }
+    
+    private func configureConstraints()
+    {
+        guard let artistLabel = showView?.artistLabel,
+              let dateLabel = showView?.dateLabel,
+              let suppArtistsLabel = showView?.suppArtistLabel,
+              let venueLabel = showView?.venueLabel,
+              let ticketsLabel = showView?.ticketsLabel,
+              let imageView = showView?.imageView else {return}
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 97).isActive = true
+        imageView.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        dateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10).isActive = true
+        dateLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        dateLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+
+        artistLabel.translatesAutoresizingMaskIntoConstraints = false
+        artistLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        artistLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 0).isActive = true
+        artistLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        artistLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+
+        venueLabel.translatesAutoresizingMaskIntoConstraints = false
+        venueLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        venueLabel.topAnchor.constraint(equalTo: artistLabel.bottomAnchor, constant: 0).isActive = true
+        venueLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        venueLabel.widthAnchor.constraint(equalToConstant: frame.width).isActive = true
+
+        ticketsLabel.translatesAutoresizingMaskIntoConstraints = false
+        ticketsLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        ticketsLabel.topAnchor.constraint(equalTo: venueLabel.bottomAnchor, constant: 0).isActive = true
+        ticketsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        ticketsLabel.widthAnchor.constraint(equalToConstant: 130).isActive = true
+
+        suppArtistsLabel.translatesAutoresizingMaskIntoConstraints = false
+        suppArtistsLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        suppArtistsLabel.topAnchor.constraint(equalTo: ticketsLabel.bottomAnchor, constant: 0).isActive = true
+        suppArtistsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        suppArtistsLabel.widthAnchor.constraint(equalToConstant: frame.width).isActive = true
     }
     
     private func configureTapGesture()
