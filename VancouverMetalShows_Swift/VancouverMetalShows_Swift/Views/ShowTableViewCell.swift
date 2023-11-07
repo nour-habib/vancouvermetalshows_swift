@@ -71,6 +71,8 @@ class ShowTableViewCell: UITableViewCell
         guard let dateLabel = showView?.dateLabel else {return}
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0).isActive = true
+        dateLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0).isActive = true
+        dateLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0).isActive = true
         dateLabel.heightAnchor.constraint(equalToConstant: 16).isActive = true
         dateLabel.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
         
@@ -78,18 +80,14 @@ class ShowTableViewCell: UITableViewCell
     
     private func configureHeartButton()
     {
-        //favButton?.frame.size = CGSize(width: 20,height: 20)
-        addSubview(favButton ?? UIButton())
-        favButton?.translatesAutoresizingMaskIntoConstraints = false
-        favButton?.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        favButton?.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        favButton?.rightAnchor.constraint(equalTo:contentView.rightAnchor, constant: 350).isActive = true
-        favButton?.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 60).isActive = true
-        
-
-        
-        
-      
+        guard let favButton = favButton else {return}
+        addSubview(favButton)
+        favButton.translatesAutoresizingMaskIntoConstraints = false
+        favButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        favButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        favButton.rightAnchor.constraint(equalTo:contentView.rightAnchor, constant: -30).isActive = true
+        favButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 60).isActive = true
+    
     }
     
     
