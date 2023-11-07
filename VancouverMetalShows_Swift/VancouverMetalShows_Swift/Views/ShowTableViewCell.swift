@@ -47,23 +47,25 @@ class ShowTableViewCell: UITableViewCell
     private func configureConstraints()
     {
         guard let imageView = showView?.imageView else {return}
+        guard let artistLabel = showView?.artistLabel else {return}
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.centerXAnchor.constraint(equalTo: contentView.leftAnchor, constant: 60).isActive = true
+        imageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 30).isActive = true
+        //imageView.rightAnchor.constraint(equalTo: artistLabel.leftAnchor, constant: -40).isActive = true
         imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 80).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 80).isActive = true
         
-        guard let artistLabel = showView?.artistLabel else {return}
+        
         artistLabel.translatesAutoresizingMaskIntoConstraints = false
-        artistLabel.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: 30).isActive = true
+        artistLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -10).isActive = true
         artistLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 25).isActive = true
         artistLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         artistLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         
         guard let venueLabel = showView?.venueLabel else {return}
         venueLabel.translatesAutoresizingMaskIntoConstraints = false
-        venueLabel.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: 30).isActive = true
+        venueLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 15).isActive = true
         venueLabel.topAnchor.constraint(equalTo: artistLabel.centerYAnchor, constant: 10).isActive = true
         venueLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         venueLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
