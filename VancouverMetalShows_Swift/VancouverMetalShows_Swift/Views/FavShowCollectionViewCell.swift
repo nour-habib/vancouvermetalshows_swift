@@ -49,6 +49,7 @@ class FavShowCollectionViewCell: UICollectionViewCell
         showView?.imageView?.frame = CGRect(x: 35, y: 30, width: 80, height: 80)
         
         showView?.suppArtistLabel?.numberOfLines = 3
+        autoresizingMask = .flexibleHeight
         
         
         let dummyShowView = ShowView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))

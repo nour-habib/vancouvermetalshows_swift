@@ -17,10 +17,11 @@ class ShowTableViewCell: UITableViewCell
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.showView = ShowView(frame: self.frame)
-        //showView?.backgroundColor = .yellow
+        self.favButton = UIButton()
         
         configureCell()
         configureHeartButton()
+        configureConstraints()
     }
 
         
@@ -36,22 +37,66 @@ class ShowTableViewCell: UITableViewCell
     
     private func configureCell()
     {
-        addSubview(showView ?? ShowView())
-//        self.contentView.clipsToBounds = true
         backgroundColor = .black
-        //layoutMargins.left = 10
-        //self.layoutMargins.top = 20
+        addSubview(showView ?? ShowView())
+        
+        autoresizingMask = .flexibleWidth
+        layoutIfNeeded()
+    }
+    
+    private func configureConstraints()
+    {
+        guard let imageView = showView?.imageView else {return}
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.centerXAnchor.constraint(equalTo: contentView.leftAnchor, constant: 60).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        
+        guard let artistLabel = showView?.artistLabel else {return}
+        artistLabel.translatesAutoresizingMaskIntoConstraints = false
+        artistLabel.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: 30).isActive = true
+        artistLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 25).isActive = true
+        artistLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        artistLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        guard let venueLabel = showView?.venueLabel else {return}
+        venueLabel.translatesAutoresizingMaskIntoConstraints = false
+        venueLabel.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: 30).isActive = true
+        venueLabel.topAnchor.constraint(equalTo: artistLabel.centerYAnchor, constant: 10).isActive = true
+        venueLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        venueLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        
+        guard let dateLabel = showView?.dateLabel else {return}
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0).isActive = true
+        dateLabel.heightAnchor.constraint(equalToConstant: 16).isActive = true
+        dateLabel.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
         
     }
     
     private func configureHeartButton()
     {
-        self.favButton = UIButton(frame: CGRect(x:320,y:60,width:20,height:20))
+        //favButton?.frame.size = CGSize(width: 20,height: 20)
+        addSubview(favButton ?? UIButton())
+        favButton?.translatesAutoresizingMaskIntoConstraints = false
+        favButton?.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        favButton?.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        favButton?.rightAnchor.constraint(equalTo:contentView.rightAnchor, constant: 350).isActive = true
+        favButton?.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 60).isActive = true
+        
+
+        
+        
+      
     }
     
-    func didTapHeartButton()
-    {
-        
-    }
+    
+    
+//    func didTapHeartButton()
+//    {
+//
+//    }
 }
 

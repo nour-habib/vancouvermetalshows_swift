@@ -93,7 +93,18 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
     
     private func configureTableView()
     {
+        showsTableView.refreshControl = UIRefreshControl()
+        showsTableView.refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
         view.addSubview(showsTableView)
+        
+        showsTableView.translatesAutoresizingMaskIntoConstraints = false
+        showsTableView.heightAnchor.constraint(equalToConstant: view.frame.height).isActive = true
+        showsTableView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        showsTableView.rightAnchor.constraint(equalTo:view.rightAnchor, constant: 0).isActive = true
+        showsTableView.leftAnchor.constraint(equalTo:view.leftAnchor, constant: 0).isActive = true
+        showsTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        showsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        
     }
     
     private func configureNavigation()
@@ -106,23 +117,14 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
         delegate?.didTapMenuButton()
     }
     
-    // MARK: Favourite Button
-    private func addToFavs(show: Show)
+    @objc func refreshTable()
     {
-        cellDelegate?.didTapHeartButton()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0){
+            self.showsTableView.refreshControl?.endRefreshing()
+            self.showsArray = Show.sortShows(shows: CoreData_.loadItems())
+            self.showsTableView.reloadData()
+        };
         
-        print("addTOFavs")
-        try? CoreData_.updateItem(show: show, newValue: "1")
-        showsArray = CoreData_.loadItems()
-        //showsTableView?.reloadData()
-    }
-    
-    private func removeItemFromFavs(show: Show)
-    {
-        print("removeItemFromFavs()")
-        try? CoreData_.updateItem(show: show, newValue: "0")
-        showsArray = CoreData_.loadItems()
-        //showsTableView?.reloadData()
     }
     
     // MARK: Json Parsing

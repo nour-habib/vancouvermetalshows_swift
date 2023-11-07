@@ -46,7 +46,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     
     private func configureCollectionView()
     {
-        
         collectionView.backgroundColor = .black
         collectionView.delegate = self
         collectionView.dataSource = dataSource
@@ -56,6 +55,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         collectionView.alwaysBounceVertical = true
         collectionView.bounces = true
         collectionView.register(SectionHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderReusableView.reuseIdentifier)
+        collectionView.refreshControl = UIRefreshControl()
         
         collectionView.reloadData()
         
