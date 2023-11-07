@@ -48,14 +48,14 @@ class ShowTableViewCell: UITableViewCell
     {
         guard let imageView = showView?.imageView else {return}
         guard let artistLabel = showView?.artistLabel else {return}
+        guard let venueLabel = showView?.venueLabel else {return}
+        guard let dateLabel = showView?.dateLabel else {return}
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 30).isActive = true
-        //imageView.rightAnchor.constraint(equalTo: artistLabel.leftAnchor, constant: -40).isActive = true
         imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 80).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        
         
         artistLabel.translatesAutoresizingMaskIntoConstraints = false
         artistLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -10).isActive = true
@@ -63,14 +63,12 @@ class ShowTableViewCell: UITableViewCell
         artistLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         artistLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         
-        guard let venueLabel = showView?.venueLabel else {return}
         venueLabel.translatesAutoresizingMaskIntoConstraints = false
         venueLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 15).isActive = true
         venueLabel.topAnchor.constraint(equalTo: artistLabel.centerYAnchor, constant: 10).isActive = true
         venueLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         venueLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
         
-        guard let dateLabel = showView?.dateLabel else {return}
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0).isActive = true
         dateLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0).isActive = true
