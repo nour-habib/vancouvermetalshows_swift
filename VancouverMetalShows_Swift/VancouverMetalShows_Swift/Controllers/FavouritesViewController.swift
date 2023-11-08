@@ -15,7 +15,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     
     private var showsArray: [ShowItem]?
     private var favShowsArray: [Show]?
-    private var showView: ShowView?
+    //private var showView: ShowView?
     private var showsDict: [String: [Show]]?
 
 /*
@@ -44,6 +44,8 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         
     }
     
+    //MARK: CollectionView Configuratioin
+    
     private func configureCollectionView()
     {
         collectionView.backgroundColor = .black
@@ -58,8 +60,18 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         collectionView.refreshControl = UIRefreshControl()
         
         collectionView.reloadData()
-        
         view.addSubview(collectionView)
+        applyCollectionViewConstraints()
+    }
+    
+    private func applyCollectionViewConstraints()
+    {
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 90).isActive = true
+        collectionView.heightAnchor.constraint(equalToConstant: view.frame.height).isActive = true
+        collectionView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
     }
 
     
@@ -104,9 +116,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
             print("Could not find index path)")
         }
         
-        
         guard let indexPath = indexPath, var showsDict = showsDict else {return}
-        
         guard let show = dataSource.itemIdentifier(for: indexPath) else {return}
         
         do
@@ -214,16 +224,8 @@ extension FavouritesViewController: UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
-        
         let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
-        
         print("didSelectItemAt()")
-        print("show: ", section.shows[indexPath.row])
-        print("User tapped on item \(indexPath.row)")
-        print("section: ", indexPath.section)
-        print("cell frame: ", collectionView.cellForItem(at: indexPath)?.layer.frame)
-//        print(dataSource.snapshot().numberOfItems(inSection: FavouritesViewController.Section(rawValue: indexPath.section)!))
-        //guard let show = dataSource.itemIdentifier(for: indexPath) else {return}
         initLongPressGesture()
     }
     
@@ -344,10 +346,7 @@ private extension FavouritesViewController
 {
     func makeCollectionView() -> UICollectionView
     {
-        UICollectionView(
-            frame: CGRect(x:0,y:90,width:self.view.frame.width,height:self.view.frame.height),
-            collectionViewLayout: makeCollectionViewLayout()
-        )
+        return UICollectionView(frame: .zero, collectionViewLayout: makeCollectionViewLayout())
     }
 }
 
