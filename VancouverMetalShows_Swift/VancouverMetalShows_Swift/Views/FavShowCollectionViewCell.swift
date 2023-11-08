@@ -17,6 +17,7 @@ class FavShowCollectionViewCell: UICollectionViewCell
         self.showView = ShowView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
         
         configureView()
+        applyConstraints()
     }
 
     required init?(coder: NSCoder)
@@ -39,20 +40,51 @@ class FavShowCollectionViewCell: UICollectionViewCell
         showView.layer.borderColor = UIColor.lightGray.cgColor
         showView.layer.borderWidth = 0.9
         showView.backgroundColor = .black
-        
-        showView.dateLabel?.frame = CGRect(x: 0, y: 0, width: frame.width, height: 20)
-        showView.artistLabel?.frame = CGRect(x: 10, y: 90, width:100, height: 50)
-        showView.venueLabel?.frame = CGRect(x: 10, y: 110, width:150, height: 50)
-        showView.suppArtistLabel?.frame = CGRect(x: 10, y: 130, width: 110, height: 50)
-        showView.ticketsLabel?.frame = CGRect(x: 100, y: 8, width: 100, height: 50)
-        showView.imageView?.frame = CGRect(x: 35, y: 30, width: 80, height: 80)
-        
         showView.suppArtistLabel?.numberOfLines = 3
         autoresizingMask = .flexibleHeight
-        
-//        let dummyShowView = ShowView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
-//        dummyShowView.backgroundColor = .blue
+
         contentView.addSubview(showView)
+    }
+    
+    private func applyConstraints()
+    {
+        guard let artistLabel = showView?.artistLabel,
+              let dateLabel = showView?.dateLabel,
+              let venueLabel = showView?.venueLabel,
+              let ticketsLabel = showView?.ticketsLabel,
+              let imageView = showView?.imageView else {return}
+        
+        
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
+        dateLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
+        dateLabel.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
+        dateLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        dateLabel.widthAnchor.constraint(equalToConstant: frame.width).isActive = true
+        
+        ticketsLabel.translatesAutoresizingMaskIntoConstraints = false
+        ticketsLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: 65).isActive = true
+        ticketsLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        ticketsLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        ticketsLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 35).isActive = true
+        imageView.topAnchor.constraint(equalTo: topAnchor, constant: 18).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 80).isActive = true
+
+        artistLabel.translatesAutoresizingMaskIntoConstraints = false
+        artistLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        artistLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 0).isActive = true
+        artistLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        artistLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+
+        venueLabel.translatesAutoresizingMaskIntoConstraints = false
+        venueLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        venueLabel.topAnchor.constraint(equalTo: artistLabel.bottomAnchor, constant: -15).isActive = true
+        venueLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        venueLabel.widthAnchor.constraint(equalToConstant: frame.width).isActive = true
     }
     
 }
