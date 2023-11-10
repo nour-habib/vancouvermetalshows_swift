@@ -25,7 +25,7 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
     
     lazy var showsTableView: ShowsTableView =
     {
-        let showsTableView = ShowsTableView(frame: CGRect(x:0,y:0,width:self.view.frame.width,height:self.view.frame.height),style: UITableView.Style.plain)
+        let showsTableView = ShowsTableView()
         showsTableView.register(ShowTableViewCell.self, forCellReuseIdentifier: "cellId")
         showsTableView.showsVerticalScrollIndicator = false
         return showsTableView
@@ -59,7 +59,7 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
         
         //CoreData_.clearAllItems(entityName: "ShowItem")
     
-        defaults.set(true, forKey: "InitialLaunch")
+        //defaults.set(true, forKey: "InitialLaunch")
         if (defaults.bool(forKey: "InitialLaunch") == true)
         {
             //Seecond+ launch: load from CoreData
@@ -131,7 +131,6 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
     
     private func getShowsData() -> [Show]
     {
-        print("getshowsData()")
         var showsArray = [Show]()
         
         do

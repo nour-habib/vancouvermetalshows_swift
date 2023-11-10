@@ -36,6 +36,7 @@
 		14669B862ACF764F005F2894 /* Months.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B852ACF764E005F2894 /* Months.swift */; };
 		14669B882AD5E437005F2894 /* SectionHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B872AD5E437005F2894 /* SectionHeaderReusableView.swift */; };
 		14A6EA2F2AF6F575002A549C /* TableViewDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A6EA2E2AF6F574002A549C /* TableViewDataSourceDelegate.swift */; };
+		14A6EA312AFD8850002A549C /* IntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A6EA302AFD884F002A549C /* IntroView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		14669B852ACF764E005F2894 /* Months.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Months.swift; sourceTree = "<group>"; };
 		14669B872AD5E437005F2894 /* SectionHeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderReusableView.swift; sourceTree = "<group>"; };
 		14A6EA2E2AF6F574002A549C /* TableViewDataSourceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewDataSourceDelegate.swift; sourceTree = "<group>"; };
+		14A6EA302AFD884F002A549C /* IntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +203,7 @@
 				14669B7F2ACC9F51005F2894 /* FavShowCollectionViewCell.swift */,
 				14669B872AD5E437005F2894 /* SectionHeaderReusableView.swift */,
 				14669B5D2AB9043A005F2894 /* ShowTableViewCell.swift */,
+				14A6EA302AFD884F002A549C /* IntroView.swift */,
 				14669B5B2AB90120005F2894 /* ShowsTableView.swift */,
 				14669B6B2ABBD344005F2894 /* DetailView.swift */,
 			);
@@ -378,6 +381,7 @@
 				14669B6A2ABB8A10005F2894 /* MenuViewController.swift in Sources */,
 				14669B5E2AB9043B005F2894 /* ShowTableViewCell.swift in Sources */,
 				14669B1F2AB79096005F2894 /* SceneDelegate.swift in Sources */,
+				14A6EA312AFD8850002A549C /* IntroView.swift in Sources */,
 				14669B642ABB65D7005F2894 /* CustomColor.swift in Sources */,
 				14A6EA2F2AF6F575002A549C /* TableViewDataSourceDelegate.swift in Sources */,
 				14669B602AB912AC005F2894 /* ShowView.swift in Sources */,
@@ -555,7 +559,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VancouverMetalShows_Swift/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -582,7 +585,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VancouverMetalShows_Swift/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

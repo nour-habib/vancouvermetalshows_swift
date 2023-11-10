@@ -44,6 +44,16 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         
     }
     
+//    override func viewWillLayoutSubviews()
+//    {
+//        super.viewWillLayoutSubviews()
+//
+//        guard let layout = collectionView.collectionViewLayout as? UICollectionViewCompositionalLayout else {
+//            return
+//        }
+//        layout.invalidateLayout()
+//    }
+//
     //MARK: CollectionView Configuratioin
     
     private func configureCollectionView()
@@ -69,7 +79,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 90).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: view.frame.height).isActive = true
         collectionView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
     }
@@ -306,7 +316,7 @@ private extension FavouritesViewController {
             heightDimension: .fractionalHeight(1.0)
         ))
         
-        item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(0), top: .fixed(0), trailing: .fixed(0), bottom: .fixed(5))
+        item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(0), top: .fixed(0), trailing: .fixed(0), bottom: .fixed(0))
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize:  NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -318,7 +328,7 @@ private extension FavouritesViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         //section.orthogonalScrollingBehavior = .continuous
-        section.interGroupSpacing = 2
+        section.interGroupSpacing = 5
         section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 0)
         
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(33))
@@ -354,7 +364,6 @@ private extension FavouritesViewController
 {
     func configureSectionHeader()
     {
-        print("confiigureSecHeader()")
         dataSource.supplementaryViewProvider = {(
             collectionView: UICollectionView,
             kind: String,
