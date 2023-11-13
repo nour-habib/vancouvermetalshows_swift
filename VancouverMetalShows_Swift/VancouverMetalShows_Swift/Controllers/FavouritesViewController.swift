@@ -15,7 +15,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     
     private var showsArray: [ShowItem]?
     private var favShowsArray: [Show]?
-    //private var showView: ShowView?
     private var showsDict: [String: [Show]]?
 
 /*
@@ -85,7 +84,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     }
 
     
-    //MARK: Long Press Gesture to Delete Item
+    //MARK: Delete collectionView item
     private func initLongPressGesture()
     {
         let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture))
@@ -115,7 +114,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     private func deleteCollectionViewItem(point: CGPoint)
     {
         let indexPath = collectionView.indexPathForItem(at: point)
-        print("indexPath: ", indexPath)
         
         if let index = indexPath
         {
@@ -182,7 +180,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
                 favShows.append(show)
             }
         }
-        
         return favShows
     }
     
@@ -222,20 +219,17 @@ extension FavouritesViewController: UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        print("numberOfItemsInSection()")
         return  dataSource.collectionView(collectionView, numberOfItemsInSection: section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
-        print("cellForItemAt()")
         return dataSource.collectionView(collectionView, cellForItemAt: indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
-        let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
-        print("didSelectItemAt()")
+        //let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
         initLongPressGesture()
     }
     
@@ -245,10 +239,7 @@ private extension FavouritesViewController
 {
     func initDataSource() -> UICollectionViewDiffableDataSource<MonthSection, Show>
     {
-        UICollectionViewDiffableDataSource(
-            collectionView: collectionView ,
-                    cellProvider: makeCellRegistration().cellProvider
-                )
+       return UICollectionViewDiffableDataSource(collectionView: collectionView ,cellProvider: makeCellRegistration().cellProvider)
     }
 }
 

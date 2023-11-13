@@ -118,7 +118,6 @@ extension ContainerViewController: MenuViewControllerDelegate
         favsVC.didMove(toParent: showsViewController)
         showsViewController.title = favsVC.title
         delegate_cv?.updateCollectionView()
-        
     }
     
     func resetToShowsViewController()
@@ -128,7 +127,5 @@ extension ContainerViewController: MenuViewControllerDelegate
         favsViewController.didMove(toParent: nil)
         showsViewController.title = "Shows"
         delegate_tb?.updateTableView()
-        
     }
-    
 }

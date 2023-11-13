@@ -17,13 +17,12 @@ protocol TableViewCellDelegate: AnyObject
     func didTapHeartButton()
 }
 
-
 class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
 {
     weak var delegate: ShowsTableViewControllerDelegate?
     weak var cellDelegate: TableViewCellDelegate?
     
-    lazy var showsTableView: ShowsTableView =
+    private lazy var showsTableView: ShowsTableView =
     {
         let showsTableView = ShowsTableView()
         showsTableView.register(ShowTableViewCell.self, forCellReuseIdentifier: "cellId")
@@ -78,12 +77,6 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
         }
         
         self.tableViewDataSourceDelgate = TableViewDataSourceDelegate(shows: showsArray)
-    
-        for show in showsArray
-        {
-            print("artist: ", show.artist)
-            print("fav: ", show.favourite)
-        }
         
         configureNavigation()
         configureTableView()
@@ -124,7 +117,6 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
             self.showsArray = Show.sortShows(shows: CoreData_.loadItems())
             self.showsTableView.reloadData()
         };
-        
     }
     
     // MARK: Json Parsing
@@ -141,7 +133,6 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
                let data = try Data(contentsOf: fileURL)
                let showsJSON = try JSONDecoder().decode([Show].self, from: data)
                showsArray.append(contentsOf: showsJSON)
-               //return showsArray
            }
             
         }
