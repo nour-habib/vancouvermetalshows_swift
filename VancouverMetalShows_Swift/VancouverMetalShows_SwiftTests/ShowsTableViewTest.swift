@@ -25,7 +25,6 @@ class ShowsTableViewTest: XCTestCase {
         tableView.delegate = delegateDataSource
         tableView.dataSource =  delegateDataSource
         
-        
     }
 
     override func tearDownWithError() throws {
@@ -49,6 +48,16 @@ class ShowsTableViewTest: XCTestCase {
         self.measure {
             // Put the code you want to measure the time of here.
         }
+    }
+    
+    func test_dataSource()
+    {
+        XCTAssertNotNil(tableView.dataSource)
+    }
+    
+    func test_delegate()
+    {
+        XCTAssertNotNil(tableView.delegate)
     }
     
     func test_numberOfRows()
