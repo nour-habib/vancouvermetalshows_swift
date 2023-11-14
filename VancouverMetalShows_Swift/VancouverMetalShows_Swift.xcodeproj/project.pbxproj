@@ -37,6 +37,7 @@
 		14669B882AD5E437005F2894 /* SectionHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B872AD5E437005F2894 /* SectionHeaderReusableView.swift */; };
 		14A6EA2F2AF6F575002A549C /* TableViewDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A6EA2E2AF6F574002A549C /* TableViewDataSourceDelegate.swift */; };
 		14A6EA332AFEE1DC002A549C /* ShowsTableViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A6EA322AFEE1DC002A549C /* ShowsTableViewTest.swift */; };
+		14A6EA372B01C6BA002A549C /* DetailViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A6EA362B01C6BA002A549C /* DetailViewTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,7 @@
 		14669B872AD5E437005F2894 /* SectionHeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderReusableView.swift; sourceTree = "<group>"; };
 		14A6EA2E2AF6F574002A549C /* TableViewDataSourceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewDataSourceDelegate.swift; sourceTree = "<group>"; };
 		14A6EA322AFEE1DC002A549C /* ShowsTableViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowsTableViewTest.swift; sourceTree = "<group>"; };
+		14A6EA362B01C6BA002A549C /* DetailViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +166,7 @@
 			children = (
 				14669B362AB79099005F2894 /* VancouverMetalShows_SwiftTests.swift */,
 				14A6EA322AFEE1DC002A549C /* ShowsTableViewTest.swift */,
+				14A6EA362B01C6BA002A549C /* DetailViewTest.swift */,
 			);
 			path = VancouverMetalShows_SwiftTests;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				14A6EA332AFEE1DC002A549C /* ShowsTableViewTest.swift in Sources */,
+				14A6EA372B01C6BA002A549C /* DetailViewTest.swift in Sources */,
 				14669B372AB79099005F2894 /* VancouverMetalShows_SwiftTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

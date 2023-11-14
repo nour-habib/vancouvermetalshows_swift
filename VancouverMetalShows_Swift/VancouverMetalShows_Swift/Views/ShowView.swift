@@ -41,7 +41,6 @@ class ShowView: UIView
         
         let textColor = CustomColor.ninjaGreen
         let textSize = CGFloat(17)
-        //let fontType = "Helvetica-Bold"
         let fontType = "HelveticaNeue-Bold"
         
         artistLabel?.textColor = textColor
@@ -60,8 +59,6 @@ class ShowView: UIView
         dateLabel?.backgroundColor = CustomColor.ninjaGreen
         dateLabel?.textAlignment = .center
         dateLabel?.font = UIFont(name: "CourierNewPSMT", size: 14)
-       
-        
         imageView?.contentMode = .scaleAspectFit
         
         addSubview(artistLabel ?? UILabel())

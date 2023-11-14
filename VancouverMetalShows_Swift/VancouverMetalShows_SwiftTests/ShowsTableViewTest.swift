@@ -64,5 +64,18 @@ class ShowsTableViewTest: XCTestCase {
     {
         XCTAssertEqual(delegateDataSource.tableView(tableView, numberOfRowsInSection: 0), 5)
     }
+    
+    func test_conformsToDelegate()
+    {
+        XCTAssert(delegateDataSource.conforms(to: UITableViewDelegate.self))
+        XCTAssert(delegateDataSource.responds(to: #selector(delegateDataSource.tableView(_:didSelectRowAt:))))
+    }
+    
+    func test_conformsToDataSource()
+    {
+        XCTAssert(delegateDataSource.conforms(to: UITableViewDataSource.self))
+        XCTAssert(delegateDataSource.responds(to: #selector(delegateDataSource.tableView(_:numberOfRowsInSection:))))
+        XCTAssert(delegateDataSource.responds(to: #selector(delegateDataSource.tableView(_:cellForRowAt:))))
+    }
 
 }
