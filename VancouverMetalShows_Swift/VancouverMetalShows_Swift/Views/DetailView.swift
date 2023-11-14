@@ -84,7 +84,6 @@ class DetailView: UIView
         
         ticketsLabel.text = "Tickets: " + show.tickets
         ticketsLabel.textColor = textColor
-        ticketsLabel.font = UIFont(name: fontType, size: textSize)
         
         addSubview(showView)
     }
