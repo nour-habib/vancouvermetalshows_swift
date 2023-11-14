@@ -22,7 +22,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         view.backgroundColor = .white
         title = "Favs"
         
-       // CoreData_.clearAllItems(entityName: "ShowItem")
+        CoreData_.clearAllItems(entityName: "ShowItem")
         self.showsDict = loadData()
         
         guard let showsDict = showsDict else {return}
@@ -50,6 +50,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         
         collectionView.reloadData()
         view.addSubview(collectionView)
+        
         applyCollectionViewConstraints()
     }
     

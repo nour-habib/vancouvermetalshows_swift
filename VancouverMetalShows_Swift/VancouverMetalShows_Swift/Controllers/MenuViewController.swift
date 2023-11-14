@@ -28,6 +28,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     {
         view.backgroundColor = .lightGray
         self.tableView = UITableView(frame: CGRect(x:0,y:view.safeAreaInsets.top, width: view.bounds.size.width, height: view.bounds.size.height))
+        
         tableView?.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView?.delegate = self
         tableView?.dataSource = self
