@@ -48,39 +48,45 @@ class DetailView: UIView
         let textSize = CGFloat(17)
         let fontType = "HelveticaNeue-Bold"
         
-        guard let show = show else {return}
+        guard let show = show, let showView = showView else {return}
         
-        showView?.imageView?.image = UIImage(named: show.image)
-        showView?.imageView?.backgroundColor = .black
-        showView?.imageView?.layer.cornerRadius = 5
-        showView?.imageView?.layer.borderColor = UIColor.red.cgColor
+        guard let artistLabel = showView.artistLabel,
+              let venueLabel =  showView.venueLabel,
+              let suppArtistLabel = showView.suppArtistLabel,
+              let ticketsLabel = showView.ticketsLabel,
+              let dateLabel = showView.dateLabel,
+              let imageView = showView.imageView else {return}
+        
+        imageView.image = UIImage(named: show.image)
+        imageView.backgroundColor = .black
+        imageView.layer.cornerRadius = 5
+        imageView.layer.borderColor = UIColor.red.cgColor
         layer.borderWidth = 4
         
         let formattedDate = Date.shared.formatDate(dateString: show.date,currentFormat: "yyy-MM-dd", format: "MMM dd, yyy")
         
-        showView?.dateLabel?.text = "Date: " + formattedDate
-        showView?.dateLabel?.backgroundColor = .clear
-        showView?.dateLabel?.textAlignment = .left
-        showView?.dateLabel?.textColor = textColor
-        showView?.dateLabel?.font = UIFont(name: fontType, size: textSize)
+        dateLabel.text = "Date: " + formattedDate
+        dateLabel.backgroundColor = .clear
+        dateLabel.textAlignment = .left
+        dateLabel.textColor = textColor
+        dateLabel.font = UIFont(name: fontType, size: textSize)
 
-        showView?.artistLabel?.text = "Artist: " + show.artist
-        showView?.artistLabel?.textColor = textColor
+        artistLabel.text = "Artist: " + show.artist
+        artistLabel.textColor = textColor
         
-        showView?.venueLabel?.text = "Venue: " + show.venue
-        showView?.venueLabel?.textColor = textColor
+        venueLabel.text = "Venue: " + show.venue
+        venueLabel.textColor = textColor
+        venueLabel.numberOfLines = 3
         
-        showView?.suppArtistLabel?.text = "With: " + show.supporting_artists
-        showView?.suppArtistLabel?.textColor = textColor
-        showView?.suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
-        showView?.suppArtistLabel?.numberOfLines = 3
+        suppArtistLabel.text = "With: " + show.supporting_artists
+        suppArtistLabel.textColor = textColor
+        suppArtistLabel.numberOfLines = 3
         
-        showView?.ticketsLabel?.text = "Tickets: " + show.tickets
-        showView?.ticketsLabel?.textColor = textColor
-        showView?.ticketsLabel?.font = UIFont(name: fontType, size: textSize)
-        showView?.venueLabel?.numberOfLines = 3
+        ticketsLabel.text = "Tickets: " + show.tickets
+        ticketsLabel.textColor = textColor
+        ticketsLabel.font = UIFont(name: fontType, size: textSize)
         
-        addSubview(showView ?? UIView())
+        addSubview(showView)
     }
     
     private func configureConstraints()
@@ -138,12 +144,8 @@ class DetailView: UIView
     
     @objc func closeView()
     {
-        print("closeView()")
         UIView.animate(withDuration: 1.0, delay:0, options: .curveEaseInOut, animations: {
             self.alpha = 0.0
-            //self.isHidden = true
-            //self.delegate?.didCloseView()
-            
        })
     }
 

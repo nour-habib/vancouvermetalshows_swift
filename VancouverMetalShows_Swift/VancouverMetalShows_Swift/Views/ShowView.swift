@@ -66,6 +66,7 @@ class ShowView: UIView
         dateLabel.backgroundColor = CustomColor.ninjaGreen
         dateLabel.textAlignment = .center
         dateLabel.font = UIFont(name: "CourierNewPSMT", size: 14)
+        
         imageView.contentMode = .scaleAspectFit
         
         addSubview(artistLabel)
