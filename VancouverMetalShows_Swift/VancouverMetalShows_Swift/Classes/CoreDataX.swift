@@ -13,6 +13,7 @@ enum CoreDataError: Error
     case saveError
     case deleteError
     case searchError
+    case updateError
 }
 
 class CoreDataX

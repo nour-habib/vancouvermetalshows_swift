@@ -12,15 +12,9 @@ protocol ShowsTableViewControllerDelegate: AnyObject
     func didTapMenuButton()
 }
 
-protocol TableViewCellDelegate: AnyObject
-{
-    func didTapHeartButton()
-}
-
 class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
 {
     weak var delegate: ShowsTableViewControllerDelegate?
-    weak var cellDelegate: TableViewCellDelegate?
     
     private lazy var showsTableView: ShowsTableView =
     {
@@ -41,13 +35,8 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
         }
         
     }
-    
-    private var detailView: DetailView?
-    private var showsArray = [Show]()
-    
+    private var showsArray: [Show]?
     private var overlayView: UIView?
-    private var show: Show?
-    
     let defaults = UserDefaults.standard
 
     override func viewDidLoad()
@@ -72,10 +61,12 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
             print("First launch")
             //First launch, load from JSON
             self.showsArray = Show.sortShows(shows: getShowsData())
+            guard let showsArray = showsArray else {return}
             CoreData_.batchLoad(array: showsArray)
             defaults.set(true, forKey: "InitialLaunch")
         }
         
+        guard let showsArray = showsArray else {return}
         self.tableViewDataSourceDelgate = TableViewDataSourceDelegate(shows: showsArray)
         
         configureNavigation()
@@ -149,21 +140,12 @@ extension ShowsTableViewController: DetailViewDelegate
 {
     func didCloseView()
     {
-        print("didCloseView()")
         UIView.animate(withDuration: 1.0, delay:0, options: .curveEaseInOut, animations: {
             self.overlayView?.alpha = 0.0
        })
         
         self.overlayView?.removeFromSuperview()
         
-    }
-}
-
-extension ShowsTableViewController: TableViewCellDelegate
-{
-    func didTapHeartButton()
-    {
-        //do
     }
 }
 

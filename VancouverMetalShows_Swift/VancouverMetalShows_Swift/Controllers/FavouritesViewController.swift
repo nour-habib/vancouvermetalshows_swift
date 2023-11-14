@@ -17,13 +17,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
     private var favShowsArray: [Show]?
     private var showsDict: [String: [Show]]?
 
-/*
-    static let cellWidth = 130.0
-    static let cellHeight = 195.0
-    
-    static let groupWidth = UIScreen.main.bounds.width
-    static let groupHeight = cellHeight + 20
- */
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -37,23 +30,9 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         configureCollectionView()
         configureSectionHeader()
         
-//        let ids = dataSource.snapshot().sectionIdentifiers
-//        print("snapshot section ids: ", ids)
-//        print("ids count: ", ids.count)
-        
     }
-    
-//    override func viewWillLayoutSubviews()
-//    {
-//        super.viewWillLayoutSubviews()
-//
-//        guard let layout = collectionView.collectionViewLayout as? UICollectionViewCompositionalLayout else {
-//            return
-//        }
-//        layout.invalidateLayout()
-//    }
-//
-    //MARK: CollectionView Configuratioin
+
+    //MARK: CollectionView Configuration
     
     private func configureCollectionView()
     {
@@ -127,22 +106,19 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         guard let indexPath = indexPath, var showsDict = showsDict else {return}
         guard let show = dataSource.itemIdentifier(for: indexPath) else {return}
         
+        
         do
         {
             try CoreData_.updateItem(show: show, newValue: "0")
         }
         catch
         {
-            //insert errror
+            print("Update error")
         }
         
         var snapshot = dataSource.snapshot()
         guard let section = snapshot.sectionIdentifier(containingItem: show)else {return}
-        let numberOfItemsInSection = snapshot.numberOfItems(inSection: section)
-        print("numberOfItems: ", numberOfItemsInSection)
-        
         guard var showsInSection = showsDict[section.month] else {return}
-        print("showsInSection count: ", showsInSection.count)
         
         showsInSection.remove(at: indexPath[1])
         
@@ -229,11 +205,12 @@ extension FavouritesViewController: UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
-        //let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
         initLongPressGesture()
     }
     
 }
+
+//MARK: Diffable DataSource
 
 private extension FavouritesViewController
 {
@@ -247,8 +224,6 @@ private extension FavouritesViewController
 {
     func showsListDidLoad(_ dict: [String: [Show]] )
     {
-        print("showsListDidLoad()")
-        
         var snapshot = NSDiffableDataSourceSnapshot<MonthSection, Show>()
         
         var sectionArray = [MonthSection]()
@@ -267,14 +242,13 @@ private extension FavouritesViewController
     }
 }
 
+//MARK: CollectionView Cell
+
 private extension FavouritesViewController
 {
-    typealias Cell = FavShowCollectionViewCell
-    typealias CellRegistration = UICollectionView.CellRegistration<Cell, Show>
-
-    func makeCellRegistration() -> CellRegistration
+    func makeCellRegistration() -> UICollectionView.CellRegistration<FavShowCollectionViewCell, Show>
     {
-        CellRegistration { cell, indexPath, show in
+        UICollectionView.CellRegistration<FavShowCollectionViewCell, Show> { cell, indexPath, show in
             cell.showView?.artistLabel?.text = show.artist
             let formattedDate = Date.shared.formatDate(dateString: show.date , currentFormat: "yyy-MM-dd", format: "MMM d, yyyy")
             cell.showView?.dateLabel?.text = formattedDate
@@ -287,17 +261,22 @@ private extension FavouritesViewController
     }
 }
 
+//MARK: CollectionView Cell Registration
+
 extension UICollectionView.CellRegistration {
-    var cellProvider: (UICollectionView, IndexPath, Item) -> Cell {
+    var cellProvider: (UICollectionView, IndexPath, Item) -> FavShowCollectionViewCell
+    {
         return { collectionView, indexPath, show in
             collectionView.dequeueConfiguredReusableCell(
                 using: self,
                 for: indexPath,
                 item: show
-            )
+            ) as! FavShowCollectionViewCell
         }
     }
 }
+
+//MARK: CollectionView Layout Section
 
 private extension FavouritesViewController {
     func makeLayoutSection() -> NSCollectionLayoutSection {
@@ -313,12 +292,10 @@ private extension FavouritesViewController {
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1/4)
         ), subitems: [item])
-        //group.interItemSpacing = .fixed(itemSpacing)
         
         group.edgeSpacing =  NSCollectionLayoutEdgeSpacing(leading: .fixed(0), top: .fixed(0), trailing: .fixed(0), bottom: .fixed(0))
         
         let section = NSCollectionLayoutSection(group: group)
-        //section.orthogonalScrollingBehavior = .continuous
         section.interGroupSpacing = 5
         section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 0)
         
@@ -326,18 +303,20 @@ private extension FavouritesViewController {
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         section.boundarySupplementaryItems = [sectionHeader]
-        //sectionHeader.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(0), top: .fixed(0), trailing: .fixed(0), bottom: .fixed(0))
         
         return section
     }
 }
 
-private extension FavouritesViewController{
+//MARK: CollectionView Compositional Layout
+
+private extension FavouritesViewController
+{
     func makeCollectionViewLayout() -> UICollectionViewLayout
     {
-        UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout
+        {
             [weak self] sectionIndex, _ in
-            
             return self?.makeLayoutSection()
         }
     }
@@ -350,6 +329,8 @@ private extension FavouritesViewController
         return UICollectionView(frame: .zero, collectionViewLayout: makeCollectionViewLayout())
     }
 }
+
+//MARK: CollectionView Section Header
 
 private extension FavouritesViewController
 {
@@ -386,7 +367,6 @@ extension FavouritesViewController: ContainerViewDelegateCV
 {
     func updateCollectionView()
     {
-        print("updateCollectionView()")
         self.showsDict = loadData()
         showsListDidLoad(showsDict ?? [String:[Show]]())
         configureCollectionView()
