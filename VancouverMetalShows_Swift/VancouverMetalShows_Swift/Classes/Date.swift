@@ -15,12 +15,10 @@ class Date
     {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = currentFormat
-        //yyy-MM-dd"
     
         guard let date = dateFormatter.date(from: dateString) else { return "none" }
         
         let newDateFormatter = DateFormatter()
-        //EEEE, MMM d, yyyy
         newDateFormatter.dateFormat = format
         let newDateString = newDateFormatter.string(from: date)
 

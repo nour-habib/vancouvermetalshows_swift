@@ -39,12 +39,11 @@ class TableViewDataSourceDelegate: NSObject, UITableViewDataSource, UITableViewD
 
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .small)
         let heartIcon = UIImage(systemName: "heart.square.fill", withConfiguration:symbolConfig)
-        heartIcon?.withTintColor(.systemRed, renderingMode: .alwaysTemplate)
-
+        
         if(show.favourite == "1")
         {
             cell.favButton?.setImage(heartIcon, for: .normal)
-            cell.favButton?.backgroundColor = .systemRed
+            cell.favButton?.backgroundColor = CustomColor.ninjaGreen
             cell.favButton?.addAction(UIAction{_ in
                 cell.favButton?.setImage(UIImage(systemName: "heart"), for: .normal)
                 cell.favButton?.backgroundColor = .clear
@@ -59,8 +58,7 @@ class TableViewDataSourceDelegate: NSObject, UITableViewDataSource, UITableViewD
                 try? CoreData_.updateItem(show: show, newValue: "1")
                 self.showsArray = Show.sortShows(shows: CoreData_.loadItems())
                 cell.favButton?.setImage(UIImage(systemName: "heart.square.fill", withConfiguration: symbolConfig), for: .normal)
-                heartIcon?.withTintColor(.systemRed, renderingMode: .alwaysTemplate)
-                cell.favButton?.backgroundColor = .systemRed
+                cell.favButton?.backgroundColor = CustomColor.ninjaGreen
             }, for: .touchUpInside)
         }
         

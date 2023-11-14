@@ -38,38 +38,41 @@ class ShowView: UIView
     
     private func configureView()
     {
-        
         let textColor = CustomColor.ninjaGreen
         let textSize = CGFloat(17)
         let fontType = "HelveticaNeue-Bold"
         
-        artistLabel?.textColor = textColor
-        artistLabel?.font = UIFont(name: fontType, size: textSize)
-        
-        venueLabel?.textColor = textColor
-        venueLabel?.font = UIFont(name: fontType, size: textSize)
-        
-        suppArtistLabel?.textColor = textColor
-        suppArtistLabel?.font = UIFont(name: fontType, size: textSize)
-        
-        ticketsLabel?.textColor = textColor
-        ticketsLabel?.font = UIFont(name: fontType, size: textSize)
-        
-        dateLabel?.textColor = .white
-        dateLabel?.backgroundColor = CustomColor.ninjaGreen
-        dateLabel?.textAlignment = .center
-        dateLabel?.font = UIFont(name: "CourierNewPSMT", size: 14)
-        imageView?.contentMode = .scaleAspectFit
-        
-        addSubview(artistLabel ?? UILabel())
-        addSubview(venueLabel ?? UILabel())
-        addSubview(suppArtistLabel ?? UILabel())
-        addSubview(ticketsLabel ?? UILabel())
-        addSubview(dateLabel ?? UILabel())
-        addSubview(imageView ?? UIImageView())
-       
-        
-    }
+        guard let artistLabel = artistLabel,
+              let venueLabel = venueLabel,
+              let suppArtistLabel = suppArtistLabel,
+              let ticketsLabel = ticketsLabel,
+              let dateLabel = dateLabel,
+              let imageView = imageView else {return}
 
-    
+        
+        artistLabel.textColor = textColor
+        artistLabel.font = UIFont(name: fontType, size: textSize)
+        
+        venueLabel.textColor = textColor
+        venueLabel.font = UIFont(name: fontType, size: textSize)
+        
+        suppArtistLabel.textColor = textColor
+        suppArtistLabel.font = UIFont(name: fontType, size: textSize)
+        
+        ticketsLabel.textColor = textColor
+        ticketsLabel.font = UIFont(name: fontType, size: textSize)
+        
+        dateLabel.textColor = .white
+        dateLabel.backgroundColor = CustomColor.ninjaGreen
+        dateLabel.textAlignment = .center
+        dateLabel.font = UIFont(name: "CourierNewPSMT", size: 14)
+        imageView.contentMode = .scaleAspectFit
+        
+        addSubview(artistLabel)
+        addSubview(venueLabel)
+        addSubview(suppArtistLabel)
+        addSubview(ticketsLabel)
+        addSubview(dateLabel)
+        addSubview(imageView)
+    }
 }

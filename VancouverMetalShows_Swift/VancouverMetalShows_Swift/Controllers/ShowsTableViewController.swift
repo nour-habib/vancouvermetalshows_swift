@@ -16,9 +16,9 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
 {
     weak var delegate: ShowsTableViewControllerDelegate?
     
-    private lazy var showsTableView: ShowsTableView =
+    private lazy var showsTableView: UITableView =
     {
-        let showsTableView = ShowsTableView()
+        let showsTableView = UITableView()
         showsTableView.register(ShowTableViewCell.self, forCellReuseIdentifier: "cellId")
         showsTableView.showsVerticalScrollIndicator = false
         return showsTableView
@@ -75,6 +75,7 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
     
     private func configureTableView()
     {
+        showsTableView.backgroundColor = CustomColor.offWhite
         view.addSubview(showsTableView)
         
         showsTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -84,10 +85,6 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
         showsTableView.leftAnchor.constraint(equalTo:view.leftAnchor, constant: 0).isActive = true
         showsTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
         showsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-        
-        //        showsTableView.refreshControl = UIRefreshControl()
-        //        showsTableView.refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
-        
     }
     
     private func configureNavigation()
@@ -99,15 +96,6 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
     {
         delegate?.didTapMenuButton()
     }
-    
-//    @objc func refreshTable()
-//    {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0){
-//            self.showsTableView.refreshControl?.endRefreshing()
-//            //self.showsArray = Show.sortShows(shows: CoreData_.loadItems())
-//            self.showsTableView.reloadData()
-//        };
-//    }
     
     // MARK: Json Parsing
     

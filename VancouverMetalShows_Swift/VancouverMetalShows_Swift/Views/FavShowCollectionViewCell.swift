@@ -15,8 +15,6 @@ class FavShowCollectionViewCell: UICollectionViewCell
     {
         super.init(frame: frame)
         self.showView = ShowView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        //autoresizingMask = .flexibleWidth
-        //layoutIfNeeded()
         
         configureView()
         applyConstraints()

@@ -28,29 +28,24 @@ class ShowTableViewCell: UITableViewCell
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-     
-    }
     
     private func configureCell()
     {
-        backgroundColor = .black
-        addSubview(showView ?? ShowView())
+        guard let showView = showView else {return}
+        addSubview(showView)
         
+        backgroundColor = .black
         autoresizingMask = .flexibleWidth
         layoutIfNeeded()
     }
     
     private func configureConstraints()
     {
-        guard let imageView = showView?.imageView else {return}
-        guard let artistLabel = showView?.artistLabel else {return}
-        guard let venueLabel = showView?.venueLabel else {return}
-        guard let dateLabel = showView?.dateLabel else {return}
-        
+        guard let imageView = showView?.imageView,
+              let artistLabel = showView?.artistLabel,
+              let venueLabel = showView?.venueLabel,
+              let dateLabel = showView?.dateLabel else {return}
+    
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 30).isActive = true
         imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0).isActive = true
@@ -82,6 +77,7 @@ class ShowTableViewCell: UITableViewCell
     {
         guard let favButton = favButton else {return}
         addSubview(favButton)
+        
         favButton.translatesAutoresizingMaskIntoConstraints = false
         favButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         favButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
@@ -89,12 +85,5 @@ class ShowTableViewCell: UITableViewCell
         favButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 60).isActive = true
     
     }
-    
-    
-    
-//    func didTapHeartButton()
-//    {
-//
-//    }
 }
 

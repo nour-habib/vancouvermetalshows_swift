@@ -17,10 +17,8 @@
 		14669B542AB79668005F2894 /* ShowsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B532AB79668005F2894 /* ShowsTableViewController.swift */; };
 		14669B562AB7BC19005F2894 /* Show.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B552AB7BC19005F2894 /* Show.swift */; };
 		14669B582AB7BD55005F2894 /* jsonData.json in Resources */ = {isa = PBXBuildFile; fileRef = 14669B572AB7BD55005F2894 /* jsonData.json */; };
-		14669B5C2AB90121005F2894 /* ShowsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B5B2AB90120005F2894 /* ShowsTableView.swift */; };
 		14669B5E2AB9043B005F2894 /* ShowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B5D2AB9043A005F2894 /* ShowTableViewCell.swift */; };
 		14669B602AB912AC005F2894 /* ShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B5F2AB912AC005F2894 /* ShowView.swift */; };
-		14669B622ABA78AB005F2894 /* imgs in Resources */ = {isa = PBXBuildFile; fileRef = 14669B612ABA78AB005F2894 /* imgs */; };
 		14669B642ABB65D7005F2894 /* CustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B632ABB65D7005F2894 /* CustomColor.swift */; };
 		14669B662ABB7614005F2894 /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B652ABB7614005F2894 /* FavouritesViewController.swift */; };
 		14669B682ABB8976005F2894 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B672ABB8976005F2894 /* ContainerViewController.swift */; };
@@ -70,10 +68,8 @@
 		14669B532AB79668005F2894 /* ShowsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowsTableViewController.swift; sourceTree = "<group>"; };
 		14669B552AB7BC19005F2894 /* Show.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Show.swift; sourceTree = "<group>"; };
 		14669B572AB7BD55005F2894 /* jsonData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = jsonData.json; sourceTree = "<group>"; };
-		14669B5B2AB90120005F2894 /* ShowsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowsTableView.swift; sourceTree = "<group>"; };
 		14669B5D2AB9043A005F2894 /* ShowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTableViewCell.swift; sourceTree = "<group>"; };
 		14669B5F2AB912AC005F2894 /* ShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowView.swift; sourceTree = "<group>"; };
-		14669B612ABA78AB005F2894 /* imgs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = imgs; sourceTree = "<group>"; };
 		14669B632ABB65D7005F2894 /* CustomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColor.swift; sourceTree = "<group>"; };
 		14669B652ABB7614005F2894 /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
 		14669B672ABB8976005F2894 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
@@ -149,7 +145,6 @@
 				14669B842ACCC324005F2894 /* Classes */,
 				14669B732ABE7577005F2894 /* ShowItem */,
 				14A6EA382B041953002A549C /* Delegate */,
-				14669B612ABA78AB005F2894 /* imgs */,
 				14669B282AB79099005F2894 /* Assets.xcassets */,
 				14669B2A2AB79099005F2894 /* LaunchScreen.storyboard */,
 				14669B2D2AB79099005F2894 /* Info.plist */,
@@ -202,7 +197,6 @@
 				14669B7F2ACC9F51005F2894 /* FavShowCollectionViewCell.swift */,
 				14669B872AD5E437005F2894 /* SectionHeaderReusableView.swift */,
 				14669B5D2AB9043A005F2894 /* ShowTableViewCell.swift */,
-				14669B5B2AB90120005F2894 /* ShowsTableView.swift */,
 				14669B6B2ABBD344005F2894 /* DetailView.swift */,
 			);
 			path = Views;
@@ -347,7 +341,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14669B622ABA78AB005F2894 /* imgs in Resources */,
 				14669B2C2AB79099005F2894 /* LaunchScreen.storyboard in Resources */,
 				14669B582AB7BD55005F2894 /* jsonData.json in Resources */,
 				14669B292AB79099005F2894 /* Assets.xcassets in Resources */,
@@ -376,7 +369,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				14669B762ABE7742005F2894 /* FavShowsCoreData.xcdatamodeld in Sources */,
-				14669B5C2AB90121005F2894 /* ShowsTableView.swift in Sources */,
 				14669B7A2ABE7B74005F2894 /* ShowItem+CoreDataProperties.swift in Sources */,
 				14669B562AB7BC19005F2894 /* Show.swift in Sources */,
 				14669B862ACF764F005F2894 /* Months.swift in Sources */,
