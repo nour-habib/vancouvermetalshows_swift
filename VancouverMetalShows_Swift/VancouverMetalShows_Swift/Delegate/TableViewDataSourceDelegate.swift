@@ -36,7 +36,6 @@ class TableViewDataSourceDelegate: NSObject, UITableViewDataSource, UITableViewD
         
         cell.showView?.dateLabel?.text = formattedDate.uppercased()
         cell.showView?.imageView?.image =  UIImage(named: show.image)
-        
 
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .small)
         let heartIcon = UIImage(systemName: "heart.square.fill", withConfiguration:symbolConfig)

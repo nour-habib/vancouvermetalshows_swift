@@ -12,7 +12,6 @@
 		14669B272AB79096005F2894 /* VancouverMetalShows_Swift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 14669B252AB79096005F2894 /* VancouverMetalShows_Swift.xcdatamodeld */; };
 		14669B292AB79099005F2894 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14669B282AB79099005F2894 /* Assets.xcassets */; };
 		14669B2C2AB79099005F2894 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14669B2A2AB79099005F2894 /* LaunchScreen.storyboard */; };
-		14669B372AB79099005F2894 /* VancouverMetalShows_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B362AB79099005F2894 /* VancouverMetalShows_SwiftTests.swift */; };
 		14669B412AB79099005F2894 /* VancouverMetalShows_SwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B402AB79099005F2894 /* VancouverMetalShows_SwiftUITests.swift */; };
 		14669B432AB79099005F2894 /* VancouverMetalShows_SwiftUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B422AB79099005F2894 /* VancouverMetalShows_SwiftUITestsLaunchTests.swift */; };
 		14669B542AB79668005F2894 /* ShowsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14669B532AB79668005F2894 /* ShowsTableViewController.swift */; };
@@ -65,7 +64,6 @@
 		14669B2B2AB79099005F2894 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		14669B2D2AB79099005F2894 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14669B322AB79099005F2894 /* VancouverMetalShows_SwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VancouverMetalShows_SwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		14669B362AB79099005F2894 /* VancouverMetalShows_SwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VancouverMetalShows_SwiftTests.swift; sourceTree = "<group>"; };
 		14669B3C2AB79099005F2894 /* VancouverMetalShows_SwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VancouverMetalShows_SwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		14669B402AB79099005F2894 /* VancouverMetalShows_SwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VancouverMetalShows_SwiftUITests.swift; sourceTree = "<group>"; };
 		14669B422AB79099005F2894 /* VancouverMetalShows_SwiftUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VancouverMetalShows_SwiftUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -144,12 +142,13 @@
 				14669B1C2AB79096005F2894 /* AppDelegate.swift */,
 				14669B742ABE7742005F2894 /* FavShowsCoreData.xcdatamodeld */,
 				14669B1E2AB79096005F2894 /* SceneDelegate.swift */,
+				14A6EA392B041A4B002A549C /* Data */,
 				14669B812ACCC27B005F2894 /* Controllers */,
 				14669B822ACCC28E005F2894 /* Views */,
 				14669B832ACCC29A005F2894 /* Models */,
 				14669B842ACCC324005F2894 /* Classes */,
 				14669B732ABE7577005F2894 /* ShowItem */,
-				14669B572AB7BD55005F2894 /* jsonData.json */,
+				14A6EA382B041953002A549C /* Delegate */,
 				14669B612ABA78AB005F2894 /* imgs */,
 				14669B282AB79099005F2894 /* Assets.xcassets */,
 				14669B2A2AB79099005F2894 /* LaunchScreen.storyboard */,
@@ -162,7 +161,6 @@
 		14669B352AB79099005F2894 /* VancouverMetalShows_SwiftTests */ = {
 			isa = PBXGroup;
 			children = (
-				14669B362AB79099005F2894 /* VancouverMetalShows_SwiftTests.swift */,
 				14A6EA322AFEE1DC002A549C /* ShowsTableViewTest.swift */,
 			);
 			path = VancouverMetalShows_SwiftTests;
@@ -225,9 +223,24 @@
 				14669B6D2ABCF077005F2894 /* CoreDataX.swift */,
 				14669B632ABB65D7005F2894 /* CustomColor.swift */,
 				14669B7B2AC65118005F2894 /* Date.swift */,
-				14A6EA2E2AF6F574002A549C /* TableViewDataSourceDelegate.swift */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		14A6EA382B041953002A549C /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				14A6EA2E2AF6F574002A549C /* TableViewDataSourceDelegate.swift */,
+			);
+			path = Delegate;
+			sourceTree = "<group>";
+		};
+		14A6EA392B041A4B002A549C /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				14669B572AB7BD55005F2894 /* jsonData.json */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -392,7 +405,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				14A6EA332AFEE1DC002A549C /* ShowsTableViewTest.swift in Sources */,
-				14669B372AB79099005F2894 /* VancouverMetalShows_SwiftTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

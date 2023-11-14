@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGestureRecognizerDelegate
 {
     private lazy var dataSource = initDataSource()
@@ -25,11 +24,14 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         
        // CoreData_.clearAllItems(entityName: "ShowItem")
         self.showsDict = loadData()
-        showsListDidLoad(showsDict ?? [String:[Show]]())
+        
+        guard let showsDict = showsDict else {return}
+        
+        showsListDidLoad(showsDict)
         
         configureCollectionView()
         configureSectionHeader()
-        
+    
     }
 
     //MARK: CollectionView Configuration
@@ -45,7 +47,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         collectionView.alwaysBounceVertical = true
         collectionView.bounces = true
         collectionView.register(SectionHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderReusableView.reuseIdentifier)
-        collectionView.refreshControl = UIRefreshControl()
         
         collectionView.reloadData()
         view.addSubview(collectionView)
@@ -263,7 +264,8 @@ private extension FavouritesViewController
 
 //MARK: CollectionView Cell Registration
 
-extension UICollectionView.CellRegistration {
+extension UICollectionView.CellRegistration
+{
     var cellProvider: (UICollectionView, IndexPath, Item) -> FavShowCollectionViewCell
     {
         return { collectionView, indexPath, show in
@@ -278,9 +280,10 @@ extension UICollectionView.CellRegistration {
 
 //MARK: CollectionView Layout Section
 
-private extension FavouritesViewController {
-    func makeLayoutSection() -> NSCollectionLayoutSection {
-        
+private extension FavouritesViewController
+{
+    func makeLayoutSection() -> NSCollectionLayoutSection
+    {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1/3),
             heightDimension: .fractionalHeight(1.0)

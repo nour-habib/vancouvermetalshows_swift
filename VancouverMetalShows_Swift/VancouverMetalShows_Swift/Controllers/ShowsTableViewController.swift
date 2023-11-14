@@ -50,16 +50,14 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
         //defaults.set(true, forKey: "InitialLaunch")
         if (defaults.bool(forKey: "InitialLaunch") == true)
         {
-            //Seecond+ launch: load from CoreData
-            print("Second+ launch")
+            //Load data from CoreData
             self.showsArray = Show.sortShows(shows: CoreData_.loadItems())
             defaults.set(true, forKey: "InitialLaunch")
             
         }
         else
         {
-            print("First launch")
-            //First launch, load from JSON
+            //Load data from local JSON file
             self.showsArray = Show.sortShows(shows: getShowsData())
             guard let showsArray = showsArray else {return}
             CoreData_.batchLoad(array: showsArray)
@@ -73,12 +71,10 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
         configureTableView()
     }
     
-    // MARK: View Configuration
+    // MARK: TableView Configuration
     
     private func configureTableView()
     {
-        showsTableView.refreshControl = UIRefreshControl()
-        showsTableView.refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
         view.addSubview(showsTableView)
         
         showsTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -88,6 +84,9 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
         showsTableView.leftAnchor.constraint(equalTo:view.leftAnchor, constant: 0).isActive = true
         showsTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
         showsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        
+        //        showsTableView.refreshControl = UIRefreshControl()
+        //        showsTableView.refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
         
     }
     
@@ -101,14 +100,14 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
         delegate?.didTapMenuButton()
     }
     
-    @objc func refreshTable()
-    {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0){
-            self.showsTableView.refreshControl?.endRefreshing()
-            self.showsArray = Show.sortShows(shows: CoreData_.loadItems())
-            self.showsTableView.reloadData()
-        };
-    }
+//    @objc func refreshTable()
+//    {
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0){
+//            self.showsTableView.refreshControl?.endRefreshing()
+//            //self.showsArray = Show.sortShows(shows: CoreData_.loadItems())
+//            self.showsTableView.reloadData()
+//        };
+//    }
     
     // MARK: Json Parsing
     
@@ -145,7 +144,6 @@ extension ShowsTableViewController: DetailViewDelegate
        })
         
         self.overlayView?.removeFromSuperview()
-        
     }
 }
 
@@ -153,11 +151,9 @@ extension ShowsTableViewController: ContainerViewDelegateTB
 {
     func updateTableView()
     {
-        print("updateTableView")
         showsArray = CoreData_.loadItems()
         showsTableView.reloadData()
     }
-    
 }
 
 

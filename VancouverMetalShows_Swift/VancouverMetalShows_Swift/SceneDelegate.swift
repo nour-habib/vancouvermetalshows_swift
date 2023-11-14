@@ -16,18 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
-        
-        //let defaults = UserDefaults.standard
         window.rootViewController =  ContainerViewController()
-//        if (defaults.bool(forKey: "InitialLaunch") == true)
-//        {
-//            window.rootViewController =  ContainerViewController()
-//        }
-//        else
-//        {
-//            
-//            //window.rootViewController =  Splash
-//        }
        
         self.window = window
         window.makeKeyAndVisible()

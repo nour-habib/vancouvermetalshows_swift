@@ -110,7 +110,6 @@ extension ContainerViewController: MenuViewControllerDelegate
     
     func addFavsViewController()
     {
-        print("addFavs()")
         let favsVC = favsViewController
         showsViewController.addChild(favsVC)
         showsViewController.view.addSubview(favsVC.view)
@@ -122,7 +121,6 @@ extension ContainerViewController: MenuViewControllerDelegate
     
     func resetToShowsViewController()
     {
-        print("resetToShows()")
         favsViewController.view.removeFromSuperview()
         favsViewController.didMove(toParent: nil)
         showsViewController.title = "Shows"
