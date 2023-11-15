@@ -28,7 +28,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     {
         view.backgroundColor = .lightGray
         self.tableView = UITableView(frame: CGRect(x:0,y:view.safeAreaInsets.top, width: view.bounds.size.width, height: view.bounds.size.height))
-        
+
         tableView?.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView?.delegate = self
         tableView?.dataSource = self
@@ -64,6 +64,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         let iconImage = UIImage(systemName: MenuOptions.allCases[indexPath.row].imageName, withConfiguration: symbolConfig)
         
         cell.imageView?.image = iconImage?.withTintColor(CustomColor.ninjaGreen)
+        cell.imageView?.backgroundColor = CustomColor.ninjaGreen
     
         return cell
     }
@@ -79,8 +80,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     {
         case shows = "Shows"
         case favs = "Favs"
-
-
+        
         var imageName: String
         {
             switch self

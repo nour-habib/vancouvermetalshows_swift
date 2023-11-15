@@ -21,8 +21,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         super.viewDidLoad()
         view.backgroundColor = .white
         title = "Favs"
-        
-        CoreData_.clearAllItems(entityName: "ShowItem")
+    
         self.showsDict = loadData()
         
         guard let showsDict = showsDict else {return}
@@ -59,7 +58,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UIGe
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 90).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: view.frame.height).isActive = true
         collectionView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
     }

@@ -68,7 +68,7 @@ class FavShowCollectionViewCell: UICollectionViewCell
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 35).isActive = true
-        imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 18).isActive = true
+        imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 27).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 80).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 80).isActive = true
 

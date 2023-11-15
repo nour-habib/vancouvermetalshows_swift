@@ -47,7 +47,7 @@ class ShowsTableViewController: UIViewController, UIGestureRecognizerDelegate
         
         //CoreData_.clearAllItems(entityName: "ShowItem")
     
-        //defaults.set(true, forKey: "InitialLaunch")
+        //defaults.set(false, forKey: "InitialLaunch")
         if (defaults.bool(forKey: "InitialLaunch") == true)
         {
             //Load data from CoreData
